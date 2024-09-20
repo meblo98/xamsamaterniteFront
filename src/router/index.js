@@ -1,5 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/views/auth/Login.vue'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,14 +6,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: Login
+      component: () => import('@/views/auth/Login.vue')
     },
     {
       path: '/dashboard-admin',
       name: 'dashboard-admin',
-      component: () => import('../views/admin/AccueilAdmin.vue')
+      component: () => import('@/views/admin/AccueilAdmin.vue')
+    },
+    {
+      path: '/dashboard-sage-femme',
+      name: 'dashboard-sage-femme',
+      component: () => import('@/views/sageFemme/AccueilSageFemme.vue')
+    },
+    {
+      path: '/dashboard-patiente',
+      name: 'dashboard-patiente',
+      component: () => import('@/views/patiente/AccueilPatiente.vue')
+    },
+    {
+      path: '/dashboard-badiene-gox',
+      name: 'dashboard-badiene-gox',
+      component: () => import('@/views/badieneGox/AccueilBadieneGox.vue')
     }
   ]
-})
+});
 
-export default router
+export default router;

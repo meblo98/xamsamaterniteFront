@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
    
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
@@ -22,12 +22,34 @@
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Deconnexion</a></li>
+            <li><a class="dropdown-item" @click="logout">Deconnexion</a></li>
           </ul>
         </div>
     </header>
 
 </template>
+
+<script>
+import api from '/src/services/api'; // Le service API qui fera la requête à Laravel
+
+  export default {
+  methods: {
+    async logout() {
+      try {
+        await api.logout();
+
+        // Supprimer le token JWT du localStorage
+        localStorage.removeItem('token');
+
+        // Rediriger l'utilisateur vers la page de login après la déconnexion
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Erreur lors de la déconnexion', error);
+      }
+    }
+  }
+};
+</script>
 
 <style lang="css">
 body{
@@ -37,4 +59,22 @@ header{
     padding: 50px;
     background: white;
 }
-</style>
+</style> -->
+
+<template>
+  <div>
+    <Navbar /> <!-- La barre de navigation pour l'admin sera affichée ici -->
+    <h1>Bienvenue Admin</h1>
+    <!-- Autres contenus spécifiques à l'admin -->
+  </div>
+</template>
+
+<script>
+import Navbar from '@/components/Navbar.vue';
+
+export default {
+  components: {
+    Navbar
+  }
+};
+</script>
