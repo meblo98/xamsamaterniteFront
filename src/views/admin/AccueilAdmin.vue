@@ -63,7 +63,8 @@ header{
 
 <template>
   <div>
-    <Navbar /> <!-- La barre de navigation pour l'admin sera affichée ici -->
+    <!-- La barre de navigation pour l'admin -->
+    <Navbar /> 
     <h1>Bienvenue Admin</h1>
     <!-- Autres contenus spécifiques à l'admin -->
   </div>
@@ -78,3 +79,8 @@ export default {
   }
 };
 </script>
+<style>
+  body{
+  background-color: #EAECF0;
+}
+</style>
