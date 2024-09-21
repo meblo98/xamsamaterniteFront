@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import api from '/src/services/api'; // Le service API qui fera la requête à Laravel
+import authService from '/src/services/authService'; // Le service API qui fera la requête à Laravel
 
 export default {
   data() {
@@ -59,7 +59,7 @@ export default {
     
     async submitLogin() {
       try {
-        const response = await api.login({
+        const response = await authService.login({
           login: this.login,
           password: this.password
         });

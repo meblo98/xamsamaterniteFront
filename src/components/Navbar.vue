@@ -11,10 +11,10 @@
             <router-link class="nav-link" to="/dashboard-admin">Dashboard</router-link>
           </li>
           <li class="nav-item" v-if="role === 'admin'">
-            <router-link class="nav-link" to="/manage-users">Sage-femme</router-link>
+            <router-link class="nav-link" to="/users">Utilisateurs</router-link>
           </li>
           <li class="nav-item" v-if="role === 'admin'">
-            <router-link class="nav-link" to="/campaigns">Campagnes</router-link>
+            <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>
           </li>
           <li class="nav-item" v-if="role === 'sage-femme'">
             <router-link class="nav-link" to="/dashboard-sage-femme">Tableau de bord Sage-femme</router-link>
@@ -35,6 +35,7 @@
             <router-link class="nav-link" to="/campaigns">Gérer les campagnes</router-link>
           </li>
         </ul>
+        
         <div class="dropdown profil text-end">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="/src/assets/images/profil.jpeg" alt="profil" width="32" height="32" class="rounded-circle">
@@ -89,4 +90,5 @@ export default {
   margin-right: 100px;
 
 }
+
 </style>

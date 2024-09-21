@@ -13,16 +13,4 @@ const apiClient = axios.create({
   }
 });
 
-export default {
-
-    // connexion
-    login(credentials) {
-        return apiClient.post('/login', credentials);
-      },
-
-
-    //   deconnexion
-      logout() {
-        return api.post('/logout');
-      }
-};
+export default apiClient;

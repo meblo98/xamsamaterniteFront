@@ -21,7 +21,7 @@
             <td>{{ appointment.disease }}</td>
             <td>
               <button><i class="fa fa-edit" aria-hidden="true"></i></button>
-              <button><i class="fa fa-trash" aria-hidden="true"></i></button>
+              <button><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
             </td>
           </tr>
         </tbody>

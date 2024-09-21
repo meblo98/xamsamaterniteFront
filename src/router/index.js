@@ -14,6 +14,21 @@ const router = createRouter({
       component: () => import('@/views/admin/AccueilAdmin.vue')
     },
     {
+      path: '/listeRv-admin',
+      name: 'listeRv-admin',
+      component: () => import('@/views/admin/ListeRvAdmin.vue')
+    },
+    {
+      path: '/listeSageFemme-admin',
+      name: 'listeSageFemme-admin',
+      component: () => import('@/views/admin/ListeSageFemme.vue')
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: () => import('@/views/admin/ListeUsers.vue')
+    },
+    {
       path: '/dashboard-sage-femme',
       name: 'dashboard-sage-femme',
       component: () => import('@/views/sageFemme/AccueilSageFemme.vue')
