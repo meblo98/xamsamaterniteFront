@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getRendezVous() {
-    return apiClient.get('/rv');
+  async getRendezVous() {
+    try {
+      const response = await apiClient.get('/rendez-vous');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des rendez-vous :', error);
+      throw error;
+    }
   },
-  getRendezVousById(id) {
-    return apiClient.get(`/rv/${id}`);
+  async getRendezVousById(id) {
+    try {
+      const response = await apiClient.get(`/rendez-vous/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération du rendez-vous avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createRendezVous(data) {
-    return apiClient.post('/rv', data);
+  async createRendezVous(data) {
+    try {
+      const response = await apiClient.post('/rendez-vous', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création du rendez-vous :', error);
+      throw error;
+    }
   },
-  updateRendezVous(id, data) {
-    return apiClient.put(`/rv/${id}`, data);
+  async updateRendezVous(id, data) {
+    try {
+      const response = await apiClient.put(`/rendez-vous/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour du rendez-vous avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteRendezVous(id) {
-    return apiClient.delete(`/rv/${id}`);
+  async deleteRendezVous(id) {
+    try {
+      const response = await apiClient.delete(`/rendez-vous/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression du rendez-vous avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

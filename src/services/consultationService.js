@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getConsultations() {
-    return apiClient.get('/consultations');
+  async getConsultations() {
+    try {
+      const response = await apiClient.get('/consultations');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des consultations :', error);
+      throw error;
+    }
   },
-  getConsultation(id) {
-    return apiClient.get(`/consultations/${id}`);
+  async getConsultation(id) {
+    try {
+      const response = await apiClient.get(`/consultations/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de la consultation avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createConsultation(data) {
-    return apiClient.post('/consultations', data);
+  async createConsultation(data) {
+    try {
+      const response = await apiClient.post('/consultations', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de la consultation :', error);
+      throw error;
+    }
   },
-  updateConsultation(id, data) {
-    return apiClient.put(`/consultations/${id}`, data);
+  async updateConsultation(id, data) {
+    try {
+      const response = await apiClient.put(`/consultations/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de la consultation avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteConsultation(id) {
-    return apiClient.delete(`/consultations/${id}`);
+  async deleteConsultation(id) {
+    try {
+      const response = await apiClient.delete(`/consultations/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de la consultation avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

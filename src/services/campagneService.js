@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getCampagnes() {
-    return apiClient.get('/campagnes');
+  async getCampagnes() {
+    try {
+      const response = await apiClient.get('/campagnes');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des campagnes :', error);
+      throw error;
+    }
   },
-  getCampagne(id) {
-    return apiClient.get(`/campagnes/${id}`);
+  async getCampagne(id) {
+    try {
+      const response = await apiClient.get(`/campagnes/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de la campagne avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createCampagne(data) {
-    return apiClient.post('/campagnes', data);
+  async createCampagne(data) {
+    try {
+      const response = await apiClient.post('/campagnes', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de la campagne :', error);
+      throw error;
+    }
   },
-  updateCampagne(id, data) {
-    return apiClient.put(`/campagnes/${id}`, data);
+  async updateCampagne(id, data) {
+    try {
+      const response = await apiClient.put(`/campagnes/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de la campagne avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteCampagne(id) {
-    return apiClient.delete(`/campagnes/${id}`);
+  async deleteCampagne(id) {
+    try {
+      const response = await apiClient.delete(`/campagnes/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de la campagne avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

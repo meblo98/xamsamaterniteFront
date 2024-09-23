@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getConseils() {
-    return apiClient.get('/conseils');
+  async getConseils() {
+    try {
+      const response = await apiClient.get('/conseils');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des conseils :', error);
+      throw error;
+    }
   },
-  getConseil(id) {
-    return apiClient.get(`/conseils/${id}`);
+  async getConseil(id) {
+    try {
+      const response = await apiClient.get(`/conseils/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération du conseil avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createConseil(data) {
-    return apiClient.post('/conseils', data);
+  async createConseil(data) {
+    try {
+      const response = await apiClient.post('/conseils', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création du conseil :', error);
+      throw error;
+    }
   },
-  updateConseil(id, data) {
-    return apiClient.put(`/conseils/${id}`, data);
+  async updateConseil(id, data) {
+    try {
+      const response = await apiClient.put(`/conseils/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour du conseil avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteConseil(id) {
-    return apiClient.delete(`/conseils/${id}`);
+  async deleteConseil(id) {
+    try {
+      const response = await apiClient.delete(`/conseils/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression du conseil avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

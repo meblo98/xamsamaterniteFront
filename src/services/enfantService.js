@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getEnfants() {
-    return apiClient.get('/enfants');
+  async getEnfants() {
+    try {
+      const response = await apiClient.get('/enfants');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des enfants :', error);
+      throw error;
+    }
   },
-  getEnfant(id) {
-    return apiClient.get(`/enfants/${id}`);
+  async getEnfant(id) {
+    try {
+      const response = await apiClient.get(`/enfants/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de l'enfant avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createEnfant(data) {
-    return apiClient.post('/enfants', data);
+  async createEnfant(data) {
+    try {
+      const response = await apiClient.post('/enfants', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'enfant :', error);
+      throw error;
+    }
   },
-  updateEnfant(id, data) {
-    return apiClient.put(`/enfants/${id}`, data);
+  async updateEnfant(id, data) {
+    try {
+      const response = await apiClient.put(`/enfants/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de l'enfant avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteEnfant(id) {
-    return apiClient.delete(`/enfants/${id}`);
+  async deleteEnfant(id) {
+    try {
+      const response = await apiClient.delete(`/enfants/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de l'enfant avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

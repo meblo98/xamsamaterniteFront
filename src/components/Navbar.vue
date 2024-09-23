@@ -11,7 +11,10 @@
             <router-link class="nav-link" to="/dashboard-admin">Dashboard</router-link>
           </li>
           <li class="nav-item" v-if="role === 'admin'">
-            <router-link class="nav-link" to="/users">Utilisateurs</router-link>
+            <router-link class="nav-link" to="/structure">Structure</router-link>
+          </li>
+          <li class="nav-item" v-if="role === 'admin'">
+            <router-link class="nav-link" to="/listeVisite-admin">Visite</router-link>
           </li>
           <li class="nav-item" v-if="role === 'admin'">
             <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>

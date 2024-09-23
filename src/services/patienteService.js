@@ -1,24 +1,49 @@
 import apiClient from './api';
 
 export default {
-  // Get all patientes
-  getPatientes() {
-    return apiClient.get('/patientes');
+  async getPatientes() {
+    try {
+      const response = await apiClient.get('/patientes');
+      return response.data; // Retourner les données de la réponse
+    } catch (error) {
+      console.error('Erreur lors de la récupération des patientes :', error);
+      throw error;
+    }
   },
-  // Get a specific patiente by ID
-  getPatiente(id) {
-    return apiClient.get(`/patientes/${id}`);
+  async getPatiente(id) {
+    try {
+      const response = await apiClient.get(`/patientes/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de la patiente avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  // Create a new patiente
-  createPatiente(data) {
-    return apiClient.post('/patientes', data);
+  async createPatiente(data) {
+    try {
+      const response = await apiClient.post('/patientes', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de la patiente :', error);
+      throw error;
+    }
   },
-  // Update a patiente by ID
-  updatePatiente(id, data) {
-    return apiClient.put(`/patientes/${id}`, data);
+  async updatePatiente(id, data) {
+    try {
+      const response = await apiClient.put(`/patientes/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de la patiente avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  // Delete a patiente by ID
-  deletePatiente(id) {
-    return apiClient.delete(`/patientes/${id}`);
+  async deletePatiente(id) {
+    try {
+      const response = await apiClient.delete(`/patientes/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de la patiente avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };

@@ -1,19 +1,49 @@
 import apiClient from './api';
 
 export default {
-  getAccouchements() {
-    return apiClient.get('/accouchements');
+  async getAccouchements() {
+    try {
+      const response = await apiClient.get('/accouchements');
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des accouchements :', error);
+      throw error;
+    }
   },
-  getAccouchement(id) {
-    return apiClient.get(`/accouchements/${id}`);
+  async getAccouchement(id) {
+    try {
+      const response = await apiClient.get(`/accouchements/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de l'accouchement avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  createAccouchement(data) {
-    return apiClient.post('/accouchements', data);
+  async createAccouchement(data) {
+    try {
+      const response = await apiClient.post('/accouchements', data);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'accouchement :', error);
+      throw error;
+    }
   },
-  updateAccouchement(id, data) {
-    return apiClient.put(`/accouchements/${id}`, data);
+  async updateAccouchement(id, data) {
+    try {
+      const response = await apiClient.put(`/accouchements/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de l'accouchement avec l'id ${id} :`, error);
+      throw error;
+    }
   },
-  deleteAccouchement(id) {
-    return apiClient.delete(`/accouchements/${id}`);
+  async deleteAccouchement(id) {
+    try {
+      const response = await apiClient.delete(`/accouchements/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de l'accouchement avec l'id ${id} :`, error);
+      throw error;
+    }
   }
 };
