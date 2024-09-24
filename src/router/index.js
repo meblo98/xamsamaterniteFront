@@ -39,6 +39,31 @@ const router = createRouter({
       component: () => import('@/views/patiente/AccueilPatiente.vue')
     },
     {
+      path: '/campagne-patiente',
+      name: 'campagne-patiente',
+      component: () => import('@/views/patiente/CampagnePatiente.vue')
+    },
+    {
+      path: '/detailCampagne-patiente',
+      name: 'detailCampagne-patiente',
+      component: () => import('@/views/patiente/DetailCampagnePatiente.vue')
+    },
+    {
+      path: '/conseil-patiente',
+      name: 'conseil-patiente',
+      component: () => import('@/views/patiente/ConseilPatiente.vue')
+    },
+    {
+      path: '/detailConseil-patiente',
+      name: 'detailConseil-patiente',
+      component: () => import('@/views/patiente/DetailConseilPatiente.vue')
+    },
+    {
+      path: '/rv-patiente',
+      name: 'rv-patiente',
+      component: () => import('@/views/patiente/RendezVous.vue')
+    },
+    {
       path: '/dashboard-badiene-gox',
       name: 'dashboard-badiene-gox',
       component: () => import('@/views/badieneGox/AccueilBadieneGox.vue')
