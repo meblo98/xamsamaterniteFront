@@ -3,7 +3,7 @@ import apiClient from './api';
 export default {
   async getRendezVous() {
     try {
-      const response = await apiClient.get('/rendez-vous');
+      const response = await apiClient.get('/rv');
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération des rendez-vous :', error);
@@ -12,7 +12,7 @@ export default {
   },
   async getRendezVousById(id) {
     try {
-      const response = await apiClient.get(`/rendez-vous/${id}`);
+      const response = await apiClient.get(`/rv/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erreur lors de la récupération du rendez-vous avec l'id ${id} :`, error);
@@ -21,7 +21,7 @@ export default {
   },
   async createRendezVous(data) {
     try {
-      const response = await apiClient.post('/rendez-vous', data);
+      const response = await apiClient.post('/rv', data);
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la création du rendez-vous :', error);
@@ -30,7 +30,7 @@ export default {
   },
   async updateRendezVous(id, data) {
     try {
-      const response = await apiClient.put(`/rendez-vous/${id}`, data);
+      const response = await apiClient.put(`/rv/${id}`, data);
       return response.data;
     } catch (error) {
       console.error(`Erreur lors de la mise à jour du rendez-vous avec l'id ${id} :`, error);
@@ -39,7 +39,7 @@ export default {
   },
   async deleteRendezVous(id) {
     try {
-      const response = await apiClient.delete(`/rendez-vous/${id}`);
+      const response = await apiClient.delete(`/rv/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erreur lors de la suppression du rendez-vous avec l'id ${id} :`, error);

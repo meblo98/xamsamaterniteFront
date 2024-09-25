@@ -1,18 +1,27 @@
 
 <template>
-    <div>
-      <Navbar /> <!-- La barre de navigation pour l'admin sera affichée ici -->
-      <h1>Bienvenue sage-femme</h1>
-      <!-- Autres contenus spécifiques à l'admin -->
+  <Layout>
+    <div class="container">
+      <div class="row">
+        <DashboardStats />
+      </div>
+      <div class="row mb-5">
+        <Charts />
+      </div>
     </div>
+  </Layout>
   </template>
   
   <script>
-  import Navbar from '@/components/Navbar.vue';
+  import Charts from '@/components/Charts.vue';
+import DashboardStats from '@/components/DashboardStats.vue';
+import Layout from '@/components/layouts/Layout.vue';
   
   export default {
     components: {
-      Navbar
+      Layout,
+      DashboardStats,
+      Charts
     }
   };
   </script>

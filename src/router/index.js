@@ -34,6 +34,17 @@ const router = createRouter({
       component: () => import('@/views/sageFemme/AccueilSageFemme.vue')
     },
     {
+      path: '/patiente-sage-femme',
+      name: 'patiente-sage-femme',
+      component: () => import('@/views/sageFemme/PatienteListe.vue')
+    },
+    {
+      path: '/detailPatiente-sage-femme/:id',
+      name: 'detailPatiente-sage-femme',
+      component: () => import('@/views/sageFemme/DetailPatiente.vue'),
+      props: true,
+    },
+    {
       path: '/dashboard-patiente',
       name: 'dashboard-patiente',
       component: () => import('@/views/patiente/AccueilPatiente.vue')

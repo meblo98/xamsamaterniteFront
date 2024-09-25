@@ -4,7 +4,7 @@ export default {
   async getPatientes() {
     try {
       const response = await apiClient.get('/patientes');
-      return response.data; // Retourner les données de la réponse
+      return response.data;
     } catch (error) {
       console.error('Erreur lors de la récupération des patientes :', error);
       throw error;

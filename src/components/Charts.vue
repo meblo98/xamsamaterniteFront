@@ -2,65 +2,92 @@
     <div class="charts">
       <div class="chart">
         <h3>Statistiques des patientes</h3>
-        <canvas id="patientStats"></canvas>
+        <CanvasJSChart :options="options" :styles="styleOptions"/>
       </div>
       <div class="chart">
         <h3>Rapport sur les maladies fréquentes</h3>
-        <canvas id="diseaseReport"></canvas>
+        <CanvasJSChart :options="options" :styles="styleOptions"/>
       </div>
     </div>
   </template>
   
   <script>
-  import { Chart } from 'chart.js';
-  
+import * as CanvasJS from '@canvasjs/charts';
   export default {
-    mounted() {
-      this.renderPatientStatsChart();
-      this.renderDiseaseReportChart();
+    data() {
+      return {
+        options: {
+          theme: "light2",
+          exportEnabled: true,
+          title: {
+            text: "Fertility Rate Comparison"
+          },
+          axisY: {
+            title: "Fertitlity Rate"
+          },
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            cursor: "pointer",
+            itemclick: function (e) {
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                e.chart.render();
+            }
+          },
+          data: [{
+            type: "line",
+            name: "Germany",
+            showInLegend: true,
+            color: "#F7C705",
+            toolTipContent: "<img src=\"https://canvasjs.com/wp-content/uploads/images/gallery/javascript-column-bar-charts/germany.png\" style=\"height:11px;width:18px;\"> {name}: {y}",
+            dataPoints: [
+              { label: "2014", y: 1.47 },
+              { label: "2015", y: 1.5 },
+              { label: "2016", y: 1.6 },
+              { label: "2017", y: 1.57 },
+              { label: "2018", y: 1.57 },
+              { label: "2019", y: 1.54 }
+            ]
+          }, {
+            type: "line",
+            name: "United Kingdom",
+            showInLegend: true,
+            color: "#012066",
+            toolTipContent: "<img src=\"https://canvasjs.com/wp-content/uploads/images/gallery/javascript-column-bar-charts/uk.png\" style=\"height:11px;width:18px;\"> {name}: {y}",
+            dataPoints: [
+              { label: "2014", y: 1.81 },
+              { label: "2015", y: 1.80 },
+              { label: "2016", y: 1.79 },
+              { label: "2017", y: 1.74 },
+              { label: "2018", y: 1.68 },
+              { label: "2019", y: 1.65 }
+            ]
+          }]
+        },
+        
+        styleOptions: {
+          width: "100%",
+          height: "360px"
+        }
+      }
     },
     methods: {
-      renderPatientStatsChart() {
-        const ctx = document.getElementById('patientStats').getContext('2d');
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [
-              {
-                label: 'New Patients',
-                data: [120, 190, 300, 500, 200, 300, 450],
-                borderColor: '#ff6384',
-                fill: false,
-              },
-              {
-                label: 'Old Patients',
-                data: [100, 150, 250, 400, 170, 250, 400],
-                borderColor: '#36a2eb',
-                fill: false,
-              },
-            ],
-          },
-        });
-      },
-      renderDiseaseReportChart() {
-        const ctx = document.getElementById('diseaseReport').getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['Disease A', 'Disease B', 'Disease C', 'Disease D', 'Disease E'],
-            datasets: [
-              {
-                label: 'Number of Cases',
-                data: [200, 150, 180, 220, 170],
-                backgroundColor: '#36a2eb',
-              },
-            ],
-          },
-        });
-      },
-    },
-  };
+      toggleDataSeries(e) {
+        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+          e.dataSeries.visible = false;
+        }
+        else {
+          e.dataSeries.visible = true;
+        }
+        e.chart.render();
+      }
+    }
+  }
   </script>
   
   <style>

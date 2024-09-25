@@ -5,13 +5,12 @@
       <nav class="menu">
         <!-- Burger Button (visible on mobile) -->
 
- <input id="checkbox" type="checkbox">
-    <label class="toggle" for="checkbox">
-        <div id="bar1" class="bars"></div>
-        <div id="bar2" class="bars"></div>
-        <div id="bar3" class="bars"></div>
-    </label>
-
+        <input id="checkbox" type="checkbox" />
+        <label class="toggle" for="checkbox">
+          <div id="bar1" class="bars"></div>
+          <div id="bar2" class="bars"></div>
+          <div id="bar3" class="bars"></div>
+        </label>
 
         <!-- Logo -->
         <div class="logo">
@@ -23,6 +22,7 @@
         </div>
         <!-- Navigation Links -->
         <ul>
+          <h6>Patiente</h6>
           <li>
             <router-link to="/dashboard-patiente" class="active"
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
@@ -42,6 +42,31 @@
             <router-link to="/campagne-patiente"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
               Campagnes</router-link
+            >
+          </li>
+          <h6>sage-femme</h6>
+          <li>
+            <router-link to="/dashboard-sage-femme"
+              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
+              Dashboard</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/dashboard-sage-femme"
+              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
+              Dashboard</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/dashboard-sage-femme"
+              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
+              Dashboard</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/dashboard-sage-femme"
+              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
+              Dashboard</router-link
             >
           </li>
         </ul>
@@ -120,7 +145,7 @@ export default {
   padding: 20px;
 }
 
-/* From Uiverse.io by vinodjangid07 */ 
+/* From Uiverse.io by vinodjangid07 */
 #checkbox {
   display: none;
 }
@@ -135,7 +160,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 }
 
 .bars {
@@ -143,7 +168,7 @@ export default {
   height: 4px;
   background-color: rgb(253, 255, 243);
   border-radius: 5px;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 }
 
 /* #checkbox:checked + .toggle .bars {
@@ -154,13 +179,13 @@ export default {
   transform: translateY(14px) rotate(60deg);
   margin-left: 0;
   transform-origin: right;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   z-index: 2;
 }
 
 #checkbox:checked + .toggle #bar1 {
   transform: translateY(28px) rotate(-60deg);
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   transform-origin: left;
   z-index: 1;
 }
@@ -173,7 +198,6 @@ export default {
   transition-duration: .3s;
   transform-origin:right;
 } */
-
 
 /* Burger Button Hidden on Desktop */
 /* .burger {

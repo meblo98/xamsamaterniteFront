@@ -45,5 +45,24 @@ export default {
       console.error(`Erreur lors de la suppression de la consultation avec l'id ${id} :`, error);
       throw error;
     }
-  }
+  },
+  async getConsultationsByPatiente(patienteId) {
+    try {
+      const response = await apiClient.get(`/consultations/patient/${patienteId}`);
+      return response.data; // Assure-toi que la réponse contient les données nécessaires
+    } catch (error) {
+      console.error("Erreur lors de la récupération des consultations :", error);
+      throw error; // Relance l'erreur pour gestion ultérieure
+    }
+  },
+  async getRendezVousByPatiente(patienteId) {
+    try {
+      const response = await apiClient.get(`/patients/${patienteId}/rendezvous`);
+      return response.data; // Assure-toi que la réponse contient les données nécessaires
+    } catch (error) {
+      console.error("Erreur lors de la récupération des rendez-vous :", error);
+      throw error; // Relance l'erreur pour gestion ultérieure
+    }
+  },
 };
+
