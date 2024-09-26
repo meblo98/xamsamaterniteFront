@@ -45,6 +45,11 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/badiene-sage-femme/:id',
+      name: 'badiene-sage-femme',
+      component: () => import('@/views/sageFemme/BadieneGoxListe.vue'),
+    },
+    {
       path: '/dashboard-patiente',
       name: 'dashboard-patiente',
       component: () => import('@/views/patiente/AccueilPatiente.vue')

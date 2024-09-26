@@ -2,7 +2,7 @@
   <div class="custom-table">
     <div class="header">
       <h3>{{ title }}</h3>
-    <button class="add-btn" @click="showModal = true">Ajouter</button>
+      <button class="add-btn" @click="openModal">Ajouter</button>
     </div>
     <table>
       <thead>
@@ -16,7 +16,7 @@
             <span v-if="column.type !== 'action'">{{ row[column.field] }}</span>
             <span v-else>
               <button @click="handleAction('view', row)">👁️</button>
-              <button @click="handleAction('edit', row)">✏️</button>
+              <button @click="editData(row)">✏️</button>
               <button @click="handleAction('delete', row)">🗑️</button>
             </span>
           </td>
@@ -25,9 +25,12 @@
     </table>
 
     <!-- Modal -->
-    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
-      <div class="modal-content">
-        <h4>Ajouter {{ title }}</h4>
+    <div v-if="showModal" class="modal-overlay modal-dialog modal-lg" @click.self="closeModal">
+      <div class="modal-content w-100">
+        <div class="entete d-flex" style="grid-gap: 400px;">
+          <h4>{{ isEditing ? 'Modifier' : 'Ajouter' }} {{ title }}</h4>
+          <button type="button" class="btn-close bg-light" @click="closeModal"></button>
+        </div>
         <form @submit.prevent="handleSubmit">
           <div v-for="(field, index) in formFields" :key="index" class="form-group">
             <label :for="field.name">{{ field.label }}</label>
@@ -38,8 +41,7 @@
               :placeholder="field.placeholder"
             />
           </div>
-          <button type="submit">Ajouter</button>
-          <button type="button" @click="closeModal">Annuler</button>
+          <button type="submit">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
         </form>
       </div>
     </div>
@@ -53,6 +55,7 @@ export default {
     return {
       showModal: false,  // pour afficher/masquer la modal
       formData: {},      // pour stocker les données du formulaire
+      isEditing: false,  // pour savoir si on est en mode édition ou ajout
     };
   },
   props: {
@@ -77,8 +80,22 @@ export default {
     handleAction(action, row) {
       this.$emit('action', { action, row });
     },
+    openModal() {
+      this.showModal = true;
+      this.isEditing = false; // Mode ajout
+      this.formData = {}; // Réinitialiser les données du formulaire
+    },
+    editData(row) {
+      this.showModal = true;
+      this.isEditing = true; // Mode édition
+      this.formData = { ...row }; // Pré-remplir les champs avec les données de la ligne à éditer
+    },
     handleSubmit() {
-      this.$emit('add-data', this.formData);  // Émet l'événement pour ajouter des données
+      if (this.isEditing) {
+        this.$emit('edit-data', this.formData);  // Émet l'événement pour modifier les données
+      } else {
+        this.$emit('add-data', this.formData);   // Émet l'événement pour ajouter des données
+      }
       this.closeModal();  // Fermer la modal après soumission
     },
     closeModal() {
@@ -112,6 +129,16 @@ button {
   margin-left: 5px;
 }
 
+.form-group {
+  margin-bottom: 15px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -128,12 +155,11 @@ th {
 }
 
 .modal-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,10 +170,6 @@ th {
   padding: 20px;
   border-radius: 8px;
   width: 400px;
-}
-
-.form-group {
-  margin-bottom: 15px;
 }
 
 input {
@@ -162,13 +184,7 @@ button[type="submit"] {
   border: none;
   padding: 10px;
   cursor: pointer;
-}
-
-button[type="button"] {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
+  width: 100%;
+  height: 50px;
 }
 </style>

@@ -52,15 +52,15 @@
             >
           </li>
           <li>
-            <router-link to="/dashboard-sage-femme"
+            <router-link to="/patiente-sage-femme"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Dashboard</router-link
+              Patiente</router-link
             >
           </li>
           <li>
-            <router-link to="/dashboard-sage-femme"
+            <router-link to="/badiene-sage-femme"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Dashboard</router-link
+              Badiene Gox</router-link
             >
           </li>
           <li>
