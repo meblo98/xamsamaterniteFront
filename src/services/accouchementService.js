@@ -45,5 +45,14 @@ export default {
       console.error(`Erreur lors de la suppression de l'accouchement avec l'id ${id} :`, error);
       throw error;
     }
+  },
+  async getAccouchementsByPatiente(idPatiente) {
+    try {
+      const response = await apiClient.get(`/accouchements/patiente/${idPatiente}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des accouchements pour la patiente avec l'id ${idPatiente} :`, error);
+      throw error;
+    }
   }
 };

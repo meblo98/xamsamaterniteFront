@@ -45,9 +45,20 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/badiene-sage-femme/:id',
+      path: '/badiene-sage-femme/',
       name: 'badiene-sage-femme',
       component: () => import('@/views/sageFemme/BadieneGoxListe.vue'),
+    },
+    {
+      path: '/enfant-sage-femme',
+      name: 'enfant-sage-femme',
+      component: () => import('@/views/sageFemme/EnfantListe.vue'),
+    },
+       {
+      path: '/detailEnfant-sage-femme/:id',
+      name: 'detailEnfant-sage-femme',
+      component: () => import('@/views/sageFemme/DetailEnfant.vue'),
+      props: true,
     },
     {
       path: '/dashboard-patiente',

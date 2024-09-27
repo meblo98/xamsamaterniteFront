@@ -1,20 +1,181 @@
 <template>
   <Layout>
-    <Table
-      :columns="columns"
-      :data="paginatedData"
-      title="Liste des Patientes"
-      :formFields="formFields"
-      @action="handleTableAction"
-      @add-data="addPatiente"
-    />
+    <!-- Si aucune donnée n'est trouvée -->
+    <div v-if="allData.length === 0">
+      <button
+        type="button"
+        class="btn btn-primary"
+        :data-bs-toggle="'modal'"
+        :data-bs-target="'#ajoutPatiente'"
+      >
+        Ajouter une Patiente
+      </button>
 
-    <Pagination
-      :currentPage="currentPage"
-      :totalItems="totalItems"
-      :itemsPerPage="itemsPerPage"
-      @page-changed="handlePageChange"
-    />
+      <!-- Modal d'ajout -->
+      <div
+        class="modal fade"
+        id="ajoutPatiente"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                Ajouter une Patiente
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulaire d'ajout -->
+              <div class="form-group">
+                <label for="prenom">Prénom de la Patiente</label>
+                <input
+                  v-model="newPatiente.prenom"
+                  type="text"
+                  class="form-control"
+                  id="prenom"
+                  placeholder="Donnez le prénom"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="nom">Nom de la Patiente</label>
+                <input
+                  v-model="newPatiente.nom"
+                  type="text"
+                  class="form-control"
+                  id="nom"
+                  placeholder="Donnez le nom"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="telephone">Téléphone de la Patiente</label>
+                <input
+                  v-model="newPatiente.telephone"
+                  type="tel"
+                  class="form-control"
+                  id="telephone"
+                  placeholder="Donnez le numéro de téléphone"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="adresse">Adresse de la Patiente</label>
+                <input
+                  v-model="newPatiente.adresse"
+                  type="text"
+                  class="form-control"
+                  id="adresse"
+                  placeholder="Donnez l'adresse"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email de la Patiente</label>
+                <input
+                  v-model="newPatiente.email"
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Donnez l'email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="date_de_naissance"
+                  >Date de naissance de la Patiente</label
+                >
+                <input
+                  v-model="newPatiente.date_de_naissance"
+                  type="date"
+                  class="form-control"
+                  id="date_de_naissance"
+                  placeholder="Donnez la date de naissance"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="lieu_de_naissance"
+                  >Lieu de naissance de la Patiente</label
+                >
+                <input
+                  v-model="newPatiente.lieu_de_naissance"
+                  type="text"
+                  class="form-control"
+                  id="lieu_de_naissance"
+                  placeholder="Donnez le lieu de naissance"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="profession">Profession de la Patiente</label>
+                <input
+                  v-model="newPatiente.profession"
+                  type="text"
+                  class="form-control"
+                  id="profession"
+                  placeholder="Donnez la profession"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="type">Type de la Patiente</label>
+                <input
+                  v-model="newPatiente.type"
+                  type="text"
+                  class="form-control"
+                  id="type"
+                  placeholder="Donnez le type"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" @click="addPatiente(newPatiente)">
+                Ajouter
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>Aucune Patiente trouvée.</p>
+    </div>
+
+    <!-- Si des données sont trouvées -->
+    <div class="tableau" v-else>
+      <Table
+        :columns="columns"
+        :data="paginatedData"
+        title="Liste des Patientes"
+        :formFields="formFields"
+        @action="handleTableAction"
+        @add-data="addPatiente"
+        @edit-data="editPatiente"
+      />
+      <Pagination
+        :currentPage="currentPage"
+        :totalItems="totalItems"
+        :itemsPerPage="itemsPerPage"
+        @page-changed="handlePageChange"
+      />
+    </div>
   </Layout>
 </template>
 
@@ -25,6 +186,10 @@ import Table from "@/components/tableau.vue";
 import patienteService from "@/services/patienteService";
 import Swal from "sweetalert2";
 
+const ACTION_VIEW = "view";
+const ACTION_EDIT = "edit";
+const ACTION_DELETE = "delete";
+
 export default {
   components: {
     Layout,
@@ -33,10 +198,21 @@ export default {
   },
   data() {
     return {
+      newPatiente: {
+        nom: "",
+        prenom: "",
+        adresse: "",
+        telephone: "",
+        email: "",
+        date_de_naissance: "",
+        lieu_de_naissance: "",
+        profession: "",
+        type: "",
+      },
       columns: [
         { label: "Nom", field: "nom" },
         { label: "Prénom", field: "prenom" },
-        { label: "Telephone", field: "telephone" },
+        { label: "Téléphone", field: "telephone" },
         { label: "Âge", field: "age" },
         { label: "Lieu de Naissance", field: "lieu_de_naissance" },
         { label: "Profession", field: "profession" },
@@ -44,7 +220,6 @@ export default {
         { label: "Actions", field: "action", type: "action" },
       ],
       formFields: [
-        // Champs du formulaire pour ajouter/modifier une patiente
         {
           name: "prenom",
           label: "Prénom",
@@ -95,9 +270,9 @@ export default {
         },
         {
           name: "telephone",
-          label: "Telephone",
-          type: "number",
-          placeholder: "Entrez le numero telephone de la patiente",
+          label: "Téléphone",
+          type: "tel",
+          placeholder: "Entrez le numéro de téléphone de la patiente",
         },
       ],
       allData: [],
@@ -141,43 +316,58 @@ export default {
     },
     handleTableAction({ action, row }) {
       switch (action) {
-        case "view":
+        case ACTION_VIEW:
           this.$router.push({
             name: "detailPatiente-sage-femme",
             params: { id: row.id },
           });
           break;
-        case "edit":
+        case ACTION_EDIT:
           this.editPatiente(row);
           break;
-        case "delete":
+        case ACTION_DELETE:
           this.deletePatiente(row.id);
           break;
         default:
           break;
       }
     },
-    async addPatiente(newPatiente) {
+    async addPatiente(patienteData) {
+      if (
+        !patienteData.nom ||
+        !patienteData.prenom ||
+        !patienteData.telephone ||
+        !patienteData.email ||
+        !patienteData.adresse
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Tous les champs sont requis.",
+        });
+        return;
+      }
+
       try {
-        await patienteService.createPatiente(newPatiente);
+        await patienteService.createPatiente(patienteData);
         this.getPatients(); // Recharger la liste après l'ajout
         Swal.fire({
-          // Add sweet alert for add operation
-          title: "Patient ajouté avec succès !",
+          title: "Patiente ajoutée avec succès !",
           icon: "success",
-          confirmButtonText: "OK",
+          showConfirmButton: false,
+          timer: 1500,
         });
+        this.$router.replace({ name: 'patiente-sage-femme' });
       } catch (error) {
         console.error("Erreur lors de l'ajout de la patiente :", error);
         Swal.fire({
-          // Add sweet alert for error
-          title: "Erreur lors de l'ajout du patient !",
+          title: "Erreur lors de l'ajout de la patiente !",
           icon: "error",
           timer: 1000,
         });
+        this.$router.replace({ name: 'patiente-sage-femme' });
       }
     },
-
     async editPatiente(patiente) {
       try {
         const updatedPatiente = await patienteService.updatePatiente(
@@ -189,7 +379,7 @@ export default {
           // Add sweet alert for edit operation
           title: "Patient mis à jour avec succès !",
           icon: "success",
-          timer: 1000
+          timer: 1000,
         });
       } catch (error) {
         console.error("Erreur lors de la modification de la patiente :", error);
@@ -197,11 +387,10 @@ export default {
           // Add sweet alert for error
           title: "Erreur lors de la mise à jour du patient !",
           icon: "error",
-          timer: 1000
+          timer: 1000,
         });
       }
     },
-
     async deletePatiente(id) {
       Swal.fire({
         title: "Êtes-vous sûr de vouloir supprimer cette patiente ?",
@@ -218,7 +407,7 @@ export default {
               // Add sweet alert for delete operation
               title: "Patient supprimé avec succès !",
               icon: "success",
-              timer: 1000
+              timer: 1000,
             });
           } catch (error) {
             console.error(
@@ -229,15 +418,26 @@ export default {
               // Add sweet alert for error
               title: "Erreur lors de la suppression du patient !",
               icon: "error",
-              timer: 1000
+              timer: 1000,
             });
           }
         }
       });
     },
+    getPatientsPaginated() {
+      if (this.allData.length > 0) {
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        this.paginatedData = this.allData.slice(startIndex, endIndex);
+      }
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
+      this.getPatientsPaginated();
+    },
     calculateAge(dateOfBirth) {
-      const birthDate = new Date(dateOfBirth);
       const today = new Date();
+      const birthDate = new Date(dateOfBirth);
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
       if (
@@ -247,15 +447,6 @@ export default {
         age--;
       }
       return age;
-    },
-    handlePageChange(page) {
-      this.currentPage = page;
-      this.getPatientsPaginated();
-    },
-    getPatientsPaginated() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      this.paginatedData = this.allData.slice(startIndex, endIndex);
     },
   },
 };

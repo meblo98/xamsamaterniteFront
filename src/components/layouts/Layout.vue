@@ -54,19 +54,19 @@
           <li>
             <router-link to="/patiente-sage-femme"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Patiente</router-link
+              Patientes</router-link
             >
           </li>
           <li>
             <router-link to="/badiene-sage-femme"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Badiene Gox</router-link
+              Badienes Gox</router-link
             >
           </li>
           <li>
-            <router-link to="/dashboard-sage-femme"
+            <router-link to="/enfant-sage-femme"
               ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Dashboard</router-link
+              Enfant</router-link
             >
           </li>
         </ul>
