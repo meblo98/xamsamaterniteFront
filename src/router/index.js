@@ -50,6 +50,12 @@ const router = createRouter({
       component: () => import('@/views/sageFemme/BadieneGoxListe.vue'),
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/components/profil.vue'),
+    },
+
+    {
       path: '/enfant-sage-femme',
       name: 'enfant-sage-femme',
       component: () => import('@/views/sageFemme/EnfantListe.vue'),

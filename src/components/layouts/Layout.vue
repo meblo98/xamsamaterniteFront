@@ -5,13 +5,6 @@
       <nav class="menu">
         <!-- Burger Button (visible on mobile) -->
 
-        <input id="checkbox" type="checkbox" />
-        <label class="toggle" for="checkbox">
-          <div id="bar1" class="bars"></div>
-          <div id="bar2" class="bars"></div>
-          <div id="bar3" class="bars"></div>
-        </label>
-
         <!-- Logo -->
         <div class="logo">
           <img
@@ -35,39 +28,43 @@
           </li>
           <li>
             <router-link to="/conseil-patiente"
-              ><i class="fas fa-bell"></i> Conseils</router-link
+              ><i class="fas fa-lightbulb"></i> Conseils</router-link
             >
           </li>
           <li>
-            <router-link to="/campagne-patiente"
-              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Campagnes</router-link
-            >
+            <router-link to="/campagne-patiente">🔈 Campagnes</router-link>
           </li>
-          <h6>sage-femme</h6>
+        </ul>
+
+        <ul>
+          <h6>Sage-Femme</h6>
           <li>
             <router-link to="/dashboard-sage-femme"
-              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Dashboard</router-link
+              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
             >
           </li>
           <li>
             <router-link to="/patiente-sage-femme"
-              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Patientes</router-link
+              ><i class="fas fa-id-card"></i> Patientes</router-link
             >
           </li>
           <li>
-            <router-link to="/badiene-sage-femme"
-              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Badienes Gox</router-link
+            <router-link to="/badiene-sage-femme">👩‍🦰 Badienes Gox</router-link>
+          </li>
+          <li>
+            <router-link to="/enfant-sage-femme">🧒 Enfant</router-link>
+          </li>
+        </ul>
+
+        <ul>
+          <h6>Badiene Gox</h6>
+          <li>
+            <router-link to="/"
+              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
             >
           </li>
           <li>
-            <router-link to="/enfant-sage-femme"
-              ><i class="fi fi-rs-megaphone-announcement-leader"></i>
-              Enfant</router-link
-            >
+            <router-link to="/">🔈 Campagnes</router-link>
           </li>
         </ul>
       </nav>
@@ -77,15 +74,22 @@
     <div class="main-content">
       <!-- Header -->
       <header class="header">
+        <input id="checkbox" type="checkbox" />
+        <label class="toggle" for="checkbox" @click="toggleMenu" >
+          <div id="bar1" class="bars"style="background-color: #ddd;"></div>
+          <div id="bar2" class="bars"style="background-color: #ddd;"></div>
+          <div id="bar3" class="bars"style="background-color: #ddd;"></div>
+        </label>
+
         <div class="search-bar">
-          <input type="text" placeholder="Rechercher quelque chose" />
-          <i class="fi fi-br-search"></i>
+          <!-- <input type="text" placeholder="Rechercher quelque chose" />
+          <i class="fi fi-br-search"></i> -->
         </div>
         <!-- User Profile Icons -->
         <div class="user-profile">
-          <i class="fi fi-rr-settings"></i>
+          <i class="fi fi-rr-settings" @click="openSettings"></i>
           <i class="fas fa-bell"></i>
-          <img src="@/assets/images/profil.jpeg" alt="User Image" />
+          <img :src="profileImage" alt="User Image" />
         </div>
       </header>
 
@@ -105,11 +109,26 @@ export default {
   data() {
     return {
       isOpen: false, // Sidebar starts closed on mobile
+      userRole: "", // Store the user's role
+      profileImage: "", // Store the profile image URL
     };
+  },
+  mounted() {
+    this.getUserData(); // Fetch user data on mount
   },
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen;
+    },
+    openSettings() {
+      // Logic to open settings or redirect to settings page
+      this.$router.push("/settings");
+    },
+    getUserData() {
+      // Replace with actual logic to fetch user role and profile image
+      const userData = JSON.parse(localStorage.getItem("user")); // Example fetching user data
+      this.userRole = userData.role; // Assuming role is stored as 'patiente', 'sage-femme', or 'badiene-gox'
+      this.profileImage = userData.profileImage || "@/assets/images/woman.svg";
     },
   },
 };
@@ -151,16 +170,7 @@ export default {
 }
 
 .toggle {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition-duration: 0.3s;
+display: none;
 }
 
 .bars {
@@ -220,7 +230,18 @@ export default {
   .layout {
     flex-direction: column;
   }
-
+  .toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition-duration: 0.3s;
+}
   .search-bar {
     position: relative;
     width: 200px;
@@ -278,7 +299,18 @@ export default {
     width: 100%;
     left: -100%;
   }
-
+  .toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition-duration: 0.3s;
+}
   .sidebar.menu-open {
     left: 0;
   }

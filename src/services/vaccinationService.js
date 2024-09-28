@@ -45,5 +45,16 @@ export default {
       console.error(`Erreur lors de la suppression de la vaccination avec l'id ${id} :`, error);
       throw error;
     }
+  },
+
+  async getVaccinationByEnfant(id) {
+    try {
+      const response = await apiClient.get(`/vaccinations/enfant/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de la vaccination avec l'id ${id} :`, error);
+      throw error;
+    }
   }
+
 };

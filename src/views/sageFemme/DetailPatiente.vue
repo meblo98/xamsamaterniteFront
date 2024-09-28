@@ -8,8 +8,8 @@
               <!-- Profile picture image-->
               <img
                 class="img-account-profile rounded-circle mb-2"
-                src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                alt=""
+                src="@/assets/images/women.svg"
+                alt="patiente"
               />
             </div>
             <!-- <h4>{{ patiente.user.prenom }} {{ patiente.user.nom }}</h4>
@@ -841,7 +841,8 @@ export default {
       ],
 
       newConsultation: {
-        date: "",        visite_id: "",
+        date: "",
+        visite_id: "",
 
         terme: "",
         SA: "",
@@ -938,109 +939,110 @@ export default {
       }
     },
     async getConsultations() {
-  try {
-    const response = await consultationService.getConsultationsByPatiente(
-      this.id
-    );
+      try {
+        const response = await consultationService.getConsultationsByPatiente(
+          this.id
+        );
 
-    if (response && response.consultations) {
-      if (!Array.isArray(response.consultations)) {
-        response.consultations = [response.consultations];
+        if (response && response.consultations) {
+          if (!Array.isArray(response.consultations)) {
+            response.consultations = [response.consultations];
+          }
+
+          this.consultations = response.consultations.map((consultation) => ({
+            id: consultation.id,
+            date: consultation.date,
+            type: consultation.visite.libelle,
+            terme: consultation.terme,
+            autre_examen: consultation.autre_examen,
+            SA: consultation.SA,
+            plaintes: consultation.plaintes,
+            mois: consultation.mois,
+            poids: consultation.poids,
+            taille: consultation.taille,
+            PB: consultation.PB,
+            temperature: consultation.temperature,
+            urine: consultation.urine,
+            sucre: consultation.sucre,
+            TA: consultation.TA,
+            pouls: consultation.pouls,
+            EG: consultation.EG,
+            muqueuse: consultation.muqueuse,
+            mollet: consultation.mollet,
+            OMI: consultation.OMI,
+            examen_seins: consultation.examen_seins,
+            hu: consultation.hu,
+            speculum: consultation.speculum,
+            tv: consultation.tv,
+            fer_ac_folique: consultation.fer_ac_folique,
+            milda: consultation.milda,
+            autre_traitement: consultation.autre_traitement,
+            maf: consultation.maf,
+            bdcf: consultation.bdcf,
+            alb: consultation.alb,
+            vat: consultation.vat,
+            tpi: consultation.tpi,
+            palpation: consultation.palpation,
+            bdc: consultation.bdc,
+            presentation: consultation.presentation,
+            bassin: consultation.bassin,
+            pelvimetre_externe: consultation.pelvimetre_externe,
+            pelvimetre_interne: consultation.pelvimetre_interne,
+            biischiatique: consultation.biischiatique,
+            trillat: consultation.trillat,
+            lign_innominees: consultation.lign_innominees,
+            resultat: consultation.resultat,
+            lieu_accouchement_apre_consentement:
+              consultation.lieu_accouchement_apre_consentement,
+            traitement: consultation.traitement,
+            sage_femme_id: consultation.sage_femme_id,
+            patiente_id: consultation.patiente_id,
+            visite_id: consultation.visite_id,
+          }));
+        } else {
+          console.log("Aucune consultation trouvée pour cette patiente.");
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des consultations :",
+          error
+        );
       }
+    },
 
-      this.consultations = response.consultations.map((consultation) => ({
-        id: consultation.id,
-        date: consultation.date,
-        type: consultation.visite.libelle,
-        terme: consultation.terme,
-        autre_examen: consultation.autre_examen,
-        SA: consultation.SA,
-        plaintes: consultation.plaintes,
-        mois: consultation.mois,
-        poids: consultation.poids,
-        taille: consultation.taille,
-        PB: consultation.PB,
-        temperature: consultation.temperature,
-        urine: consultation.urine,
-        sucre: consultation.sucre,
-        TA: consultation.TA,
-        pouls: consultation.pouls,
-        EG: consultation.EG,
-        muqueuse: consultation.muqueuse,
-        mollet: consultation.mollet,
-        OMI: consultation.OMI,
-        examen_seins: consultation.examen_seins,
-        hu: consultation.hu,
-        speculum: consultation.speculum,
-        tv: consultation.tv,
-        fer_ac_folique: consultation.fer_ac_folique,
-        milda: consultation.milda,
-        autre_traitement: consultation.autre_traitement,
-        maf: consultation.maf,
-        bdcf: consultation.bdcf,
-        alb: consultation.alb,
-        vat: consultation.vat,
-        tpi: consultation.tpi,
-        palpation: consultation.palpation,
-        bdc: consultation.bdc,
-        presentation: consultation.presentation,
-        bassin: consultation.bassin,
-        pelvimetre_externe: consultation.pelvimetre_externe,
-        pelvimetre_interne: consultation.pelvimetre_interne,
-        biischiatique: consultation.biischiatique,
-        trillat: consultation.trillat,
-        lign_innominees: consultation.lign_innominees,
-        resultat: consultation.resultat,
-        lieu_accouchement_apre_consentement: consultation.lieu_accouchement_apre_consentement,
-        traitement: consultation.traitement,
-        sage_femme_id: consultation.sage_femme_id,
-        patiente_id: consultation.patiente_id,
-        visite_id: consultation.visite_id,
-      }));
-    } else {
-      console.log("Aucune consultation trouvée pour cette patiente.");
-    }
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des consultations :",
-      error
-    );
-  }
-},
+    async getRendezVous() {
+      try {
+        const response = await consultationService.getRendezVousByPatiente(
+          this.id
+        );
 
-async getRendezVous() {
-  try {
-    const response = await consultationService.getRendezVousByPatiente(
-      this.id
-    );
+        // Vérifie si mes_rv existe
+        if (response && response.mes_rv) {
+          // Si mes_rv est un objet unique
+          if (!Array.isArray(response.mes_rv)) {
+            // On le transforme en tableau pour le traiter de manière uniforme
+            response.mes_rv = [response.mes_rv];
+          }
 
-    // Vérifie si mes_rv existe
-    if (response && response.mes_rv) {
-      // Si mes_rv est un objet unique
-      if (!Array.isArray(response.mes_rv)) {
-        // On le transforme en tableau pour le traiter de manière uniforme
-        response.mes_rv = [response.mes_rv];
+          // Mapper les rendez-vous
+          this.rendezVous = response.mes_rv.map((rendezVous) => ({
+            id: rendezVous.id,
+            date_rv: rendezVous.date_rv,
+            libelle: rendezVous.visite
+              ? rendezVous.visite.libelle
+              : "Aucun libellé",
+            visite_id: rendezVous.visite_id,
+          }));
+        } else {
+          console.log("Aucun rendez-vous trouvé pour cette patiente.");
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des rendez-vous :",
+          error
+        );
       }
-
-      // Mapper les rendez-vous
-      this.rendezVous = response.mes_rv.map((rendezVous) => ({
-        id: rendezVous.id,
-        date_rv: rendezVous.date_rv,
-        libelle: rendezVous.visite
-          ? rendezVous.visite.libelle
-          : "Aucun libellé",
-        visite_id: rendezVous.visite_id,
-      }));
-    } else {
-      console.log("Aucun rendez-vous trouvé pour cette patiente.");
-    }
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des rendez-vous :",
-      error
-    );
-  }
-},
+    },
 
     async addRendezVous() {
       try {

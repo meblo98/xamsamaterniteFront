@@ -29,16 +29,115 @@
       <div class="row">
         <div class="project-info-box mt-0">
           <!-- Section des vaccinations -->
-          <h5>Vaccinations</h5>
           <div v-if="vaccinations.length === 0">
-            <p>Aucune vaccination trouvée pour cet enfant.</p>
+            <button
+              type="button"
+              class="btn btn-primary"
+              :data-bs-toggle="'modal'"
+              :data-bs-target="'#ajoutVaccination'"
+            >
+              Ajouter une Vaccination
+            </button>
+
+            <!-- Modal d'ajout -->
+            <div
+              class="modal fade"
+              id="ajoutVaccination"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                      Ajouter une Vaccination
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="nom">Nom du vaccin</label>
+                      <input
+                        v-model="newVaccination.nom"
+                        type="text"
+                        class="form-control"
+                        id="nom"
+                        placeholder="Entrez le nom du vaccin"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="dose">Dose</label>
+                      <input
+                        v-model="newVaccination.dose"
+                        type="text"
+                        class="form-control"
+                        id="dose"
+                        placeholder="Entrez la dose"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="observation">Observation</label>
+                      <input
+                        v-model="newVaccination.observation"
+                        type="text"
+                        class="form-control"
+                        id="observation"
+                        placeholder="Entrez les observations"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button
+                      class="btn btn-primary"
+                      @click="addVaccination({ ...newVaccination })"
+                    >
+                      Ajouter
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Fermer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>Aucune vaccination trouvée.</p>
           </div>
-          <Table
+
+          <!-- Si des vaccinations sont trouvées -->
+        
+            <Table
             v-else
-            :columns="vaccinationColumns"
-            :data="vaccinations"
-            title="Vaccinations"
-          />
+              :columns="vaccinationColumns"
+              :data="paginatedData"
+              title="Liste des Vaccinations"
+              :formFields="vaccinationFields"
+              @action="handleTableAction"
+              @add-data="addVaccination"
+              @edit-data="editVaccination"
+            />
+            <Pagination
+              :currentPage="currentPage"
+              :totalItems="totalItems"
+              :itemsPerPage="itemsPerPage"
+              @page-changed="handlePageChange"
+            />
+         
         </div>
       </div>
     </div>
@@ -49,6 +148,8 @@
 import Layout from "@/components/layouts/Layout.vue";
 import Table from "@/components/tableau.vue";
 import enfantService from "@/services/enfantService";
+import vaccinationService from "@/services/vaccinationService";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -71,23 +172,61 @@ export default {
         adresse: "",
       },
       vaccinations: [],
+      newVaccination: {
+        nom: "",
+        dose: "",
+        observation: "",
+        enfant_id: this.id,
+      },
       vaccinationColumns: [
-        { label: "Nom du vaccin", field: "nom_vaccin" },
-        { label: "Date d'administration", field: "date_administration" },
-        { label: "Lieu", field: "lieu" },
-        { label: "Prochaine dose", field: "prochaine_dose" },
+        { label: "Nom du Vaccin", field: "nom" },
+        { label: "Dose", field: "dose" },
+        { label: "Observation", field: "observation" },
+        { label: "Actions", field: "action", type: "action" },
       ],
+      vaccinationFields: [
+        {
+          name: "nom",
+          label: "Nom du Vaccin",
+          type: "text",
+          placeholder: "Entrez le nom du vaccin",
+        },
+        {
+          name: "dose",
+          label: "Dose",
+          type: "text",
+          placeholder: "Entrez la dose",
+        },
+        {
+          name: "observation",
+          label: "Observation",
+          type: "text",
+          placeholder: "Entrez les observations",
+        },
+      ],
+      paginatedData: [],
+      currentPage: 1,
+      totalItems: 0,
+      itemsPerPage: 10,
     };
   },
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
+  mounted() {
+  this.fetchEnfantDetails();
+  this.getVaccination();
+  this.getVaccinationsPaginated(); // Add this line
+},
   methods: {
-    async fetchEnfantDetails(enfantId) {
+    async fetchEnfantDetails() {
       try {
-        const response = await enfantService.getEnfant(enfantId);
-        console.log(response);
-        
+        const response = await enfantService.getEnfant(this.id);
         this.enfant = response;
         this.maman = response.accouchement.patiente.user;
-        
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de l'enfant :",
@@ -95,10 +234,136 @@ export default {
         );
       }
     },
-  },
-  created() {
-    const enfantId = this.$route.params.id; // Récupérer l'ID de l'enfant depuis l'URL ou la route
-    this.fetchEnfantDetails(enfantId);
+
+    async getVaccination() {
+      try {
+        const response = await vaccinationService.getVaccinationByEnfant(
+          this.id
+        );
+        if (
+          response &&
+          response.vaccinations &&
+          Array.isArray(response.vaccinations)
+        ) {
+          this.vaccinations = response.vaccinations.map((vaccination) => ({
+            id: vaccination.id,
+            nom: vaccination.nom,
+            dose: vaccination.dose,
+            observation: vaccination.observation,
+          }));
+          this.getVaccinationsPaginated()
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des vaccinations :",
+          error
+        );
+      }
+    },
+    handleTableAction({ action, row }) {
+      if (action === "edit") this.editVaccination(row);
+      else if (action === "delete") this.deleteVaccination(row.id);
+    },
+
+    async addVaccination(vaccinationData = null) {
+      if (
+        !vaccinationData.nom ||
+        !vaccinationData.dose ||
+        !vaccinationData.observation
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Tous les champs sont requis.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+      vaccinationData.enfant_id = this.id;
+      try {
+        await vaccinationService.createVaccination(vaccinationData);
+        Swal.fire({
+          title: "Vaccination ajoutée avec succès !",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error("Erreur lors de l'ajout de la vaccination :", error);
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Impossible d'ajouter la vaccination.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    },
+    async editVaccination(vaccinationData) {
+      try {
+        await vaccinationService.updateVaccination(
+          vaccinationData.id,
+          vaccinationData
+        );
+        Swal.fire({
+          title: "Vaccination modifiée avec succès !",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error(
+          "Erreur lors de la modification de la vaccination :",
+          error
+        );
+      }
+    },
+    async deleteVaccination(vaccinationId) {
+  Swal.fire({
+    title: 'Confirmation de suppression',
+    text: 'Êtes-vous sûr de vouloir supprimer cette vaccination ?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Non, annuler',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      try {
+        vaccinationService.deleteVaccination(vaccinationId);
+        this.getVaccination();
+        Swal.fire({
+          title: 'Suppression réussie',
+          text: 'La vaccination a été supprimée avec succès.',
+          icon: 'success',
+        });
+      } catch (error) {
+        console.error(
+          "Erreur lors de la suppression de la vaccination :",
+          error
+        );
+        Swal.fire({
+          title: 'Erreur de suppression',
+          text: 'Une erreur est survenue lors de la suppression de la vaccination.',
+          icon: 'error',
+        });
+      }
+    }
+  });
+},
+    getVaccinationsPaginated() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      this.paginatedData = this.vaccinations.slice(
+        startIndex,
+        startIndex + this.itemsPerPage
+      );
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
+      this.getVaccinationsPaginated();
+    },
   },
 };
 </script>
