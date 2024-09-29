@@ -86,7 +86,7 @@
         <div class="user-profile">
           <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
           <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
-          <img :src="`http://127.0.0.1:8000/storage//${userData.photo}`" alt="User Image" />
+          <img :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${userData.photo}`" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
               <!-- Icône pour le dropdown -->

@@ -8,13 +8,13 @@
               <!-- Profile picture image-->
               <img
                 class="img-account-profile rounded-circle mb-2"
-                src="@/assets/images/women.svg"
+                src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${patiente.user.photo}`"
                 alt="patiente"
               />
             </div>
-            <!-- <h4>{{ patiente.user.prenom }} {{ patiente.user.nom }}</h4>
+            <h4>{{ patiente.user.prenom }} {{ patiente.user.nom }}</h4>
             <p>Téléphone : {{ patiente.user.telephone }}</p>
-            <p>Adresse : {{ patiente.user.adresse }}</p> -->
+            <p>Adresse : {{ patiente.user.adresse }}</p>
             <p>Lieu de naissance : {{ patiente.lieu_de_naissance }}</p>
             <p>Date de naissance : {{ patiente.date_de_naissance }}</p>
             <p>Profession : {{ patiente.profession }}</p>

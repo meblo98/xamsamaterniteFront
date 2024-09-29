@@ -125,7 +125,7 @@
 import authService from "@/services/authService";
 import Layout from "./layouts/Layout.vue";
 import Swal from "sweetalert2";
-const BASE_IMAGE_URL = "http://127.0.0.1:8000/storage//";
+const BASE_IMAGE_URL = "https://certif.lomouhamedelbachir.simplonfabriques.com/";
 export default {
   components: {
     Layout,
@@ -148,7 +148,7 @@ export default {
   computed: {
     fullImageUrl() {
       return this.profile.photo
-        ? `http://127.0.0.1:8000/storage//${this.profile.photo}`
+        ? `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${this.profile.photo}`
         : "@/assets/images/women.svg";
     },
   },

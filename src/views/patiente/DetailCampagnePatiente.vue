@@ -22,7 +22,7 @@
 
         <div class="col-md-7">
           <img
-            :src="`http://127.0.0.1:8000/storage//${campagne.image}`"
+            :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${campagne.image}`"
             alt="Image de la campagne"
             class="rounded"
           />
@@ -65,7 +65,7 @@ export default {
   },
   mounted() {
     this.fetchCampagneDetails(); // Récupère les détails de la campagne quand le composant est monté
-    this.imageUrl = `http://127.0.0.1:8000/storage/${this.campagne.image}`;
+    this.imageUrl = `https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${this.campagne.image}`;
   }
 };
 </script>
