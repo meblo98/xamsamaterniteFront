@@ -24,4 +24,13 @@ export default {
       throw error;
     }
   },
+  async getUser(){
+    try {
+      const response = await apiClient.get("/user-profile");
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la recuperation du profil :`, error);
+      throw error;
+    }
+  }
 };

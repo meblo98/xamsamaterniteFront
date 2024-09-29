@@ -86,7 +86,7 @@
         <div class="user-profile">
           <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
           <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
-          <img :src="profileImage" alt="User Image" />
+          <img :src="`http://127.0.0.1:8000/storage//${userData.photo}`" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
               <!-- Icône pour le dropdown -->
@@ -110,7 +110,9 @@
 </template>
 
 <script>
-
+import apiClient from '@/services/api';
+import getMediaUrl from '@/services/api';
+import authService from '@/services/authService';
 export default {
   name: "Layout",
   data() {
@@ -118,7 +120,9 @@ export default {
       isOpen: false, // Sidebar starts closed on mobile
       userRole: "", // Store the user's role
       profileImage: "", // Store the profile image URL
+      userData: {}, // Store the user data
     };
+    
   },
   computed: {
     role() {
@@ -147,9 +151,15 @@ export default {
     openSettings() {
       this.$router.push("/settings");
     },
-    getUserData() {
-      const userData = JSON.parse(localStorage.getItem("user"));
-      this.profileImage = userData.profileImage || "@/assets/images/woman.svg";
+    async getUserData() {
+      try {
+        // Appel API pour récupérer les données de l'utilisateur
+        const response = await authService.getUser();
+        const userData = response.user;
+        
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données utilisateur', error);
+      }
     },
   },
 };

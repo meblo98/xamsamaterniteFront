@@ -111,6 +111,7 @@
         :data="paginatedData"
         title="Liste des Campagnes"
         @action="handleTableAction"
+        :formFields="formFields"
         @add-data="addCampagne"
         @edit-data="editCampagne"
       />
@@ -153,6 +154,39 @@ export default {
         { label: "Date de Fin", field: "date_fin" },
         { label: "Actions", field: "action", type: "action" },
       ],
+      formFields: [
+        {
+          name: "nom",
+          label: "Titre",
+          type: "text",
+          placeholder: "Entrez le titre",
+        },
+        {
+          name: "description",
+          label: "Description",
+          type: "text",
+          placeholder: "Entrez le description",
+        },
+        {
+          name: "date_debut",
+          label: "Date de debut",
+          type: "date",
+          placeholder: "Entrez la date de debut",
+        },
+        {
+          name: "date_fin",
+          label: "Date de fin",
+          type: "date",
+          placeholder: "Entrez la date de naissance",
+        },
+
+        {
+          name: "image",
+          label: "Image",
+          type: "file",
+          placeholder: "Entrez l'email de la patiente",
+        },
+      ],
       selectedFile: null,
       allData: [],
       paginatedData: [],
@@ -161,16 +195,17 @@ export default {
       itemsPerPage: 10,
     };
   },
-  //   mounted() {
-  //     this.getCampagnes();
-  //     },
+  mounted() {
+    this.getCampagnes();
+  },
   methods: {
     onFileChange(e) {
       this.selectedFile = e.target.files[0];
     },
-    async addCampagne(campagneData) {
-      console.log(campagneData);
 
+    async addCampagne(campagneData) {
+      console.log(this.selectedFile);
+      
       if (
         !campagneData.nom ||
         !campagneData.description ||
@@ -185,22 +220,41 @@ export default {
         });
         return;
       }
-      // Créer une instance de FormData
-      const formData = new FormData();
-      formData.append("nom", campagneData.nom);
-      formData.append("description", campagneData.description);
-      formData.append("date_debut", campagneData.date_debut);
-      formData.append("date_fin", campagneData.date_fin);
-      formData.append("image", this.selectedFile);
-      try {
-        await campagneService.createCampagne(formData);
-        this.getCampagnes(); // Recharge la liste après l'ajout
+
+      if (!this.selectedFile || this.selectedFile.size === 0) {
         Swal.fire({
-          title: "Campagne ajoutée avec succès !",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
+          icon: "error",
+          title: "Erreur",
+          text: "Veuillez sélectionner un fichier valide.",
         });
+        return;
+      }
+
+      const formData = this.createFormData(campagneData);
+      console.log(formData);
+
+      try {
+        const response = await campagneService.createCampagne(formData);
+        if (response.ok) {
+          this.getCampagnes(); // Recharge la liste après l'ajout
+          Swal.fire({
+            title: "Campagne ajoutée avec succès !",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          console.error(
+            "Erreur lors de l'ajout de la campagne :",
+            response.status,
+            response.statusText
+          );
+          Swal.fire({
+            title: "Erreur lors de l'ajout de la campagne !",
+            icon: "error",
+            timer: 1000,
+          });
+        }
       } catch (error) {
         console.error("Erreur lors de l'ajout de la campagne :", error);
         Swal.fire({
@@ -210,13 +264,25 @@ export default {
         });
       }
     },
+
+    createFormData(campagneData) {
+      const formData = new FormData();
+      formData.append("nom", campagneData.nom);
+      formData.append("description", campagneData.description);
+      formData.append("date_debut", campagneData.date_debut);
+      formData.append("date_fin", campagneData.date_fin);
+      formData.append("image", this.selectedFile);
+      return formData;
+    },
+
     async getCampagnes() {
       try {
         const response = await campagneService.getCampagnes();
         if (response && Array.isArray(response)) {
           this.allData = response.map((campagne) => ({
             id: campagne.id,
-            titre: campagne.titre,
+            nom: campagne.nom,
+            image: campagne.image,
             description: campagne.description,
             date_debut: campagne.date_debut,
             date_fin: campagne.date_fin,
@@ -231,7 +297,7 @@ export default {
     handleTableAction({ action, row }) {
       if (action === "view") {
         this.$router.push({
-          name: "detailCampagne",
+          name: "detailCampagne-badiene-gox",
           params: { id: row.id },
         });
       } else if (action === "edit") {
@@ -244,7 +310,7 @@ export default {
     async editCampagne(campagne) {
       try {
         await campagneService.updateCampagne(campagne.id, campagne);
-        this.getCampagnes(); // Reload the campaigns after editing
+        this.getCampagnes();
         Swal.fire({
           title: "Campagne mise à jour avec succès !",
           icon: "success",

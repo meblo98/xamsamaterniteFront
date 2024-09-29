@@ -1,6 +1,5 @@
 <template>
-   <Layout>
-
+  <Layout>
     <div class="container-xl px-4 mt-4">
       <div class="row">
         <div class="col-xl-4">
@@ -86,7 +85,9 @@
                 </div>
                 <div class="row gx-3 mb-3">
                   <div class="col-md-6">
-                    <label class="small mb-1" for="inputOldPassword">Ancien mot de passe</label>
+                    <label class="small mb-1" for="inputOldPassword"
+                      >Ancien mot de passe</label
+                    >
                     <input
                       class="form-control"
                       id="inputOldPassword"
@@ -96,7 +97,9 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1" for="inputNewPassword">Nouveau mot de passe</label>
+                    <label class="small mb-1" for="inputNewPassword"
+                      >Nouveau mot de passe</label
+                    >
                     <input
                       class="form-control"
                       id="inputNewPassword"
@@ -115,94 +118,110 @@
         </div>
       </div>
     </div>
-   </Layout>
-  </template>
-  
-  <script>
-  import authService from "@/services/authService";
+  </Layout>
+</template>
+
+<script>
+import authService from "@/services/authService";
 import Layout from "./layouts/Layout.vue";
-  const BASE_IMAGE_URL = 'http://127.0.0.1:8000/public/storage/';
-  export default {
-    components:{
-        Layout,
-    },
-    data() {
-      return {
-        profile: {
-          prenom: "",
-          nom: "",
-          email: "",
-          telephone: "",
-          adresse: "",
-          old_password: "",
-          password: "",
-          photo: null, // URL de la photo
-        },
-        selectedFile: null, // Fichier sélectionné
-      };
-    },
-    computed: {
+import Swal from "sweetalert2";
+const BASE_IMAGE_URL = "http://127.0.0.1:8000/storage//";
+export default {
+  components: {
+    Layout,
+  },
+  data() {
+    return {
+      profile: {
+        prenom: "",
+        nom: "",
+        email: "",
+        telephone: "",
+        adresse: "",
+        old_password: "",
+        password: "",
+        photo: null, // URL de la photo
+      },
+      selectedFile: null, // Fichier sélectionné
+    };
+  },
+  computed: {
     fullImageUrl() {
-      return this.profile.photo ? `${BASE_IMAGE_URL}${this.profile.photo}` : '@/assets/images/women.svg';
+      return this.profile.photo
+        ? `http://127.0.0.1:8000/storage//${this.profile.photo}`
+        : "@/assets/images/women.svg";
     },
   },
-    methods: {
-      // Récupérer les informations de l'utilisateur connecté depuis le token JWT
-      fetchProfile() {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
+  methods: {
+    async fetchProfile() {
+      try {
+        // Appel API pour récupérer les données de l'utilisateur
+        const response = await authService.getUser();
+        const userData = response.user;
+        if (userData) {
           // Assurez-vous de mettre à jour le modèle profile directement
-          this.profile.prenom = user.prenom;
-          this.profile.nom = user.nom;
-          this.profile.email = user.email;
-          this.profile.telephone = user.telephone;
-          this.profile.adresse = user.adresse;
-          this.profile.photo = user.photo; // Ajoutez si nécessaire
+          this.profile.prenom = userData.prenom;
+          this.profile.nom = userData.nom;
+          this.profile.email = userData.email;
+          this.profile.telephone = userData.telephone;
+          this.profile.adresse = userData.adresse;
+          this.profile.photo = userData.photo; // Ajoutez si nécessaire
         }
-      },
-      // Gestion du téléchargement de fichier
-      handleFileUpload(event) {
-        this.selectedFile = event.target.files[0];
-      },
-      // Soumettre le formulaire pour mettre à jour le profil
-      async submitForm() {
-        const formData = new FormData();
-        formData.append("prenom", this.profile.prenom);
-        formData.append("nom", this.profile.nom);
-        formData.append("email", this.profile.email);
-        formData.append("telephone", this.profile.telephone);
-        formData.append("adresse", this.profile.adresse);
-        formData.append("old_password", this.profile.old_password);
-        formData.append("password", this.profile.password);
-  
-        // Ajout de la photo si elle est sélectionnée
-        if (this.selectedFile) {
-          formData.append("photo", this.selectedFile);
-        }
-  
-        try {
-          await authService.profil(formData); // Appel API pour la mise à jour
-          alert("Profil mis à jour avec succès !");
-        } catch (error) {
-          console.error("Erreur lors de la mise à jour du profil:", error);
-        }
-      },
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des données utilisateur",
+          error
+        );
+        this.profileImage = "@/assets/images/women.svg"; // Image par défaut en cas d'erreur
+      }
     },
-    mounted() {
-      this.fetchProfile(); // Charger les données du profil dès que le composant est monté
+    // Gestion du téléchargement de fichier
+    handleFileUpload(event) {
+      this.selectedFile = event.target.files[0];
     },
-  };
-  </script>
-  
-  <style lang="css">
-  .img-account-profile {
-    height: 10rem;
-  }
-  .rounded-circle {
-    border-radius: 50% !important;
-  }
-  .card {
-    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
-  }
-  </style>
-  
+    // Soumettre le formulaire pour mettre à jour le profil
+    async submitForm() {
+      const formData = new FormData();
+      formData.append("prenom", this.profile.prenom);
+      formData.append("nom", this.profile.nom);
+      formData.append("email", this.profile.email);
+      formData.append("telephone", this.profile.telephone);
+      formData.append("adresse", this.profile.adresse);
+      formData.append("old_password", this.profile.old_password);
+      formData.append("password", this.profile.password);
+
+      // Ajout de la photo si elle est sélectionnée
+      if (this.selectedFile) {
+        formData.append("photo", this.selectedFile);
+      }
+
+      try {
+        await authService.profil(formData);
+        Swal.fire({
+          title: "Succès!",
+          text: "Profil mis à jour avec succès !",
+          icon: "success",
+          timer: 1000, 
+        });
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour du profil:", error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchProfile(); 
+  },
+};
+</script>
+
+<style lang="css">
+.img-account-profile {
+  height: 10rem;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+.card {
+  box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+</style>
