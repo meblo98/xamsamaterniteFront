@@ -220,11 +220,6 @@ export default {
       }
     } catch (error) {
       console.error("Erreur lors de la récupération des Badiene Gox :", error);
-      Swal.fire({
-        icon: "error",
-        title: "Erreur",
-        text: "Impossible de récupérer les Badiene Gox.",
-      });
     }
   },
 

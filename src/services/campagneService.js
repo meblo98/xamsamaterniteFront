@@ -19,9 +19,9 @@ export default {
       throw error;
     }
   },
-  async createCampagne(data) {
+  async createCampagne(formData) {
     try {
-      const response = await apiClient.post('/campagnes', data);
+      const response = await apiClient.post('/campagnes', formData);
       return response.data;
     } catch (error) {
       console.error('Erreur lors de la création de la campagne :', error);

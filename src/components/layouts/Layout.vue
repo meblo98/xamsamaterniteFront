@@ -14,8 +14,7 @@
           />
         </div>
         <!-- Navigation Links -->
-        <ul>
-          <h6>Patiente</h6>
+        <ul v-if="role === 'patiente'">
           <li>
             <router-link to="/dashboard-patiente" class="active"
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
@@ -36,8 +35,7 @@
           </li>
         </ul>
 
-        <ul>
-          <h6>Sage-Femme</h6>
+        <ul v-if="role === 'sage-femme'">
           <li>
             <router-link to="/dashboard-sage-femme"
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
@@ -56,15 +54,14 @@
           </li>
         </ul>
 
-        <ul>
-          <h6>Badiene Gox</h6>
+        <ul v-if="role === 'badiene-gox'">
           <li>
-            <router-link to="/"
+            <router-link to="/dashboard-badiene-gox"
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
             >
           </li>
           <li>
-            <router-link to="/">🔈 Campagnes</router-link>
+            <router-link to="campagne-badiene-gox">🔈 Campagnes</router-link>
           </li>
         </ul>
       </nav>
@@ -75,10 +72,10 @@
       <!-- Header -->
       <header class="header">
         <input id="checkbox" type="checkbox" />
-        <label class="toggle" for="checkbox" @click="toggleMenu" >
-          <div id="bar1" class="bars"style="background-color: #ddd;"></div>
-          <div id="bar2" class="bars"style="background-color: #ddd;"></div>
-          <div id="bar3" class="bars"style="background-color: #ddd;"></div>
+        <label class="toggle" for="checkbox" @click="toggleMenu">
+          <div id="bar1" class="bars" style="background-color: #ddd"></div>
+          <div id="bar2" class="bars" style="background-color: #ddd"></div>
+          <div id="bar3" class="bars" style="background-color: #ddd"></div>
         </label>
 
         <div class="search-bar">
@@ -87,9 +84,20 @@
         </div>
         <!-- User Profile Icons -->
         <div class="user-profile">
-          <i class="fi fi-rr-settings" @click="openSettings"></i>
-          <i class="fas fa-bell"></i>
+          <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
+          <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
           <img :src="profileImage" alt="User Image" />
+          <div class="dropdown">
+            <button class="dropdown-toggle" @click="toggleDropdown">
+              <!-- Icône pour le dropdown -->
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" @click="openSettings"><i class="fi fi-rr-settings"></i>Paramètres</a></li>
+              <li><a href="#" @click.prevent="logout">
+                <i class="fi fi-br-sign-out-alt"></i>Déconnexion
+        </a></li>
+            </ul>
+          </div>
         </div>
       </header>
 
@@ -102,8 +110,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 export default {
   name: "Layout",
   data() {
@@ -113,21 +120,35 @@ export default {
       profileImage: "", // Store the profile image URL
     };
   },
+  computed: {
+    role() {
+      return localStorage.getItem("role");
+    },
+  },
   mounted() {
-    this.getUserData(); // Fetch user data on mount
+    this.getUserData();
   },
   methods: {
+    logout() {
+      // Supprimer le token de l'utilisateur
+      localStorage.removeItem('token');
+
+      // Faire la redirection vers la racine
+      this.$router.push({ name: 'login' });
+    },
+    toggleDropdown() {
+      const dropdownMenu = document.querySelector(".dropdown-menu");
+      dropdownMenu.style.display =
+        dropdownMenu.style.display === "block" ? "none" : "block";
+    },
     toggleMenu() {
       this.isOpen = !this.isOpen;
     },
     openSettings() {
-      // Logic to open settings or redirect to settings page
       this.$router.push("/settings");
     },
     getUserData() {
-      // Replace with actual logic to fetch user role and profile image
-      const userData = JSON.parse(localStorage.getItem("user")); // Example fetching user data
-      this.userRole = userData.role; // Assuming role is stored as 'patiente', 'sage-femme', or 'badiene-gox'
+      const userData = JSON.parse(localStorage.getItem("user"));
       this.profileImage = userData.profileImage || "@/assets/images/woman.svg";
     },
   },
@@ -137,12 +158,47 @@ export default {
 <style scoped>
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css");
-
+@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css');
 .layout {
   display: flex;
   min-height: 100vh;
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
+.dropdown-toggle {
+  background-color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: none;
+}
+
+.dropdown-menu li {
+  margin-bottom: 10px;
+}
+
+.dropdown-menu li a {
+  color: #333;
+  text-decoration: none;
+}
+
+
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
 /* Sidebar (desktop default) */
 .sidebar {
   width: 250px;
@@ -170,7 +226,7 @@ export default {
 }
 
 .toggle {
-display: none;
+  display: none;
 }
 
 .bars {
@@ -231,17 +287,17 @@ display: none;
     flex-direction: column;
   }
   .toggle {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition-duration: 0.3s;
-}
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition-duration: 0.3s;
+  }
   .search-bar {
     position: relative;
     width: 200px;
@@ -300,17 +356,17 @@ display: none;
     left: -100%;
   }
   .toggle {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition-duration: 0.3s;
-}
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition-duration: 0.3s;
+  }
   .sidebar.menu-open {
     left: 0;
   }

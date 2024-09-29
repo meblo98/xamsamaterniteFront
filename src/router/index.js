@@ -100,6 +100,16 @@ const router = createRouter({
       path: '/dashboard-badiene-gox',
       name: 'dashboard-badiene-gox',
       component: () => import('@/views/badieneGox/AccueilBadieneGox.vue')
+    }, {
+      path: '/campagne-badiene-gox/',
+      name: 'campagne-badiene-gox',
+      component: () => import('@/views/badieneGox/Campagne.vue')
+    },
+    {
+      path: '/detailCampagne-badiene-gox/:id',
+      name: 'detailCampagne-badiene-gox',
+      component: () => import('@/views/badieneGox/DetailCampagne.vue'),
+      props: true,
     }
   ]
 });

@@ -1,17 +1,16 @@
 <template>
-    <div>
-      <Navbar /> <!-- La barre de navigation pour l'admin sera affichée ici -->
-      <h1>Bienvenue badiene gox</h1>
-      <!-- Autres contenus spécifiques à l'admin -->
-    </div>
+  <Layout>
+
+    
+  </Layout>
   </template>
   
   <script>
-  import Navbar from '@/components/Navbar.vue';
+  import Layout from '@/components/layouts/Layout.vue';
   
   export default {
     components: {
-      Navbar
+     Layout,
     }
   };
   </script>
