@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  body {
+    background-color: #F4F4F9;
+  }
+  
+  .dashboard {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sidebar Styles */
+  .sidebar {
+    background-color: #fff;
+    padding: 20px;
+    width: 250px;
+    border-right: 1px solid #e4e4e4;
+  }
+  
+  .logo {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .logo img {
+    width: 50px;
+  }
+  
+  .logo h2 {
+    font-size: 18px;
+    color: #6932F9;
+  }
+  
+  .menu ul {
+    list-style: none;
+  }
+  
+  .menu ul li {
+    margin: 20px 0;
+  }
+  
+  .menu ul li a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu ul li a i {
+    margin-right: 15px;
+  }
+  
+  .menu ul li a.active {
+    color: #6932F9;
+  }
+  
+  /* Main Content Styles */
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  
+  .search-bar {
+    position: relative;
+    width: 300px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #e4e4e4;
+  }
+  
+  .search-bar i {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-profile i {
+    margin-right: 20px;
+    font-size: 18px;
+  }
+  
+  .user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  /* Appointment Section */
+  .appointment {
+    margin-bottom: 40px;
+  }
+  
+  .appointment h2 {
+    font-size: 24px;
+    color: #6932F9;
+    margin-bottom: 20px;
+  }
+  
+  .appointment-cards {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .appointment-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .appointment-card i {
+    font-size: 30px;
+    color: #F49EFA;
+  }
+  
+  .appointment-info span {
+    color: #888;
+  }
+  
+  .appointment-info h3 {
+    font-size: 20px;
+  }
+  
+  /* Campaign Section */
+  .campaigns {
+    margin-bottom: 40px;
+  }
+  
+  .campaigns h2 {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    color: #6932F9;
+  }
+  
+  .campaign-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* add this to wrap cards on smaller screens */
+  }
+  
+  .campaign-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px; /* add some margin to create space between cards */
+  }
+  
+  .campaign-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+  }
+  
+  .campaign-info {
+    padding: 15px;
+  }
+  
+  .campaign-info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .campaign-info span {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .campaign-info button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #6932F9;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  /* Media queries */
+  
+  /* For screens smaller than 768px (e.g. tablets) */
+  @media (max-width: 768px) {
+    .campaign-cards {
+      flex-direction: column; /* stack cards vertically on smaller screens */
+    }
+    .campaign-card {
+      width: 100%; /* make cards full-width on smaller screens */
+      margin: 20px 0; /* adjust margin to create space between cards */
+    }
+  }
+  
+  /* For screens smaller than 480px (e.g. mobile phones) */
+  @media (max-width: 480px) {
+    .campaign-card {
+      width: 90%; /* make cards slightly smaller on very small screens */
+      margin: 10px 0; /* adjust margin to create space between cards */
+    }
+    .campaign-info h3 {
+      font-size: 14px; /* reduce font size on very small screens */
+    }
+    .campaign-info span {
+      font-size: 10px; /* reduce font size on very small screens */
+    }
+  }
+  
+  /* Advice Section */
+  .advice {
+    margin-bottom: 40px;
+  }
+  
+  .advice h2 {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    color: #6932F9;
+  }
+  
+  .advice-videos {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* add this to wrap videos on smaller screens */
+  }
+  
+  .advice-video {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    margin: 20px; /* add some margin to create space between videos */
+  }
+  
+  .advice-video img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+  }
+  
+  /* Media queries for responsiveness */
+  
+  /* For screens smaller than 768px (e.g. tablets) */
+  @media (max-width: 768px) {
+    .advice-video {
+      width: 200px;
+      height: 100px;
+    }
+  }
+  
+  /* For screens smaller than 480px (e.g. mobile phones) */
+  @media (max-width: 480px) {
+    .advice-video {
+      width: 150px;
+      height: 75px;
+    }
+    .advice-videos {
+      flex-direction: column; /* stack videos vertically on mobile */
+    }
+  }
