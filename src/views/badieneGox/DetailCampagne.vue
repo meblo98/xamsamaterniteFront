@@ -41,6 +41,9 @@ import campagneService from "@/services/campagneService";
     components: {
       Layout,
     },
+    props: {
+    id: Number,
+  },
     data() {
       return {
         campagne: {},

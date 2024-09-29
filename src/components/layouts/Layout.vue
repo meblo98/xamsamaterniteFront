@@ -269,16 +269,6 @@ export default {
 #checkbox:checked + .toggle {
   transform: rotate(-90deg);
 }
-/* #checkbox:checked + .toggle #bar3 {
-  transform: rotate(90deg);
-  transition-duration: .3s;
-  transform-origin:right;
-} */
-
-/* Burger Button Hidden on Desktop */
-/* .burger {
-  display: none;
-} */
 
 /* Sidebar Menu for Larger Screens */
 .menu ul {

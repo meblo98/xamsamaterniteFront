@@ -1,52 +1,17 @@
 <template>
-  <!-- <div class="card">
-    <div class="img">
-      <img src="/src/assets/images/campagne.jpg" alt="image campagne">
-    </div>
-
-    <div class="text">
-      <p class="h3">Campagne de sensibilisation sur le paludisme</p>
-      <p class="p">28 juin 2025</p>
-      <p class="p">Keur Madiabel</p>
-    </div>
-  </div> -->
-
-<!-- <div class="card">
-
-  <div class="profile-pic">
-    <img src="/src/assets/images/campagne.jpg" alt="image campagne">
-
-  </div>
-  <div class="bottom">
-    <div class="content">
-      <span class="name">Campagne de sensibilisation sur le paludisme</span>
-      <span class="about-me"
-        >28 juin
-      </span>
-    </div>
-    <div class="bottom-bottom">
-      <div class="social-links-container">
-   
-      </div>
-      <button class="button">Voir plus</button>
-    </div>
-  </div>
-</div> -->
-
-<article class="card">
+  <article class="card">
     <div class="card-int">
-        <span class="card__span">28 juin 2025</span>
-        <div class="img">
-          <img src="/src/assets/images/campagne.jpg" alt="image campagne" class="w-100">
-        </div>
-        <div class="card-data">
-          <p class="title">Campagne de sensibilisation sur le paludisme
-          </p><p>Keur Madiabel</p>
-          <button class="button">Plus d'informations</button>
-        </div>
+      <span class="card__span">{{ date }}</span>
+      <div class="img">
+        <img :src="image" alt="image campagne" class="w-100" />
+      </div>
+      <div class="card-data">
+        <p class="title">{{ title }}</p>
+        <p>{{ location }}</p>
+        <button class="button" @click="$router.push({ name: 'detailCampagne-patiente', params: { id: campagneId } })">Plus d'informations</button>
+      </div>
     </div>
-</article>
-
+  </article>
 </template>
 
 <script>
@@ -57,6 +22,7 @@ export default {
     title: String,
     date: String,
     location: String,
+    campagneId: Number,
   },
 };
 </script>
@@ -143,6 +109,4 @@ button:active {
     background-position: 400% 400%;
   }
 }
-
-
 </style>

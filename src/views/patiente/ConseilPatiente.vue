@@ -3,6 +3,8 @@
     <section class="appointment">
       <h2>Conseils</h2>
       <div class="conseil-cards">
+        <!-- Affichage conditionnel en cas de conseils absents -->
+        <p v-if="adviceVideos.length === 0">Aucun conseil disponible pour le moment.</p>
         <AdviceVideo
           v-for="video in adviceVideos"
           :key="video.id"
@@ -14,11 +16,10 @@
 </template>
 
 <script>
+import axios from 'axios';
 import AdviceVideo from "@/components/AdviceVideo.vue";
-import AppointmentCard from "@/components/AppointmentCard.vue";
-import Header from "@/components/layouts/Header.vue";
 import Layout from "@/components/layouts/Layout.vue";
-import Sidebar from "@/components/layouts/Sidebar.vue";
+import conseilService from '@/services/conseilService';
 
 export default {
   components: {
@@ -27,14 +28,22 @@ export default {
   },
   data() {
     return {
-      adviceVideos: [
-        { id: 1, image: "/assets/images/advice-image1.jpg" },
-        { id: 2, image: "/assets/images/advice-image2.jpg" },
-        { id: 2, image: "/assets/images/advice-image2.jpg" },
-        { id: 2, image: "/assets/images/advice-image2.jpg" },
-        { id: 2, image: "/assets/images/advice-image2.jpg" },
-      ],
+      adviceVideos: [], // Initialement vide
     };
+  },
+  mounted() {
+    this.fetchAdviceVideos(); // Appel à la méthode pour récupérer les conseils
+  },
+  methods: {
+    // Méthode pour récupérer les conseils via une requête HTTP
+    async fetchAdviceVideos() {
+      try {
+        const response = await conseilService.getConseils();
+        this.adviceVideos = response.data; // Stocker les conseils dans le data
+      } catch (error) {
+        console.error('Erreur lors de la récupération des conseils:', error);
+      }
+    },
   },
 };
 </script>
