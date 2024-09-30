@@ -26,3 +26,37 @@ import Layout from '@/components/layouts/Layout.vue';
   };
   </script>
   
+  <style>
+/* Medium screen and up */
+@media (min-width: 768px) {
+  .dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+}
+
+/* Small screen */
+@media (max-width: 767px) {
+  .dashboard {
+    display: block;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .col-8, .col {
+    width: 100%;
+  }
+}
+
+/* Extra small screen */
+@media (max-width: 479px) {
+  .dashboard {
+    padding: 10px;
+  }
+  .row {
+    margin-bottom: 20px;
+  }
+}
+</style>

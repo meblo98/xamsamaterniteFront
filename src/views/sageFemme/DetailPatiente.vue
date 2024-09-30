@@ -8,18 +8,23 @@
               <!-- Profile picture image-->
               <img
                 class="img-account-profile rounded-circle mb-2"
+                src="/src/assets/images/women.svg"
+                alt="patiente"
+              /> 
+                 <!-- <img
+                class="img-account-profile rounded-circle mb-2"
                 src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${patiente.user.photo}`"
                 alt="patiente"
-              />  
+              />   -->
               <!-- <img
                 class="img-account-profile rounded-circle mb-2"
                 src="`http://127.0.0.1:8000/storage//${patiente.user.photo}`"
                 alt="patiente"
               /> -->
             </div>
-            <h4>{{ patiente.user.prenom }} {{ patiente.user.nom }}</h4>
-            <p>Téléphone : {{ patiente.user.telephone }}</p>
-            <p>Adresse : {{ patiente.user.adresse }}</p>
+            <h4 class="mb-3 text-capitalize">{{ user.prenom }} {{ user.nom }}</h4>
+            <p>Téléphone : {{ user.telephone }}</p>
+            <p>Adresse : {{ user.adresse }}</p>
             <p>Lieu de naissance : {{ patiente.lieu_de_naissance }}</p>
             <p>Date de naissance : {{ patiente.date_de_naissance }}</p>
             <p>Profession : {{ patiente.profession }}</p>
@@ -491,6 +496,7 @@ export default {
   data() {
     return {
       accouchements: [],
+      user: [],
       accouchementsColumns: [
         { label: "Date", field: "date" },
         { label: "Mode", field: "mode" },
@@ -893,6 +899,7 @@ export default {
         patiente_id: this.patienteId,
         visite_id: this.visiteId,
       },
+      
 
       patiente: {}, // Détails de la patiente
       consultations: [], // Stockage des consultations
@@ -936,6 +943,8 @@ export default {
       try {
         const response = await patienteService.getPatiente(this.id);
         this.patiente = response.patiente;
+        this.user = this.patiente.user
+        
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de la patiente :",
@@ -998,7 +1007,7 @@ export default {
             lign_innominees: consultation.lign_innominees,
             resultat: consultation.resultat,
             lieu_accouchement_apre_consentement:
-              consultation.lieu_accouchement_apre_consentement,
+            consultation.lieu_accouchement_apre_consentement,
             traitement: consultation.traitement,
             sage_femme_id: consultation.sage_femme_id,
             patiente_id: consultation.patiente_id,

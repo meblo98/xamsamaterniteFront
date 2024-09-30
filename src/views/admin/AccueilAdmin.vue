@@ -10,10 +10,10 @@
       </div>
      <div class="row">
       <div class="col-8">
-        <AppointmentTable />
+        <!-- <AppointmentTable /> -->
       </div>
      <div class="col">
-      <SageFemmeList />
+      <!-- <SageFemmeList /> -->
      </div>
      </div>
     </div>
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import Navbar from "@/components/Navbar.vue";
 import DashboardStats from '@/components/DashboardStats.vue';
 import Charts from '@/components/Charts.vue';
 import AppointmentTable from '@/components/AppointmentTable.vue';
@@ -38,16 +37,50 @@ export default {
   },
 };
 </script>
+
+
 <style>
 body {
   background-color: #eaecf0;
 }
 
-
 .dashboard {
-    /* display: grid;
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px; */
+}
+
+/* Medium screen and up */
+@media (min-width: 768px) {
+  .dashboard {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    padding: 20px; */
+    padding: 20px;
   }
+}
+
+/* Small screen */
+@media (max-width: 767px) {
+  .dashboard {
+    display: block;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .col-8, .col {
+    width: 100%;
+  }
+}
+
+/* Extra small screen */
+@media (max-width: 479px) {
+  .dashboard {
+    padding: 10px;
+  }
+  .row {
+    margin-bottom: 20px;
+  }
+}
 </style>

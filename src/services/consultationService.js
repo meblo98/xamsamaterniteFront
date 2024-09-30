@@ -55,6 +55,7 @@ export default {
       throw error; // Relance l'erreur pour gestion ultérieure
     }
   },
+  
   async getRendezVousByPatiente(patienteId) {
     try {
       const response = await apiClient.get(`/patients/${patienteId}/rendezvous`);

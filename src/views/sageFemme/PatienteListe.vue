@@ -1,4 +1,5 @@
 <template>
+  
   <Layout>
     <!-- Si aucune donnée n'est trouvée -->
     <div v-if="allData.length === 0">
@@ -130,14 +131,34 @@
               </div>
               <div class="form-group">
                 <label for="type">Type de la Patiente</label>
-                <input
+                <select
                   v-model="newPatiente.type"
-                  type="text"
                   class="form-control"
                   id="type"
-                  placeholder="Donnez le type"
                   required
-                />
+                >
+                  <option value="Enceinte">Enceinte</option>
+                  <option value="En planning">En planning</option>
+                  <option value="Allaitente">Allaitente</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="badieneGox">Badiene Gox</label>
+                <select
+                  v-model="newPatiente.badieneGox"
+                  class="form-control"
+                  id="badien_gox_id"
+                  required
+                >
+                  <option value="">Sélectionnez une Badiene Gox</option>
+                  <option
+                    v-for="badiene in badiene"
+                    :key="badiene.id"
+                    :value="badiene.id"
+                  >
+                    {{ badiene.nom }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
@@ -183,6 +204,7 @@
 import Layout from "@/components/layouts/Layout.vue";
 import Pagination from "@/components/pagination.vue";
 import Table from "@/components/tableau.vue";
+import badieneGoxService from "@/services/badieneGoxService";
 import patienteService from "@/services/patienteService";
 import Swal from "sweetalert2";
 
@@ -208,7 +230,9 @@ export default {
         lieu_de_naissance: "",
         profession: "",
         type: "",
+        badieneGox: "",
       },
+      badiene: [],
       columns: [
         { label: "Nom", field: "nom" },
         { label: "Prénom", field: "prenom" },
@@ -253,7 +277,13 @@ export default {
         {
           name: "type",
           label: "Type",
-          type: "text",
+          type: "select",
+          options: [
+            { value: "", text: "Selectionner le type de patiente" },
+            { value: "Enceinte", text: "Enceinte" },
+            { value: "En planning", text: "En planning" },
+            { value: "Allaitente", text: "Allaitente" },
+          ],
           placeholder: "Entrez le type de patiente",
         },
         {
@@ -263,6 +293,13 @@ export default {
           placeholder: "Entrez l'adresse de la patiente",
         },
         {
+        name: 'badieneGox',
+        label: 'Badiene Gox',
+        type: 'select',
+        options: [],
+        placeholder: 'Sélectionnez une Badiene Gox',
+      },
+        {
           name: "email",
           label: "Email",
           type: "email",
@@ -271,10 +308,11 @@ export default {
         {
           name: "telephone",
           label: "Téléphone",
-          type: "tel",
+          type: "text",
           placeholder: "Entrez le numéro de téléphone de la patiente",
         },
       ],
+      formData: {},
       allData: [],
       paginatedData: [],
       currentPage: 1,
@@ -284,6 +322,7 @@ export default {
   },
   mounted() {
     this.getPatients();
+    this.getBadiene();
   },
   methods: {
     async getPatients() {
@@ -305,6 +344,7 @@ export default {
             lieu_de_naissance: patiente.lieu_de_naissance,
             profession: patiente.profession,
             type: patiente.type,
+            badien_Gox_id: patiente.badien_Gox_id,
             date_de_naissance: patiente.date_de_naissance,
           }));
           this.totalItems = this.allData.length;
@@ -338,7 +378,8 @@ export default {
         !patienteData.prenom ||
         !patienteData.telephone ||
         !patienteData.email ||
-        !patienteData.adresse
+        !patienteData.adresse ||
+        !patienteData.badien_gox_id
       ) {
         Swal.fire({
           icon: "error",
@@ -357,7 +398,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
-        this.$router.replace({ name: 'patiente-sage-femme' });
+        this.$router.replace({ name: "patiente-sage-femme" });
       } catch (error) {
         console.error("Erreur lors de l'ajout de la patiente :", error);
         Swal.fire({
@@ -365,7 +406,7 @@ export default {
           icon: "error",
           timer: 1000,
         });
-        this.$router.replace({ name: 'patiente-sage-femme' });
+        this.$router.replace({ name: "patiente-sage-femme" });
       }
     },
     async editPatiente(patiente) {
@@ -424,6 +465,19 @@ export default {
         }
       });
     },
+    async getBadiene() {
+      try {
+        const response = await badieneGoxService.getBadieneGoxes();
+        this.badiene = response.Liste_BadieneGox;
+        this.updateFormFields();
+      } catch (error) {
+        console.error("Erreur lors de la récupération des badiene :", error);
+      }
+    },
+    updateFormFields() {
+    const badieneOptions = this.badiene.map(badiene => ({ value: badiene.id, text: badiene.nom }));
+    this.formFields.find(field => field.name === 'badieneGox').options = badieneOptions;
+  },  
     getPatientsPaginated() {
       if (this.allData.length > 0) {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;

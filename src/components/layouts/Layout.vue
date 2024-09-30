@@ -57,7 +57,7 @@
           </li>
           <li>
             <router-link to="/patiente-sage-femme"
-              ><i class="fas fa-id-card"></i> Patientes</router-link
+              >🤰  Patientes</router-link
             >
           </li>
           <li>

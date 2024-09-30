@@ -7,7 +7,9 @@
     <table>
       <thead>
         <tr>
-          <th v-for="(column, index) in columns" :key="index">{{ column.label }}</th>
+          <th v-for="(column, index) in columns" :key="index">
+            {{ column.label }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -25,23 +27,93 @@
     </table>
 
     <!-- Modal -->
-    <div v-if="showModal" class="modal-overlay modal-dialog modal-lg" @click.self="closeModal">
+    <div
+      v-if="showModal"
+      class="modal-overlay modal-dialog modal-lg"
+      @click.self="closeModal"
+    >
       <div class="modal-content w-100">
-        <div class="entete d-flex" style="grid-gap: 400px;">
-          <h4>{{ isEditing ? 'Modifier' : 'Ajouter' }} {{ title }}</h4>
-          <button type="button" class="btn-close bg-light" @click="closeModal"></button>
+        <div class="entete d-flex" style="grid-gap: 400px">
+          <h4>{{ isEditing ? "Modifier" : "Ajouter" }} {{ title }}</h4>
+          <button
+            type="button"
+            class="btn-close bg-light"
+            @click="closeModal"
+          ></button>
         </div>
         <form @submit.prevent="handleSubmit">
-          <div v-for="(field, index) in formFields" :key="index" class="form-group">
+          <div
+            v-for="(field, index) in formFields"
+            :key="index"
+            class="form-group"
+          >
             <label :for="field.name">{{ field.label }}</label>
-            <input 
-              v-model="formData[field.name]" 
-              :type="field.type" 
-              :id="field.name" 
+            <input
+              v-if="
+                field.type === 'text' ||
+                field.type === 'email' ||
+                field.type === 'password'
+              "
+              v-model="formData[field.name]"
+              :type="field.type"
+              :id="field.name"
               :placeholder="field.placeholder"
             />
+            <textarea
+              v-else-if="field.type === 'textarea'"
+              v-model="formData[field.name]"
+              :id="field.name"
+              :placeholder="field.placeholder"
+            />
+            <select
+              v-else-if="field.type === 'select'"
+              v-model="formData[field.name]"
+              :id="field.name"
+              
+            >
+              <option
+                v-for="(option, index) in field.options"
+                :key="index"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+            <div v-else-if="field.type === 'checkbox'">
+              <input
+                v-model="formData[field.name]"
+                :id="field.name"
+                type="checkbox"
+              />
+              <label :for="field.name">{{ field.label }}</label>
+            </div>
+            <div v-else-if="field.type === 'radio'">
+              <div v-for="(option, index) in field.options" :key="index">
+                <input
+                  v-model="formData[field.name]"
+                  :id="option.value"
+                  type="radio"
+                  :value="option.value"
+                />
+                <label :for="option.value">{{ option.label }}</label>
+              </div>
+            </div>
+            <input
+              v-else-if="field.type === 'date'"
+              v-model="formData[field.name]"
+              :id="field.name"
+              type="date"
+            />
+            <input
+              v-else-if="field.type === 'time'"
+              v-model="formData[field.name]"
+              :id="field.name"
+              type="time"
+            />
           </div>
-          <button type="submit">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
+          <button type="submit">
+            {{ isEditing ? "Modifier" : "Ajouter" }}
+          </button>
         </form>
       </div>
     </div>
@@ -53,9 +125,9 @@ export default {
   name: "Table",
   data() {
     return {
-      showModal: false,  // pour afficher/masquer la modal
-      formData: {},      // pour stocker les données du formulaire
-      isEditing: false,  // pour savoir si on est en mode édition ou ajout
+      showModal: false, // pour afficher/masquer la modal
+      formData: {}, // pour stocker les données du formulaire
+      isEditing: false, // pour savoir si on est en mode édition ou ajout
     };
   },
   props: {
@@ -72,13 +144,13 @@ export default {
       default: "Tableau",
     },
     formFields: {
-      type: Array,  // Les champs de formulaire sont passés comme props
+      type: Array, // Les champs de formulaire sont passés comme props
       required: true,
     },
   },
   methods: {
     handleAction(action, row) {
-      this.$emit('action', { action, row });
+      this.$emit("action", { action, row });
     },
     openModal() {
       this.showModal = true;
@@ -92,17 +164,18 @@ export default {
     },
     handleSubmit() {
       if (this.isEditing) {
-        this.$emit('edit-data', this.formData);  // Émet l'événement pour modifier les données
+        this.$emit("edit-data", this.formData); // Émet l'événement pour modifier les données
       } else {
-        this.$emit('add-data', this.formData);   // Émet l'événement pour ajouter des données
+        this.$emit("add-data", this.formData); // Émet l'événement pour ajouter des données
       }
-      this.closeModal();  // Fermer la modal après soumission
+      this.closeModal(); // Fermer la modal après soumission
     },
     closeModal() {
-      this.showModal = false;  // Fermer la modal
-      this.formData = {};      // Réinitialiser les données du formulaire
+      this.showModal = false; // Fermer la modal
+      this.formData = {}; // Réinitialiser les données du formulaire
     },
   },
+  
 };
 </script>
 
@@ -113,9 +186,30 @@ export default {
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+select {
+  background-color: white; /* Couleur de fond pour le sélecteur */
+  color: #000; /* Couleur du texte dans le sélecteur */
+  padding: 8px; /* Pour améliorer l'apparence du sélecteur */
+  border: 1px solid #ccc; /* Bordure pour une meilleure visibilité */
+  border-radius: 4px; /* Bordure arrondie */
+}
 
+select option {
+  color: #000; /* Couleur du texte dans les options */
+  background-color: white; /* Couleur de fond des options */
+}
+select {
+  color: #000 !important;
+  background-color: white !important;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+}
 .add-btn {
-  background-color: #6932F9;
+  background-color: #6932f9;
   color: white;
   border: none;
   padding: 5px;
@@ -144,7 +238,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -179,7 +274,7 @@ input {
 }
 
 button[type="submit"] {
-  background-color: #6932F9;
+  background-color: #6932f9;
   color: white;
   border: none;
   padding: 10px;

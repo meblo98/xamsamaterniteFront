@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img src="/src/assets/images/logo.png" class="logo" alt="logo"></a>
@@ -7,7 +7,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto d-flex">
-
+          
           <li class="nav-item" v-if="role === 'admin'">
             <router-link class="nav-link" to="/dashboard-admin">Dashboard</router-link>
           </li>
@@ -95,4 +95,4 @@ export default {
 
 }
 
-</style> -->
+</style>
