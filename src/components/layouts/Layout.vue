@@ -13,6 +13,20 @@
             class="w-100"
           />
         </div>
+        <ul v-if="role === 'admin'">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/dashboard-admin"><i class="fa-brands fa-windows"></i>Dashboard</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/structure">Structure</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/listeVisite-admin">Visite</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>
+          </li>
+        </ul>
         <!-- Navigation Links -->
         <ul v-if="role === 'patiente'">
           <li>
@@ -87,6 +101,7 @@
           <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
           <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
           <img :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${userData.photo}`" alt="User Image" />
+          <!-- <img :src="`http://127.0.0.1:8000/storage//${userData.photo}`" alt="User Image" /> -->
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
               <!-- Icône pour le dropdown -->

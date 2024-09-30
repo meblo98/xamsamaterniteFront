@@ -1,8 +1,6 @@
 
 <template>
-  <div>
-    <!-- La barre de navigation pour l'admin -->
-    <Navbar />
+  <Layout>
     <div class="dashboard d-block">
       <div class="row">
         <DashboardStats />
@@ -19,7 +17,7 @@
      </div>
      </div>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script>
@@ -28,10 +26,11 @@ import DashboardStats from '@/components/DashboardStats.vue';
 import Charts from '@/components/Charts.vue';
 import AppointmentTable from '@/components/AppointmentTable.vue';
 import SageFemmeList from '@/components/SageFemmeList.vue';
+import Layout from "@/components/layouts/Layout.vue";
 
 export default {
   components: {
-    Navbar,
+    Layout,
     DashboardStats,
     Charts,
     AppointmentTable,
@@ -46,9 +45,9 @@ body {
 
 
 .dashboard {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    padding: 20px;
+    padding: 20px; */
   }
 </style>

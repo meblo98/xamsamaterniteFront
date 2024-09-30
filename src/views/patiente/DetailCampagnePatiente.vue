@@ -26,6 +26,11 @@
             alt="Image de la campagne"
             class="rounded"
           />
+             <!-- <img
+            :src="`http://127.0.0.1:8000/storage//${campagne.image}`"
+            alt="Image de la campagne"
+            class="rounded"
+          /> -->
         </div>
         <!-- / column -->
       </div>

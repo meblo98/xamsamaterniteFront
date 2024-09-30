@@ -10,7 +10,12 @@
                 class="img-account-profile rounded-circle mb-2"
                 src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${patiente.user.photo}`"
                 alt="patiente"
-              />
+              />  
+              <!-- <img
+                class="img-account-profile rounded-circle mb-2"
+                src="`http://127.0.0.1:8000/storage//${patiente.user.photo}`"
+                alt="patiente"
+              /> -->
             </div>
             <h4>{{ patiente.user.prenom }} {{ patiente.user.nom }}</h4>
             <p>Téléphone : {{ patiente.user.telephone }}</p>

@@ -47,6 +47,7 @@ export default {
     },
     getImageUrl(image) {
       return `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${image}`; // Construire l'URL complète de l'image
+      // return `http://127.0.0.1:8000/storage//${image}`; // Construire l'URL complète de l'image
     },
     formatDate(date) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };

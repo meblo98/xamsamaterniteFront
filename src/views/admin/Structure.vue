@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+<Layout>
   <div class="structure-list">
     <div class="header">
       <h1>Liste des Structures de Santé</h1>
@@ -178,9 +178,11 @@
       </div>
     </div>
   </div>
+</Layout>
 </template>
 
 <script>
+import Layout from "@/components/layouts/Layout.vue";
 import Navbar from "@/components/Navbar.vue";
 import structureService from "@/services/structureService";
 import { Modal } from "bootstrap";
@@ -188,7 +190,7 @@ import Swal from 'sweetalert2';
 
 export default {
   components: {
-    Navbar,
+    Layout,
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+<Layout>
   <div class="visite-list">
     <div class="header">
       <h1>Liste des Visites</h1>
@@ -146,9 +146,11 @@
       </div>
     </div>
   </div>
+</Layout>
 </template>
 
 <script>
+import Layout from "@/components/layouts/Layout.vue";
 import Navbar from "@/components/Navbar.vue";
 import visiteService from "@/services/visiteService";
 import { Modal } from "bootstrap";
@@ -156,7 +158,7 @@ import Swal from 'sweetalert2';
 
 export default {
   components: {
-    Navbar,
+    Layout,
   },
   data() {
     return {

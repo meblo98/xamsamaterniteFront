@@ -26,6 +26,11 @@
               alt="Image de la campagne"
               class="rounded"
             />
+              <!-- <img
+              :src="`http://127.0.0.1:8000/storage//${campagne.image}`"
+              alt="Image de la campagne"
+              class="rounded" -->
+            />
           </div>
           <!-- / column -->
         </div>
@@ -69,6 +74,7 @@ import campagneService from "@/services/campagneService";
     mounted() {
       this.fetchCampagneDetails(); // Récupère les détails de la campagne quand le composant est monté
       this.imageUrl = `https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${this.campagne.image}`;
+      // this.imageUrl = `http://127.0.0.1:8000/storage/${this.campagne.image}`;
     }
   };
   </script>

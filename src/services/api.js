@@ -6,6 +6,7 @@ const token = localStorage.getItem('token');
 
 const apiClient = axios.create({
   baseURL: 'https://certif.lomouhamedelbachir.simplonfabriques.com/api',
+  // baseURL: 'http://127.0.0.1:8000/api',
   withCredentials: false,
   headers: {
     'Accept': 'application/json',

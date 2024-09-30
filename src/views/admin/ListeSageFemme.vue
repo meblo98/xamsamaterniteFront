@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+ <Layout>
   <div class="sage-femme-list">
     <div class="header">
       <h1>Liste des Sage-femmes</h1>
@@ -292,6 +292,8 @@
       </div>
     </div>
   </div>
+ </Layout>
+
 </template>
 
 <script>
@@ -300,10 +302,11 @@ import sageFemmeService from "@/services/sageFemmeService";
 import { Modal } from "bootstrap";
 import structuresSanteService from "@/services/structureService";
 import Swal from 'sweetalert2';
+import Layout from "@/components/layouts/Layout.vue";
 
 export default {
   components: {
-    Navbar,
+    Layout,
   },
   data() {
     return {
