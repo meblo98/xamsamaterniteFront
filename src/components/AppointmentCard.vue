@@ -1,6 +1,6 @@
 <template>
   <div class="appointment-card">
-    <i class="fa-regular fa-calendar"></i>
+    <i class="fa-regular fa-calendar fa-2xl"></i>
     <div class="appointment-info">
       <h3>{{ type }}</h3>
       <span>{{ date }}</span>
@@ -12,8 +12,14 @@
 export default {
   name: "AppointmentCard",
   props: {
-    date: String,
-    type: String,
+    date: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
@@ -30,6 +36,7 @@ export default {
 .appointment-card i {
   font-size: 24px;
   margin-bottom: 10px;
+  width: 100px;
 }
 
 .appointment-info h3 {

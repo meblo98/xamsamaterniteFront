@@ -1,7 +1,8 @@
 <template>
   <Layout>
-    <h2>Mes Rendez vous</h2>
+    <h2>Mes Rendez-vous</h2>
     <div class="appointment-list">
+      <!-- Ajout de log pour vérifier rv -->
       <div v-if="rv && rv.length > 0">
         <div
           v-for="appointment in rv"
@@ -34,11 +35,11 @@ export default {
   },
   data() {
     return {
-      rv: [],
+      rv: [], // Liste des rendez-vous
     };
   },
   mounted() {
-    this.fetchAppointments();
+    this.fetchAppointments(); // Charger les rendez-vous à la montée du composant
   },
   methods: {
     async fetchAppointments() {
@@ -47,9 +48,14 @@ export default {
         const patienteId = userData.profil.id;
         const response = await consultationService.getRendezVousByPatiente(
           patienteId
-        ); // URL de ton API
-        this.rv = response.mes_rv; // Stocke les rendez-vous récupérés
-        console.log(this.rv);
+        );
+
+        // Si la réponse est un objet et non un tableau, on le transforme en tableau
+        if (response.mes_rv && !Array.isArray(response.mes_rv)) {
+          this.rv = [response.mes_rv];
+        } else {
+          this.rv = response.mes_rv;
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -57,9 +63,10 @@ export default {
         );
       }
     },
+    // Fonction pour formater la date en français
     formatDate(date) {
       const options = { year: "numeric", month: "long", day: "numeric" };
-      return new Date(date).toLocaleDateString("fr-FR", options); // Formater la date
+      return new Date(date).toLocaleDateString("fr-FR", options);
     },
   },
 };
@@ -73,7 +80,7 @@ export default {
 }
 
 .appointment-card-wrapper {
-  width: 250px;
+  width: 350px;
 }
 h2 {
   font-size: 24px;

@@ -14,7 +14,7 @@
           />
         </div>
         <ul v-if="role === 'admin'">
-          <li class="nav-item">
+          <li class="nav-item" :class="{ active: isActive('/dashboard-admin') }">
             <router-link class="nav-link" to="/dashboard-admin"><i class="fa-brands fa-windows"></i>Dashboard</router-link>
           </li>
           <li class="nav-item">
@@ -30,7 +30,7 @@
         <!-- Navigation Links -->
         <ul v-if="role === 'patiente'">
           <li>
-            <router-link to="/dashboard-patiente" class="active"
+            <router-link to="/dashboard-patiente"
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
             >
           </li>
@@ -125,8 +125,7 @@
 </template>
 
 <script>
-import apiClient from '@/services/api';
-import getMediaUrl from '@/services/api';
+
 import authService from '@/services/authService';
 export default {
   name: "Layout",
@@ -143,11 +142,17 @@ export default {
     role() {
       return localStorage.getItem("role");
     },
+    isActive(path) {
+    return this.active === path;
+  },
   },
   mounted() {
     this.getUserData();
   },
   methods: {
+    isActive(path) {
+      return this.$route.path === path;
+    },
     logout() {
       // Supprimer le token de l'utilisateur
       localStorage.removeItem('token');
@@ -219,6 +224,11 @@ export default {
   text-decoration: none;
 }
 
+.active {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+}
 
 
 .dropdown:hover .dropdown-menu {

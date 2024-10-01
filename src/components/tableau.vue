@@ -193,6 +193,10 @@ select {
   border: 1px solid #ccc; /* Bordure pour une meilleure visibilité */
   border-radius: 4px; /* Bordure arrondie */
 }
+select option {
+  border: 1px solid red !important; /* Pour rendre les options visibles */
+  color: #000 !important;
+}
 
 select option {
   color: #000; /* Couleur du texte dans les options */

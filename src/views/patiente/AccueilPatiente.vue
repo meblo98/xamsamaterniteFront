@@ -4,13 +4,20 @@
     <section class="appointment">
       <h2>Prochains rendez-vous</h2>
       <div class="appointment-cards">
-        <p v-if="appointments.length === 0">Aucun rendez-vous disponible pour le moment.</p>
-        <AppointmentCard
-          v-for="appointment in appointments.slice(0, 4)"
+        <div v-if="rv && rv.length > 0">
+        <div
+          v-for="appointment in rv.slice(0, 2)"
           :key="appointment.id"
-          :date="appointment.date"
-          :time="appointment.time"
-        />
+          class="appointment-card-wrapper w-100"
+        >
+          <AppointmentCard
+            :date="formatDate(appointment.date_rv)"
+            :type="appointment.visite.libelle"
+          />
+        </div>
+      </div>
+        <p v-else>Aucun rendez-vous disponible pour le moment.</p>
+       
       </div>
     </section>
 
@@ -53,6 +60,7 @@ import AdviceVideo from '@/components/AdviceVideo.vue';
 import consultationService from '@/services/consultationService';
 import campagneService from '@/services/campagneService';
 import conseilService from '@/services/conseilService';
+import authService from '@/services/authService';
 
 export default {
   components: {
@@ -63,7 +71,7 @@ export default {
   },
   data() {
     return {
-      appointments: [],
+      rv: [],
       campaigns: [],
       adviceVideos: [],
     };
@@ -77,27 +85,37 @@ export default {
     // Fetch appointments from the backend
     async fetchAppointments() {
       try {
-        const userId = JSON.parse(localStorage.getItem('user')).id;
-        const response = await consultationService.getRendezVousByPatiente(userId);
-        this.appointments = response.data;
+        const userData = await authService.getUser();
+        const patienteId = userData.profil.id;
+        const response = await consultationService.getRendezVousByPatiente(
+          patienteId
+        );
+
+        // Si la réponse est un objet et non un tableau, on le transforme en tableau
+        if (response.mes_rv && !Array.isArray(response.mes_rv)) {
+          this.rv = [response.mes_rv];
+        } else {
+          this.rv = response.mes_rv;
+        }
       } catch (error) {
-        console.error('Error fetching appointments:', error);
+        console.error(
+          "Erreur lors de la récupération des rendez-vous :",
+          error
+        );
       }
     },
     // Fetch campaigns from the backend
     async fetchCampaigns() {
       try {
         const response = await campagneService.getCampagnes();
-        this.campaigns = response;
-        console.log(this.campaigns);
-        
+        this.campaigns = response;        
       } catch (error) {
-        console.error('Error fetching campaigns:', error);
+        console.error('Erreur lors de la récupération des campagnes:', error);
       }
     },
     getImageUrl(image) {
-      return `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${image}`; // Construire l'URL complète de l'image
-      // return `http://127.0.0.1:8000/storage//${image}`; // Construire l'URL complète de l'image
+      // return `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${image}`; // Construire l'URL complète de l'image
+      return `http://127.0.0.1:8000/storage//${image}`; // Construire l'URL complète de l'image
     },
     // Fetch advice videos from the backend
     async fetchConseil() {
@@ -105,7 +123,7 @@ export default {
         const response = await conseilService.getConseils();
         this.adviceVideos = response.data;
       } catch (error) {
-        console.error('Error fetching advice videos:', error);
+        console.error('Erreur lors de la récupération des conseil:', error);
       }
     },
     formatDate(date) {
@@ -117,10 +135,16 @@ export default {
 </script>
 
 <style>
+
 .appointment-cards, .campaign-cards, .advice-videos {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+.appointment-card-wrapper {
+  width: 500px; /* increase the width */
+  margin: 20px; /* add some margin for better spacing */
 }
 
 .appointment section, .campaigns section, .advice section {
@@ -139,6 +163,6 @@ h2 {
 
 a {
   text-decoration: none;
-  color: #007bff;
+  color: #5a3ee8;
 }
 </style>
