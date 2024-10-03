@@ -62,7 +62,6 @@ export default {
 
         // Mettre à jour les options du graphique avec les nouvelles données
         this.patientsChartOptions.data[0].dataPoints = dataPoints;
-        console.log('Options du graphique mises à jour :', this.patientsChartOptions);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des statistiques des patientes:",
@@ -93,7 +92,6 @@ export default {
 
         // Mettre à jour les options du graphique avec les nouvelles données
         this.deliveriesChartOptions.data[0].dataPoints = dataPoints;
-        console.log('Options du graphique d\'accouchement mises à jour :', this.deliveriesChartOptions);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des statistiques des accouchements:",

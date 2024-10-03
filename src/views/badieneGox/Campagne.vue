@@ -47,6 +47,17 @@
                 />
               </div>
               <div class="form-group">
+                <label for="nom">Lieu de la Campagne</label>
+                <input
+                  v-model="newCampagne.lieu"
+                  type="text"
+                  class="form-control"
+                  id="lieu"
+                  placeholder="Lieu de la campagne"
+                  required
+                />
+              </div>
+              <div class="form-group">
                 <label for="description">Description</label>
                 <textarea
                   v-model="newCampagne.description"
@@ -114,6 +125,7 @@
         :formFields="formFields"
         @add-data="addCampagne"
         @edit-data="editCampagne"
+        @change="handleFileUpload($event, 'image')"
       />
       <Pagination
         :currentPage="currentPage"
@@ -145,11 +157,12 @@ export default {
         description: "",
         date_debut: "",
         date_fin: "",
+        lieu: "",
         image: null,
       },
       columns: [
         { label: "Nom", field: "nom" },
-        { label: "Description", field: "description" },
+        { label: "Lieu", field: "lieu" },
         { label: "Date de Début", field: "date_debut" },
         { label: "Date de Fin", field: "date_fin" },
         { label: "Actions", field: "action", type: "action" },
@@ -166,6 +179,12 @@ export default {
           label: "Description",
           type: "text",
           placeholder: "Entrez le description",
+        },
+        {
+          name: "lieu",
+          label: "Lieu",
+          type: "text",
+          placeholder: "Entrez le lieu",
         },
         {
           name: "date_debut",
@@ -199,27 +218,35 @@ export default {
     this.getCampagnes();
   },
   methods: {
-    onFileChange(e) {
-      this.selectedFile = e.target.files[0];
+    handleFileUpload(event, fieldName) {
+      const file = event.target.files[0];
+      if (fieldName === "image") {
+        this.selectedFile = file; // Met à jour selectedFile avec le fichier
+        this.newCampagne.image = file; // Met également à jour l'image dans newCampagne si nécessaire
+      }
     },
 
     async addCampagne(campagneData) {
-      console.log(this.selectedFile);
-      
-      if (
-        !campagneData.nom ||
-        !campagneData.description ||
-        !campagneData.date_debut ||
-        !campagneData.date_fin ||
-        !this.selectedFile
-      ) {
+      let errorMessage = "";
+
+      if (!campagneData.nom) errorMessage += "Nom, ";
+      if (!campagneData.description) errorMessage += "Description, ";
+      if (!campagneData.date_debut) errorMessage += "Date de début, ";
+      if (!campagneData.date_fin) errorMessage += "Date de fin, ";
+      if (!campagneData.lieu) errorMessage += "Lieu, ";
+      if (!this.selectedFile) errorMessage += "Image, ";
+
+      if (errorMessage) {
         Swal.fire({
           icon: "error",
           title: "Erreur",
-          text: "Tous les champs sont requis.",
+          text: `Le(s) champ(s) suivant(s) est(sont) requis : ${errorMessage
+            .trim()
+            .slice(0, -1)}.`,
         });
         return;
       }
+      console.log(this.selectedFile);
 
       if (!this.selectedFile || this.selectedFile.size === 0) {
         Swal.fire({
@@ -229,32 +256,17 @@ export default {
         });
         return;
       }
-
-      const formData = this.createFormData(campagneData);
-      console.log(formData);
-
       try {
+        const formData = this.createFormData(campagneData); // Créez un objet FormData
         const response = await campagneService.createCampagne(formData);
-        if (response.ok) {
-          this.getCampagnes(); // Recharge la liste après l'ajout
-          Swal.fire({
-            title: "Campagne ajoutée avec succès !",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          console.error(
-            "Erreur lors de l'ajout de la campagne :",
-            response.status,
-            response.statusText
-          );
-          Swal.fire({
-            title: "Erreur lors de l'ajout de la campagne !",
-            icon: "error",
-            timer: 1000,
-          });
-        }
+        this.getCampagnes();
+        Swal.fire({
+          title: "Campagne ajoutée avec succès !",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.getCampagnes(); // Rechargez les campagnes
       } catch (error) {
         console.error("Erreur lors de l'ajout de la campagne :", error);
         Swal.fire({
@@ -271,6 +283,7 @@ export default {
       formData.append("description", campagneData.description);
       formData.append("date_debut", campagneData.date_debut);
       formData.append("date_fin", campagneData.date_fin);
+      formData.append("lieu", campagneData.lieu);
       formData.append("image", this.selectedFile);
       return formData;
     },
@@ -283,6 +296,7 @@ export default {
             id: campagne.id,
             nom: campagne.nom,
             image: campagne.image,
+            lieu: campagne.lieu,
             description: campagne.description,
             date_debut: campagne.date_debut,
             date_fin: campagne.date_fin,
@@ -308,23 +322,30 @@ export default {
     },
 
     async editCampagne(campagne) {
-      try {
-        await campagneService.updateCampagne(campagne.id, campagne);
-        this.getCampagnes();
-        Swal.fire({
-          title: "Campagne mise à jour avec succès !",
-          icon: "success",
-          timer: 1000,
-        });
-      } catch (error) {
-        console.error("Erreur lors de la mise à jour de la campagne :", error);
-        Swal.fire({
-          title: "Erreur lors de la mise à jour de la campagne !",
-          icon: "error",
-          timer: 1000,
-        });
-      }
-    },
+  const formData = new FormData();
+  formData.append("nom", campagne.nom);
+  formData.append("description", campagne.description);
+  formData.append("date_debut", campagne.date_debut);
+  formData.append("date_fin", campagne.date_fin);
+  formData.append("lieu", campagne.lieu);
+  formData.append("image", this.selectedFile);
+  try {
+    await campagneService.updateCampagne(campagne.id, formData);
+    this.getCampagnes();
+    Swal.fire({
+      title: "Campagne mise à jour avec succès !",
+      icon: "success",
+      timer: 1000,
+    });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la campagne :", error);
+    Swal.fire({
+      title: "Erreur lors de la mise à jour de la campagne !",
+      icon: "error",
+      timer: 1000,
+    });
+  }
+},
     async deleteCampagne(id) {
       Swal.fire({
         title: "Êtes-vous sûr de vouloir supprimer cette campagne ?",

@@ -1,5 +1,4 @@
 <template>
-  
   <Layout>
     <!-- Si aucune donnée n'est trouvée -->
     <div v-if="allData.length === 0">
@@ -230,7 +229,7 @@ export default {
         lieu_de_naissance: "",
         profession: "",
         type: "",
-        badieneGox: "",
+        badien_gox_id: "",
       },
       badiene: [],
       columns: [
@@ -293,12 +292,11 @@ export default {
           placeholder: "Entrez l'adresse de la patiente",
         },
         {
-        name: 'badieneGox',
-        label: 'Badiene Gox',
-        type: 'select',
-        options: [],
-        placeholder: 'Sélectionnez une Badiene Gox',
-      },
+          name: "badien_gox_id",
+          label: "Badiene Gox",
+          type: "select",
+          options: [],
+        },
         {
           name: "email",
           label: "Email",
@@ -344,7 +342,7 @@ export default {
             lieu_de_naissance: patiente.lieu_de_naissance,
             profession: patiente.profession,
             type: patiente.type,
-            badien_Gox_id: patiente.badien_Gox_id,
+            badien_gox_id: patiente.badien_gox_id,
             date_de_naissance: patiente.date_de_naissance,
           }));
           this.totalItems = this.allData.length;
@@ -373,6 +371,8 @@ export default {
       }
     },
     async addPatiente(patienteData) {
+      console.log(patienteData);
+
       if (
         !patienteData.nom ||
         !patienteData.prenom ||
@@ -388,7 +388,7 @@ export default {
         });
         return;
       }
-
+      
       try {
         await patienteService.createPatiente(patienteData);
         this.getPatients(); // Recharger la liste après l'ajout
@@ -475,9 +475,13 @@ export default {
       }
     },
     updateFormFields() {
-    const badieneOptions = this.badiene.map(badiene => ({ value: badiene.id, text: badiene.nom }));
-    this.formFields.find(field => field.name === 'badieneGox').options = badieneOptions;
-  },  
+      const badieneOptions = this.badiene.map((badiene) => ({
+        value: badiene.id,
+        text: badiene.user.nom,
+      }));
+      this.formFields.find((field) => field.name === "badien_gox_id").options =
+        badieneOptions;
+    },
     getPatientsPaginated() {
       if (this.allData.length > 0) {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;

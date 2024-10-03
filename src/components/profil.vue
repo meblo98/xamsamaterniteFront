@@ -147,8 +147,11 @@ export default {
   },
   computed: {
     fullImageUrl() {
+      // return this.profile.photo
+      //   ? `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${this.profile.photo}`
+      //   : "@/assets/images/women.svg";
       return this.profile.photo
-        ? `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${this.profile.photo}`
+        ? `http://127.0.0.1:8000/storage//${this.profile.photo}`
         : "@/assets/images/women.svg";
     },
   },

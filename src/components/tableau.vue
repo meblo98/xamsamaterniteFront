@@ -51,6 +51,7 @@
             <input
               v-if="
                 field.type === 'text' ||
+                field.type === 'number' ||
                 field.type === 'email' ||
                 field.type === 'password'
               "
@@ -76,7 +77,7 @@
                 :key="index"
                 :value="option.value"
               >
-                {{ option.label }}
+                {{ option.text }}
               </option>
             </select>
             <div v-else-if="field.type === 'checkbox'">
@@ -109,6 +110,12 @@
               v-model="formData[field.name]"
               :id="field.name"
               type="time"
+            />
+            <input
+              v-else-if="field.type === 'file'"
+              :id="field.name"
+              type="file"
+              @change="handleFileUpload($event, field.name)"
             />
           </div>
           <button type="submit">
@@ -152,15 +159,19 @@ export default {
     handleAction(action, row) {
       this.$emit("action", { action, row });
     },
+    handleFileUpload(event, fieldName) {
+      const file = event.target.files[0];
+      this.formData[fieldName] = file; // Enregistre directement le fichier dans formData
+    },
     openModal() {
       this.showModal = true;
       this.isEditing = false; // Mode ajout
-      this.formData = {}; // Réinitialiser les données du formulaire
+      this.formData = this.initializeFormData(); // Initialiser les données du formulaire
     },
     editData(row) {
       this.showModal = true;
       this.isEditing = true; // Mode édition
-      this.formData = { ...row }; // Pré-remplir les champs avec les données de la ligne à éditer
+      this.formData = this.initializeFormData(row); // Pré-remplir les champs avec les données à éditer
     },
     handleSubmit() {
       if (this.isEditing) {
@@ -174,9 +185,17 @@ export default {
       this.showModal = false; // Fermer la modal
       this.formData = {}; // Réinitialiser les données du formulaire
     },
+    initializeFormData(row = {}) {
+      // Initialise les données du formulaire avec des valeurs par défaut
+      const formData = {};
+      this.formFields.forEach(field => {
+        formData[field.name] = row[field.name] || (field.type === 'select' ? field.options[0].value : '');
+      });
+      return formData;
+    },
   },
-  
 };
+
 </script>
 
 <style scoped>

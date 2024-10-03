@@ -21,15 +21,15 @@
           <!-- / column -->
   
           <div class="col-md-7">
-            <img
+            <!-- <img
               :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${campagne.image}`"
               alt="Image de la campagne"
               class="rounded"
-            />
-              <!-- <img
+            /> -->
+              <img
               :src="`http://127.0.0.1:8000/storage//${campagne.image}`"
               alt="Image de la campagne"
-              class="rounded" -->
+              class="rounded"
             />
           </div>
           <!-- / column -->

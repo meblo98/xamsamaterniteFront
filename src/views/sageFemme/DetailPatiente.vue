@@ -10,8 +10,8 @@
                 class="img-account-profile rounded-circle mb-2"
                 src="/src/assets/images/women.svg"
                 alt="patiente"
-              /> 
-                 <!-- <img
+              />
+              <!-- <img
                 class="img-account-profile rounded-circle mb-2"
                 src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${patiente.user.photo}`"
                 alt="patiente"
@@ -22,7 +22,9 @@
                 alt="patiente"
               /> -->
             </div>
-            <h4 class="mb-3 text-capitalize">{{ user.prenom }} {{ user.nom }}</h4>
+            <h4 class="mb-3 text-capitalize">
+              {{ user.prenom }} {{ user.nom }}
+            </h4>
             <p>Téléphone : {{ user.telephone }}</p>
             <p>Adresse : {{ user.adresse }}</p>
             <p>Lieu de naissance : {{ patiente.lieu_de_naissance }}</p>
@@ -145,7 +147,7 @@
               <!-- Modal -->
               <div
                 class="modal fade"
-                id="ajoutAccouchement"
+                id="ajoutConsultation"
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabindex="-1"
@@ -166,122 +168,447 @@
                       ></button>
                     </div>
                     <div class="modal-body">
+                      <!-- Champ Date -->
                       <div class="form-group">
-                        <label for="date_accouchement"
-                          >Date de l'accouchement</label
-                        >
+                        <label for="date">Date</label>
                         <input
-                          v-model="newAccouchement.date"
                           type="date"
-                          class="form-control"
-                          id="date_accouchement"
+                          v-model="newConsultation.date"
+                          id="date"
+                          required
                         />
                       </div>
+
+                      <!-- Champ Visite -->
                       <div class="form-group">
-                        <label for="mode">Mode d'accouchement</label>
+                        <label for="structure_sante_id"
+                          >Type de consultation</label
+                        >
                         <select
-                          v-model="newAccouchement.mode"
-                          id="mode"
+                          v-model="newConsultation.visite_id"
+                          id="visite_id"
                           class="form-control"
                         >
                           <option value="" disabled selected>
-                            Sélectionnez le mode d'accouchement
+                            Sélectionnez le type de la consultation
                           </option>
-                          <option value="naturel">Naturel</option>
-                          <option value="instrumental">Instrumental</option>
-                          <option value="césarienne">Césarienne</option>
+                          <option
+                            v-for="visite in visites"
+                            :key="visite.id"
+                            :value="visite.id"
+                          >
+                            {{ visite.libelle }}
+                          </option>
                         </select>
                       </div>
+
+                      <!-- Champ Terme -->
                       <div class="form-group">
-                        <label for="perinee">Perinee</label>
-                        <select
-                          v-model="newAccouchement.perinee"
-                          id="perinee"
-                          class="form-control"
-                        >
-                          <option value="" disabled selected>
-                            Sélectionnez la perinee
-                          </option>
-                          <option value="intact">Intact</option>
-                          <option value="episiotomie">Episiotomie</option>
-                          <option value="dechirure">Déchirure</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="lieu">Lieu</label>
-                        <select
-                          v-model="newAccouchement.lieu"
-                          id="lieu"
-                          class="form-control"
-                        >
-                          <option value="" disabled selected>
-                            Sélectionnez le lieu
-                          </option>
-                          <option value="maternité">Maternité</option>
-                          <option value="domicile">Domicile</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="mois_grossesse">Mois de grossesse</label>
+                        <label for="terme">Terme</label>
                         <input
-                          v-model="newAccouchement.mois_grossesse"
-                          type="number"
-                          class="form-control"
-                          id="mois_grossesse"
-                          placeholder="Entrez le mois de grossesse"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="debut_travail">Début du travail</label>
-                        <input
-                          v-model="newAccouchement.debut_travail"
-                          type="time"
-                          class="form-control"
-                          id="debut_travail"
-                          placeholder="Entrez le début du travail"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="pathologie">Pathologie</label>
-                        <input
-                          v-model="newAccouchement.pathologie"
                           type="text"
-                          class="form-control"
-                          id="pathologie"
-                          placeholder="Entrez la pathologie"
+                          v-model="newConsultation.terme"
+                          id="terme"
                         />
                       </div>
+
+                      <!-- Champ SA -->
                       <div class="form-group">
-                        <label for="heure">Heure</label>
+                        <label for="sa">SA</label>
                         <input
-                          v-model="newAccouchement.heure"
-                          type="time"
-                          class="form-control"
-                          id="heure"
-                          placeholder="Entrez l'heure"
+                          type="text"
+                          v-model="newConsultation.SA"
+                          id="sa"
                         />
                       </div>
+
+                      <!-- Champ Plaintes -->
                       <div class="form-group">
-                        <label for="evolution_reanimation"
-                          >Évolution réanimation</label
+                        <label for="plaintes">Plaintes</label>
+                        <textarea
+                          v-model="newConsultation.plaintes"
+                          id="plaintes"
+                        ></textarea>
+                      </div>
+
+                      <!-- Champs Mois, Poids, Taille, PB -->
+                      <div class="form-group">
+                        <label for="mois">Mois</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.mois"
+                          id="mois"
+                        />
+
+                        <label for="poids">Poids (kg)</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.poids"
+                          id="poids"
+                        />
+
+                        <label for="taille">Taille (cm)</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.taille"
+                          id="taille"
+                        />
+
+                        <label for="pb">PB (cm)</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.PB"
+                          id="pb"
+                        />
+                      </div>
+
+                      <!-- Champ Température -->
+                      <div class="form-group">
+                        <label for="temperature">Température (°C)</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.temperature"
+                          id="temperature"
+                          step="0.1"
+                        />
+                      </div>
+
+                      <!-- Champ Urine -->
+                      <div class="form-group">
+                        <label for="urine">Urine</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.urine"
+                          id="urine"
+                        />
+                      </div>
+
+                      <!-- Champ Sucre -->
+                      <div class="form-group">
+                        <label for="sucre">Sucre</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.sucre"
+                          id="sucre"
+                        />
+                      </div>
+
+                      <!-- Champ TA -->
+                      <div class="form-group">
+                        <label for="ta">TA (mmHg)</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.TA"
+                          id="ta"
+                        />
+                      </div>
+
+                      <!-- Champ Pouls -->
+                      <div class="form-group">
+                        <label for="pouls">Pouls (bpm)</label>
+                        <input
+                          type="number"
+                          v-model="newConsultation.pouls"
+                          id="pouls"
+                        />
+                      </div>
+
+                      <!-- Champ EG -->
+                      <div class="form-group">
+                        <label for="eg">État général (EG)</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.EG"
+                          id="eg"
+                        />
+                      </div>
+
+                      <!-- Champ Muqueuse -->
+                      <div class="form-group">
+                        <label for="muqueuse">Muqueuse</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.muqueuse"
+                          id="muqueuse"
+                        />
+                      </div>
+
+                      <!-- Champ Mollet -->
+                      <div class="form-group">
+                        <label for="mollet">Mollet</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.mollet"
+                          id="mollet"
+                        />
+                      </div>
+
+                      <!-- Champ OMI -->
+                      <div class="form-group">
+                        <label for="omi">OMI</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.OMI"
+                          id="omi"
+                        />
+                      </div>
+
+                      <!-- Champ Examen des Seins -->
+                      <div class="form-group">
+                        <label for="examen_seins">Examen des seins</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.examen_seins"
+                          id="examen_seins"
+                        />
+                      </div>
+
+                      <!-- Champ HU -->
+                      <div class="form-group">
+                        <label for="hu">HU</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.hu"
+                          id="hu"
+                        />
+                      </div>
+
+                      <!-- Champ Speculum -->
+                      <div class="form-group">
+                        <label for="speculum">Speculum</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.speculum"
+                          id="speculum"
+                        />
+                      </div>
+
+                      <!-- Champ TV -->
+                      <div class="form-group">
+                        <label for="tv">TV</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.tv"
+                          id="tv"
+                        />
+                      </div>
+
+                      <!-- Champ Fer Ac Folique -->
+                      <div class="form-group">
+                        <label for="fer_ac_folique">Fer Ac Folique</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.fer_ac_folique"
+                          id="fer_ac_folique"
+                        />
+                      </div>
+
+                      <!-- Champ Milda -->
+                      <div class="form-group">
+                        <label for="milda">Milda</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.milda"
+                          id="milda"
+                        />
+                      </div>
+
+                      <!-- Champ Autre Traitement -->
+                      <div class="form-group">
+                        <label for="autre_traitement">Autre Traitement</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.autre_traitement"
+                          id="autre_traitement"
+                        />
+                      </div>
+
+                      <!-- Champ MAF -->
+                      <div class="form-group">
+                        <label for="maf">MAF</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.maf"
+                          id="maf"
+                        />
+                      </div>
+
+                      <!-- Champ BDCF -->
+                      <div class="form-group">
+                        <label for="bdcf">BDCF</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.bdcf"
+                          id="bdcf"
+                        />
+                      </div>
+
+                      <!-- Champ ALB -->
+                      <div class="form-group">
+                        <label for="alb">ALB</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.alb"
+                          id="alb"
+                        />
+                      </div>
+
+                      <!-- Champ VAT -->
+                      <div class="form-group">
+                        <label for="vat">VAT</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.vat"
+                          id="vat"
+                        />
+                      </div>
+
+                      <!-- Champ TPI -->
+                      <div class="form-group">
+                        <label for="tpi">TPI</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.tpi"
+                          id="tpi"
+                        />
+                      </div>
+
+                      <!-- Champ Palpation -->
+                      <div class="form-group">
+                        <label for="palpation">Palpation</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.palpation"
+                          id="palpation"
+                        />
+                      </div>
+
+                      <!-- Champ BDC -->
+                      <div class="form-group">
+                        <label for="bdc">BDC</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.bdc"
+                          id="bdc"
+                        />
+                      </div>
+
+                      <!-- Champ Présentation -->
+                      <div class="form-group">
+                        <label for="presentation">Présentation</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.presentation"
+                          id="presentation"
+                        />
+                      </div>
+
+                      <!-- Champ Bassin -->
+                      <div class="form-group">
+                        <label for="bassin">Bassin</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.bassin"
+                          id="bassin"
+                        />
+                      </div>
+
+                      <!-- Champ Pelvimètre Externe -->
+                      <div class="form-group">
+                        <label for="pelvimetre_externe"
+                          >Pelvimètre Externe</label
                         >
-                        <select
-                          v-model="newAccouchement.evolution_reanimation"
-                          id="evolution_reanimation"
-                          class="form-control"
+                        <input
+                          type="text"
+                          v-model="newConsultation.pelvimetre_externe"
+                          id="pelvimetre_externe"
+                        />
+                      </div>
+
+                      <!-- Champ Pelvimètre Interne -->
+                      <div class="form-group">
+                        <label for="pelvimetre_interne"
+                          >Pelvimètre Interne</label
                         >
-                          <option value="" disabled selected>
-                            Sélectionnez l'évolution réanimation
-                          </option>
-                          <option value="favorable">Favorable</option>
-                          <option value="transfert">Transfert</option>
-                          <option value="déc ès">Décès</option>
-                        </select>
+                        <input
+                          type="text"
+                          v-model="newConsultation.pelvimetre_interne"
+                          id="pelvimetre_interne"
+                        />
+                      </div>
+
+                      <!-- Champ Biischiatique -->
+                      <div class="form-group">
+                        <label for="biischiatique">Biischiatique</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.biischiatique"
+                          id="biischiatique"
+                        />
+                      </div>
+
+                      <!-- Champ Trillat -->
+                      <div class="form-group">
+                        <label for="trillat">Trillat</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.trillat"
+                          id="trillat"
+                        />
+                      </div>
+
+                      <!-- Champ Lign Innommées -->
+                      <div class="form-group">
+                        <label for="lign_innominees">Lign Innommées</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.lign_innominees"
+                          id="lign_innominees"
+                        />
+                      </div>
+
+                      <!-- Champ LV -->
+                      <div class="form-group">
+                        <label for="lv">LV</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.lv"
+                          id="lv"
+                        />
+                      </div>
+
+                      <!-- Champ Localisation -->
+                      <div class="form-groupe">
+                        <label for="localisation">Localisation</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.localisation"
+                          id="localisation"
+                        />
+                      </div>
+
+                      <!-- Champ Lien -->
+                      <div class="form-groupe">
+                        <label for="lien">Lien</label>
+                        <input
+                          type="text"
+                          v-model="newConsultation.lien"
+                          id="lien"
+                        />
+                      </div>
+
+                      <!-- Champ Commentaires -->
+                      <div class="form-groupe">
+                        <label for="commentaires">Commentaires</label>
+                        <textarea
+                          v-model="newConsultation.commentaires"
+                          id="commentaires"
+                        ></textarea>
                       </div>
                       <button
                         type="submit"
                         class="btn btn-primary"
-                        @click.prevent="addAccouchement"
+                        @click.prevent="addConsultation"
                       >
                         Ajouter
                       </button>
@@ -362,29 +689,39 @@
                             <option value="" disabled selected>
                               Sélectionnez le mode d'accouchement
                             </option>
-                            <option value="normal">Normal</option>
-                            <option value="cesarienne">Césarienne</option>
+                            <option value="naturel">Naturel</option>
+                            <option value="instrumental">Instrumental</option>
+                            <option value="césarienne">Césarienne</option>
                           </select>
                         </div>
                         <div class="form-group">
-                          <label for="perinee">perinee</label>
-                          <input
+                          <label for="perinee">Perinee</label>
+                          <select
                             v-model="newAccouchement.perinee"
-                            type="text"
-                            class="form-control"
                             id="perinee"
-                            placeholder="Entrez le perinee"
-                          />
+                            class="form-control"
+                          >
+                            <option value="" disabled selected>
+                              Sélectionnez la perinee
+                            </option>
+                            <option value="intact">Intact</option>
+                            <option value="episiotomie">Episiotomie</option>
+                            <option value="dechirure">Déchirure</option>
+                          </select>
                         </div>
                         <div class="form-group">
                           <label for="lieu">Lieu</label>
-                          <input
+                          <select
                             v-model="newAccouchement.lieu"
-                            type="text"
-                            class="form-control"
                             id="lieu"
-                            placeholder="Entrez le lieu"
-                          />
+                            class="form-control"
+                          >
+                            <option value="" disabled selected>
+                              Sélectionnez le lieu
+                            </option>
+                            <option value="maternité">Maternité</option>
+                            <option value="domicile">Domicile</option>
+                          </select>
                         </div>
                         <div class="form-group">
                           <label for="mois_grossesse">Mois de grossesse</label>
@@ -427,15 +764,36 @@
                           />
                         </div>
                         <div class="form-group">
+                          <label for="evolution_reanimation">Terme</label>
+                          <select
+                            v-model="newAccouchement.terme"
+                            id="terme"
+                            class="form-control"
+                          >
+                            <option value="" disabled selected>
+                              Sélectionnez le terme
+                            </option>
+                            <option value="prématuré">prématuré</option>
+                            <option value="à terme">à terme</option>
+                            <option value="post-terme">post-terme</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
                           <label for="evolution_reanimation"
                             >Évolution réanimation</label
                           >
-                          <textarea
+                          <select
                             v-model="newAccouchement.evolution_reanimation"
-                            class="form-control"
                             id="evolution_reanimation"
-                            placeholder="Entrez l'évolution réanimation"
-                          ></textarea>
+                            class="form-control"
+                          >
+                            <option value="" disabled selected>
+                              Sélectionnez l'évolution réanimation
+                            </option>
+                            <option value="favorable">Favorable</option>
+                            <option value="transfert">Transfert</option>
+                            <option value="décès">Décès</option>
+                          </select>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -518,18 +876,33 @@ export default {
           label: "Lieu",
           field: "lieu",
           type: "select",
-          options: ["maternité", "domicile"],
+          options: [
+            { value: "", text: "Selectionner              " },
+            { value: "maternité", text: "maternité" },
+            { value: "domicile", text: "domicile" },
+          ],
         },
         {
           label: "Mode",
           field: "mode",
           type: "select",
-          options: ["naturel", "instrumental", "césarienne"],
+          options: [
+            { value: "", text: "Selectionner              " },
+            { value: "naturel", text: "naturel" },
+            { value: "instrumental", text: "instrumental" },
+            { value: "césarienne", text: "césarienne" },
+          ],
         },
         {
           label: "Terme",
           field: "terme",
-          type: "text",
+          type: "select",
+          options: [
+            { value: "", text: "Selectionner              " },
+            { value: "naturel", text: "naturel" },
+            { value: "instrumental", text: "instrumental" },
+            { value: "césarienne", text: "césarienne" },
+          ],
         },
         {
           label: "Mois de grossesse",
@@ -545,7 +918,12 @@ export default {
           label: "Périnée",
           field: "perinee",
           type: "select",
-          options: ["intact", "episiotomie", "dechirure"],
+          options: [
+            { value: "", text: "Selectionner la périnée" },
+            { value: "dechirure", text: "dechirure" },
+            { value: "episiotomie", text: "episiotomie" },
+            { value: "intact", text: "intact" },
+          ],
         },
         {
           label: "Pathologie",
@@ -556,7 +934,12 @@ export default {
           label: "Évolution/réanimation",
           field: "evolution_reanimation",
           type: "select",
-          options: ["favorable", "transfert", "décès"],
+          options: [
+            { value: "", text: "Selectionner              " },
+            { value: "favorable", text: "favorable" },
+            { value: "transfert", text: "transfert" },
+            { value: "décès", text: "décès" },
+          ],
         },
       ],
 
@@ -580,15 +963,14 @@ export default {
           field: "date_rv",
           type: "date",
         },
-
         {
           label: "Type de rendez-vous",
           field: "visite_id",
           type: "select",
-          options: [], // Vous devez récupérer la liste des visites pour remplir ce champ
+          options: [], // options pour le champ visite_id
         },
       ],
-
+      visite: [],
       newRendezVous: {
         date_rv: "",
         sage_femme_id: "",
@@ -899,7 +1281,6 @@ export default {
         patiente_id: this.patienteId,
         visite_id: this.visiteId,
       },
-      
 
       patiente: {}, // Détails de la patiente
       consultations: [], // Stockage des consultations
@@ -935,16 +1316,25 @@ export default {
       try {
         const response = await visiteService.getVisites();
         this.visites = response.ListeVisites;
+        this.updateRendezVousOptions();
       } catch (error) {
         console.error("Erreur lors de la récupération des visites :", error);
       }
+    },
+    updateRendezVousOptions() {
+      const visiteOptions = this.visites.map((visite) => ({
+        value: visite.id,
+        text: visite.libelle,
+      }));
+      this.rendezVousFields.find(
+        (field) => field.field === "visite_id"
+      ).options = visiteOptions;
     },
     async getPatienteDetails() {
       try {
         const response = await patienteService.getPatiente(this.id);
         this.patiente = response.patiente;
-        this.user = this.patiente.user
-        
+        this.user = this.patiente.user;
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de la patiente :",
@@ -1007,7 +1397,7 @@ export default {
             lign_innominees: consultation.lign_innominees,
             resultat: consultation.resultat,
             lieu_accouchement_apre_consentement:
-            consultation.lieu_accouchement_apre_consentement,
+              consultation.lieu_accouchement_apre_consentement,
             traitement: consultation.traitement,
             sage_femme_id: consultation.sage_femme_id,
             patiente_id: consultation.patiente_id,
@@ -1269,6 +1659,7 @@ export default {
           title: "Accouchement ajouté avec succès!",
           icon: "success",
         });
+        this.getAccouchements();
       } catch (error) {
         Swal.fire({
           title: "Erreur lors de l'ajout",
@@ -1284,6 +1675,7 @@ export default {
         perinee: "",
         lieu: "",
         mois_grossesse: "",
+        terme: "",
         debut_travail: "",
         pathologie: "",
         heure: "",
@@ -1413,7 +1805,6 @@ img {
   width: 100%;
   max-width: 100%;
   height: auto;
-  -webkit-backface-visibility: hidden;
 }
 .rounded {
   border-radius: 5px !important;

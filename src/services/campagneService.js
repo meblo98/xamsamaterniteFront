@@ -28,9 +28,9 @@ export default {
       throw error;
     }
   },
-  async updateCampagne(id, data) {
+  async updateCampagne(id, formData) {
     try {
-      const response = await apiClient.put(`/campagnes/${id}`, data);
+      const response = await apiClient.post(`/campagnes/${id}`, formData);
       return response.data;
     } catch (error) {
       console.error(`Erreur lors de la mise à jour de la campagne avec l'id ${id} :`, error);
