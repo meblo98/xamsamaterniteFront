@@ -4,9 +4,17 @@
     <div v-if="allData.length === 0">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn"
         data-bs-toggle="modal"
         data-bs-target="#ajoutBadiene"
+        style="
+          background-color: #6932f9;
+          color: white;
+          border: none;
+          padding: 5px;
+          margin-bottom: 10px;
+          cursor: pointer;
+        "
       >
         Ajouter une Badiene Gox
       </button>
@@ -199,146 +207,162 @@ export default {
     this.getBadienes();
   },
   methods: {
-  async getBadienes() {
-    try {
-      const response = await badieneGoxService.getBadieneGoxes();
-      if (
-        response &&
-        response.Liste_BadieneGox &&
-        Array.isArray(response.Liste_BadieneGox)
-      ) {
-        this.allData = response.Liste_BadieneGox.map((badiene) => ({
-          id: badiene.id,
-          nom: badiene.user.nom,
-          prenom: badiene.user.prenom,
-          telephone: badiene.user.telephone,
-          adresse: badiene.user.adresse,
-          email: badiene.user.email,
-        }));
-        this.totalItems = this.allData.length;
-        this.getPatientsPaginated();
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération des Badiene Gox :", error);
-    }
-  },
-
-  getPatientsPaginated() {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.paginatedData = this.allData.slice(start, end);
-  },
-
-  handlePageChange(page) {
-    this.currentPage = page;
-    this.getPatientsPaginated();
-  },
-
-  async addBadiene(data = null) {
-  const badieneData = data;
-
-  if (
-    !badieneData.nom ||
-    !badieneData.prenom ||
-    !badieneData.telephone ||
-    !badieneData.email ||
-    !badieneData.adresse
-  ) {
-    Swal.fire({
-      icon: "error",
-      title: "Erreur",
-      text: "Tous les champs sont requis.",
-    });
-    return;
-  }
-
-  try {
-    await badieneGoxService.createBadieneGox(badieneData);
-    this.getBadienes(); // Rafraîchir les données après l'ajout
-    this.resetBadiene(); // Réinitialiser le formulaire
-    Swal.fire({
-      icon: "success",
-      title: "Ajout réussi",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Erreur lors de l'ajout",
-      text: "Veuillez vérifier les données saisies.",
-    });
-    console.error("Erreur lors de l'ajout:", error);
-  }
-}
-,
-
-  resetBadiene() {
-    this.newBadiene = {
-      nom: "",
-      prenom: "",
-      adresse: "",
-      telephone: "",
-      email: "",
-    };
-  },
-
-  async editBadiene(badiene) {
-    try {
-      await badieneGoxService.updateBadieneGox(badiene.id, badiene);
-      this.getBadienes(); // Recharger la liste après modification
-      Swal.fire({
-        title: "Badiene Gox mise à jour avec succès !",
-        icon: "success",
-        timer: 1000,
-      });
-    } catch (error) {
-      console.error("Erreur lors de la modification de la Badiene Gox :", error);
-      Swal.fire({
-        title: "Erreur lors de la mise à jour de la Badiene Gox !",
-        icon: "error",
-        timer: 1000,
-      });
-    }
-  },
-
-  async deleteBadiene(id) {
-    Swal.fire({
-      title: "Êtes-vous sûr de vouloir supprimer cette Badiene Gox ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Oui, supprimer",
-      cancelButtonText: "Annuler",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await badieneGoxService.deleteBadieneGox(id);
-          this.getBadienes(); // Recharger la liste après suppression
-          Swal.fire({
-            title: "Badiene Gox supprimée avec succès !",
-            icon: "success",
-            timer: 1000,
-          });
-        } catch (error) {
-          console.error("Erreur lors de la suppression de la Badiene Gox :", error);
-          Swal.fire({
-            title: "Erreur lors de la suppression de la Badiene Gox !",
-            icon: "error",
-            timer: 1000,
-          });
+    async getBadienes() {
+      try {
+        const response = await badieneGoxService.getBadieneGoxes();
+        if (
+          response &&
+          response.Liste_BadieneGox &&
+          Array.isArray(response.Liste_BadieneGox)
+        ) {
+          this.allData = response.Liste_BadieneGox.map((badiene) => ({
+            id: badiene.id,
+            nom: badiene.user.nom,
+            prenom: badiene.user.prenom,
+            telephone: badiene.user.telephone,
+            adresse: badiene.user.adresse,
+            email: badiene.user.email,
+          }));
+          this.totalItems = this.allData.length;
+          this.getPatientsPaginated();
         }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des Badiene Gox :",
+          error
+        );
       }
-    });
-  },
+    },
 
-  async handleTableAction(event) {
-    if (event.action === "edit") {
-      this.editBadiene(event.row); // Utiliser event.row pour l'édition
-    } else if (event.action === "delete") {
-      this.deleteBadiene(event.row.id); // Utiliser event.row.id pour la suppression
-    }
-  },
-},
+    getPatientsPaginated() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      this.paginatedData = this.allData.slice(start, end);
+    },
 
+    handlePageChange(page) {
+      this.currentPage = page;
+      this.getPatientsPaginated();
+    },
+
+    async addBadiene(data = null) {
+      const badieneData = data;
+
+      if (
+        !badieneData.nom ||
+        !badieneData.prenom ||
+        !badieneData.telephone ||
+        !badieneData.email ||
+        !badieneData.adresse
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Tous les champs sont requis.",
+        });
+        return;
+      }
+
+      try {
+        await badieneGoxService.createBadieneGox(badieneData);
+        this.getBadienes(); // Rafraîchir les données après l'ajout
+        this.resetBadiene(); // Réinitialiser le formulaire
+        Swal.fire({
+          icon: "success",
+          title: "Ajout réussi",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur lors de l'ajout",
+          text: "Veuillez vérifier les données saisies.",
+        });
+        console.error("Erreur lors de l'ajout:", error);
+      }
+    },
+    resetBadiene() {
+      this.newBadiene = {
+        nom: "",
+        prenom: "",
+        adresse: "",
+        telephone: "",
+        email: "",
+      };
+    },
+
+    async editBadiene(badiene) {
+      try {
+        await badieneGoxService.updateBadieneGox(badiene.id, badiene);
+        this.getBadienes(); // Recharger la liste après modification
+        Swal.fire({
+          title: "Badiene Gox mise à jour avec succès !",
+          icon: "success",
+          timer: 1000,
+        });
+      } catch (error) {
+        console.error(
+          "Erreur lors de la modification de la Badiene Gox :",
+          error
+        );
+        Swal.fire({
+          title: "Erreur lors de la mise à jour de la Badiene Gox !",
+          icon: "error",
+          timer: 1000,
+        });
+      }
+    },
+
+    async deleteBadiene(id) {
+      Swal.fire({
+        title: "Êtes-vous sûr de vouloir supprimer cette Badiene Gox ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await badieneGoxService.deleteBadieneGox(id);
+            this.getBadienes(); // Recharger la liste après suppression
+            Swal.fire({
+              title: "Badiene Gox supprimée avec succès !",
+              icon: "success",
+              timer: 1000,
+            });
+          } catch (error) {
+            console.error(
+              "Erreur lors de la suppression de la Badiene Gox :",
+              error
+            );
+            Swal.fire({
+              title: "Erreur lors de la suppression de la Badiene Gox !",
+              icon: "error",
+              timer: 1000,
+            });
+          }
+        }
+      });
+    },
+
+    async handleTableAction(event) {
+      if (event.action === "edit") {
+        this.editBadiene(event.row); // Utiliser event.row pour l'édition
+      } else if (event.action === "delete") {
+        this.deleteBadiene(event.row.id); // Utiliser event.row.id pour la suppression
+      }
+    },
+  },
 };
 </script>
+<style>
+button {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+</style>

@@ -126,7 +126,7 @@
               title="Rendez-vous"
               :type="'rendezVous'"
               :formFields="rendezVousFields"
-              @action="handleTableAction"
+              @action="handleRendezVousTableAction"
               @add-data="addRendezVous"
               @edit-data="editRendezVous"
             />
@@ -626,7 +626,7 @@
               :type="'consultation'"
               title="Consultations"
               :formFields="consultationFields"
-              @action="handleTableAction"
+              @action="handleConsultationTableAction"
               @add-data="addConsultation"
               @edit-data="editConsultation"
             />
@@ -824,7 +824,7 @@
                 title="Accouchements"
                 :type="'accouchement'"
                 :formFields="accouchementFields"
-                @action="handleTableAction"
+                @action="handleAccouchementTableAction"
                 @add-data="addAccouchement"
                 @edit-data="editAccouchement"
               />
@@ -846,6 +846,11 @@ import rendezVousService from "@/services/rendezVousService";
 import Swal from "sweetalert2";
 import accouchementService from "@/services/accouchementService";
 
+
+const ACTION_VIEW = "view";
+const ACTION_EDIT = "edit";
+const ACTION_DELETE = "delete";
+
 export default {
   components: {
     Layout,
@@ -855,6 +860,7 @@ export default {
     return {
       accouchements: [],
       user: [],
+      FormData: {},
       accouchementsColumns: [
         { label: "Date", field: "date" },
         { label: "Mode", field: "mode" },
@@ -864,17 +870,20 @@ export default {
       accouchementFields: [
         {
           label: "Date",
+          name: "date",
           field: "date",
           type: "date",
         },
         {
           label: "Heure",
           field: "heure",
+          name: "heure",
           type: "time",
         },
         {
           label: "Lieu",
           field: "lieu",
+          name: "lieu",
           type: "select",
           options: [
             { value: "", text: "Selectionner              " },
@@ -885,6 +894,7 @@ export default {
         {
           label: "Mode",
           field: "mode",
+          name: "mode",
           type: "select",
           options: [
             { value: "", text: "Selectionner              " },
@@ -896,6 +906,7 @@ export default {
         {
           label: "Terme",
           field: "terme",
+          name: "terme",
           type: "select",
           options: [
             { value: "", text: "Selectionner              " },
@@ -907,16 +918,19 @@ export default {
         {
           label: "Mois de grossesse",
           field: "mois_grossesse",
+          name: "mois_grossesse",
           type: "number",
         },
         {
           label: "Début du travail",
           field: "debut_travail",
+          name: "debut_travail",
           type: "time",
         },
         {
           label: "Périnée",
           field: "perinee",
+          name: "perinee",
           type: "select",
           options: [
             { value: "", text: "Selectionner la périnée" },
@@ -928,11 +942,13 @@ export default {
         {
           label: "Pathologie",
           field: "pathologie",
+          name: "pathologie",
           type: "text",
         },
         {
           label: "Évolution/réanimation",
           field: "evolution_reanimation",
+          name: "evolution_reanimation",
           type: "select",
           options: [
             { value: "", text: "Selectionner              " },
@@ -961,11 +977,13 @@ export default {
         {
           label: "Date",
           field: "date_rv",
+          name: "date_rv",
           type: "date",
         },
         {
           label: "Type de rendez-vous",
           field: "visite_id",
+          name: "visite_id",
           type: "select",
           options: [], // options pour le champ visite_id
         },
@@ -973,49 +991,56 @@ export default {
       visite: [],
       newRendezVous: {
         date_rv: "",
-        sage_femme_id: "",
         visite_id: "",
+        sage_femme_id: "",
         patiente_id: this.id,
       },
       consultationFields: [
         {
           name: "date",
+          field: "date",
           label: "Date",
           type: "date",
           placeholder: "Entrez la date de la consultation",
         },
         {
           name: "terme",
+          field: "terme",
           label: "Terme",
           type: "text",
           placeholder: "Entrez le terme",
         },
         {
           name: "SA",
+          field: "SA",
           label: "SA (Semaines d'Aménorrhée)",
           type: "number",
           placeholder: "Entrez les semaines d'aménorrhée",
         },
         {
           name: "plaintes",
+          field: "plaintes",
           label: "Plaintes",
           type: "text",
           placeholder: "Entrez les plaintes",
         },
         {
           name: "mois",
+          field: "mois",
           label: "Mois de grossesse",
           type: "number",
           placeholder: "Entrez le mois de grossesse",
         },
         {
           name: "poids",
+          field: "poids",
           label: "Poids",
           type: "number",
           placeholder: "Entrez le poids",
         },
         {
           name: "taille",
+          field: "taille",
           label: "Taille",
           type: "number",
           placeholder: "Entrez la taille",
@@ -1028,120 +1053,140 @@ export default {
         },
         {
           name: "temperature",
+          field: "temperature",
           label: "Température",
           type: "number",
           placeholder: "Entrez la température",
         },
         {
           name: "urine",
+          field: "urine",
           label: "Urine",
           type: "text",
           placeholder: "Entrez les résultats d'analyse d'urine",
         },
         {
           name: "sucre",
+          field: "sucre",
           label: "Sucre",
           type: "text",
           placeholder: "Entrez les résultats d'analyse de sucre",
         },
         {
           name: "TA",
+          field: "TA",
           label: "Tension artérielle",
           type: "text",
           placeholder: "Entrez la tension artérielle",
         },
         {
           name: "pouls",
+          field: "pouls",
           label: "Pouls",
           type: "number",
           placeholder: "Entrez le pouls",
         },
         {
           name: "EG",
+          field: "EG",
           label: "État général",
           type: "text",
           placeholder: "Entrez l'état général",
         },
         {
           name: "muqueuse",
+          field: "muqueuse",
           label: "Muqueuse",
           type: "text",
           placeholder: "Entrez l'état des muqueuses",
         },
         {
           name: "mollet",
+          field: "mollet",
           label: "Mollets",
           type: "text",
           placeholder: "Entrez l'état des mollets",
         },
         {
           name: "OMI",
+          field: "OMI",
           label: "Œdème des membres inférieurs",
           type: "text",
           placeholder: "Entrez l'OMI",
         },
         {
           name: "examen_seins",
+          field: "examen_seins",
           label: "Examen des seins",
           type: "text",
           placeholder: "Entrez le résultat de l'examen des seins",
         },
         {
           name: "hu",
+          field: "hu",
           label: "Hauteur utérine",
           type: "number",
           placeholder: "Entrez la hauteur utérine",
         },
         {
           name: "speculum",
+          field: "speculum",
           label: "Examen au spéculum",
           type: "text",
           placeholder: "Entrez le résultat de l'examen au spéculum",
         },
         {
           name: "tv",
+          field: "tv",
           label: "Toucher vaginal",
           type: "text",
           placeholder: "Entrez le résultat du toucher vaginal",
         },
         {
           name: "fer_ac_folique",
+          field: "fer_ac_folique",
           label: "Fer/Acide folique",
           type: "text",
           placeholder: "Indiquez si fer/acide folique est pris",
         },
         {
           name: "milda",
+          field: "milda",
           label: "MILD (Moustiquaire)",
           type: "text",
           placeholder: "Indiquez si moustiquaire est utilisée",
         },
         {
           name: "autre_traitement",
+          field: "autre_traitement",
           label: "Autre traitement",
           type: "text",
           placeholder: "Entrez un autre traitement",
         },
         {
           name: "maf",
+          field: "maf",
           label: "Mouvements actifs fœtaux",
           type: "text",
           placeholder: "Entrez les MAF",
         },
         {
           name: "bdcf",
+          field: "bdcf",
           label: "Battements du cœur fœtal",
           type: "text",
           placeholder: "Entrez les BDCF",
         },
         {
           name: "alb",
+          field: "alb",
           label: "Protéine dans l'urine",
           type: "text",
           placeholder: "Entrez les résultats de l'analyse d'albumine",
         },
         {
           name: "vat",
+          field: "vat",
           label: "Vaccination antitétanique",
           type: "text",
           placeholder: "Indiquez si la vaccination antitétanique est faite",
@@ -1155,60 +1200,70 @@ export default {
         },
         {
           name: "palpation",
+          field: "palpation",
           label: "Palpation abdominale",
           type: "text",
           placeholder: "Entrez les résultats de la palpation abdominale",
         },
         {
           name: "bdc",
+          field: "bdc",
           label: "Battements du cœur",
           type: "text",
           placeholder: "Entrez les BDC",
         },
         {
           name: "presentation",
+          field: "presentation",
           label: "Présentation du fœtus",
           type: "text",
           placeholder: "Entrez la présentation du fœtus",
         },
         {
           name: "bassin",
+          field: "bassin",
           label: "Bassin obstétrical",
           type: "text",
           placeholder: "Entrez les résultats de l'examen du bassin obstétrical",
         },
         {
           name: "pelvimetre_externe",
+          field: "pelvimetre_externe",
           label: "Pelvimètre externe",
           type: "text",
           placeholder: "Entrez les résultats de la pelvimétrie externe",
         },
         {
           name: "pelvimetre_interne",
+          field: "pelvimetre_interne",
           label: "Pelvimètre interne",
           type: "text",
           placeholder: "Entrez les résultats de la pelvimétrie interne",
         },
         {
           name: "biischiatique",
+          field: "biischiatique",
           label: "Diamètre bi-ischiatique",
           type: "number",
           placeholder: "Entrez le diamètre bi-ischiatique",
         },
         {
           name: "trillat",
+          field: "trillat",
           label: "Ligne de Trillat",
           type: "text",
           placeholder: "Entrez les résultats de la ligne de Trillat",
         },
         {
           name: "lign_innominees",
+          field: "lign_innominees",
           label: "Lignes innominées",
           type: "text",
           placeholder: "Entrez les résultats des lignes innominées",
         },
         {
           name: "autre_examen",
+          field: "autre_examen",
           label: "Autres examens",
           type: "text",
           placeholder: "Entrez les résultats des autres examens",
@@ -1227,6 +1282,7 @@ export default {
         },
         {
           name: "traitement",
+          field: "traitement",
           label: "Traitement proposé",
           type: "text",
           placeholder: "Entrez le traitement proposé",
@@ -1236,7 +1292,6 @@ export default {
       newConsultation: {
         date: "",
         visite_id: "",
-
         terme: "",
         SA: "",
         plaintes: "",
@@ -1448,8 +1503,10 @@ export default {
       }
     },
 
-    async addRendezVous() {
+    async addRendezVous(FormData) {
+        this.newRendezVous = { ...this.newRendezVous, ...FormData };
       try {
+        
         await rendezVousService.createRendezVous(this.newRendezVous);
         this.getRendezVous();
         this.resetRendezVousForm();
@@ -1474,11 +1531,11 @@ export default {
     },
     async addConsultation() {
       try {
-        const response = await consultationService.createConsultation({
-          ...this.newConsultation,
-          patiente_id: this.id,
-          visite_id: this.newConsultation.visite_id, // Assurez-vous que cette valeur est correcte
-        });
+    console.log('Envoi des données :', { ...this.newConsultation, patiente_id: this.id });
+    await consultationService.createConsultation({
+      ...this.newConsultation,
+      patiente_id: this.id,
+    });
 
         Swal.fire({
           title: "Succès!",
@@ -1508,29 +1565,96 @@ export default {
         patiente_id: this.id,
       };
     },
-
-    handleTableAction({ action, row }) {
-      switch (action) {
-        case "view":
-          if (type === "consultation") {
-            this.$router.push({
-              name: "detailConsultation",
-              params: { id: row.id },
-            });
-          } else if (type === "rendezVous") {
-            this.$router.push({
-              name: "detailRendezVous",
-              params: { id: row.id },
-            });
-          }
-          break;
-        case "delete":
-          this.deleteElement(row.id, row.type);
-          break;
-        default:
-          break;
+    async deleteRendezVous(id) {
+  Swal.fire({
+    title: "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Oui, supprimer",
+    cancelButtonText: "Annuler",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await rendezVousService.deleteRendezVous(id);
+        this.getRendezVous(); // Recharger la liste après la suppression
+        Swal.fire({
+          title: "Rendez-vous supprimé avec succès !",
+          icon: "success",
+          timer: 1000,
+        });
+      } catch (error) {
+        console.error(
+          "Erreur lors de la suppression du rendez-vous :",
+          error
+        );
+        Swal.fire({
+          title: "Erreur lors de la suppression du rendez-vous !",
+          icon: "error",
+          timer: 1000,
+        });
       }
-    },
+    }
+  });
+},
+
+  
+  handleAccouchementTableAction({ action, row }) {
+    switch (action) {
+      case ACTION_VIEW:
+        this.$router.push({
+          name: "detailAccouchement",
+          params: { id: row.id },
+        });
+        break;
+      case ACTION_EDIT:
+        this.editAccouchement(row);
+        break;
+      case ACTION_DELETE:
+        this.deleteAccouchement(row.id);
+        break;
+      default:
+        break;
+    }
+  },
+
+  handleConsultationTableAction({ action, row }) {
+    switch (action) {
+      case ACTION_VIEW:
+        this.$router.push({
+          name: "detailConsultation",
+          params: { id: row.id },
+        });
+        break;
+      case ACTION_EDIT:
+        this.editConsultation(row);
+        break;
+      case ACTION_DELETE:
+        this.deleteConsultation(row.id);
+        break;
+      default:
+        break;
+    }
+  },
+
+  handleRendezVousTableAction({ action, row }) {
+    switch (action) {
+      case ACTION_VIEW:
+        this.$router.push({
+          name: "detailRendezVous",
+          params: { id: row.id },
+        });
+        break;
+      case ACTION_EDIT:
+        this.editRendezVous(row);
+        break;
+      case ACTION_DELETE:
+        this.deleteRendezVous(row.id);
+        break;
+      default:
+        break;
+    }
+  },
+
     async editConsultation(consultation) {
       try {
         // Appelez le service pour modifier une consultation
@@ -1568,53 +1692,6 @@ export default {
           icon: "error",
         });
       }
-    },
-
-    async deleteElement(id, type) {
-      Swal.fire({
-        title: `Êtes-vous sûr de vouloir supprimer cette ${
-          type === "consultation" ? "consultation" : "rendez-vous"
-        } ?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Oui, supprimer",
-        cancelButtonText: "Annuler",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            if (type === "consultation") {
-              await consultationService.deleteConsultation(id);
-              this.getConsultations(); // Recharger la liste après la suppression
-            } else if (type === "rendezVous") {
-              await rendezVousService.deleteRendezVous(id);
-              this.getRendezVous(); // Recharger la liste après la suppression
-            }
-            Swal.fire({
-              // Add sweet alert for delete operation
-              title: `${
-                type === "consultation" ? "Consultation" : "Rendez-vous"
-              } supprimé avec succès !`,
-              icon: "success",
-              timer: 1000,
-            });
-          } catch (error) {
-            console.error(
-              `Erreur lors de la suppression de la ${
-                type === "consultation" ? "consultation" : "rendez-vous"
-              } :`,
-              error
-            );
-            Swal.fire({
-              // Add sweet alert for error
-              title: `Erreur lors de la suppression de la ${
-                type === "consultation" ? "consultation" : "rendez-vous"
-              } !`,
-              icon: "error",
-              timer: 1000,
-            });
-          }
-        }
-      });
     },
 
     async getAccouchements() {

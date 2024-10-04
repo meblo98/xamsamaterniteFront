@@ -477,7 +477,7 @@ export default {
     updateFormFields() {
       const badieneOptions = this.badiene.map((badiene) => ({
         value: badiene.id,
-        text: badiene.user.nom,
+        text: `${badiene.user.prenom} ${badiene.user.nom}`,
       }));
       this.formFields.find((field) => field.name === "badien_gox_id").options =
         badieneOptions;

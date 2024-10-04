@@ -23,6 +23,7 @@ export default {
     try {
       const response = await apiClient.post('/accouchements', data);
       return response.data;
+      
     } catch (error) {
       console.error('Erreur lors de la création de l\'accouchement :', error);
       throw error;

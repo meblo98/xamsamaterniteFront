@@ -161,6 +161,7 @@ export default {
         image: null,
       },
       columns: [
+      { label: "ID", field: "id" },
         { label: "Nom", field: "nom" },
         { label: "Lieu", field: "lieu" },
         { label: "Date de Début", field: "date_debut" },
@@ -246,7 +247,6 @@ export default {
         });
         return;
       }
-      console.log(this.selectedFile);
 
       if (!this.selectedFile || this.selectedFile.size === 0) {
         Swal.fire({
@@ -300,7 +300,7 @@ export default {
             description: campagne.description,
             date_debut: campagne.date_debut,
             date_fin: campagne.date_fin,
-          }));
+          }));          
           this.totalItems = this.allData.length;
           this.getCampagnesPaginated();
         }
@@ -322,6 +322,13 @@ export default {
     },
 
     async editCampagne(campagne) {
+      
+  if (!this.selectedFile) {
+    console.error("Aucun fichier sélectionné !");
+    return;
+  }
+  const campagneId = campagne.id;
+
   const formData = new FormData();
   formData.append("nom", campagne.nom);
   formData.append("description", campagne.description);
@@ -329,8 +336,9 @@ export default {
   formData.append("date_fin", campagne.date_fin);
   formData.append("lieu", campagne.lieu);
   formData.append("image", this.selectedFile);
+
   try {
-    await campagneService.updateCampagne(campagne.id, formData);
+    await campagneService.updateCampagne(campagneId, formData);
     this.getCampagnes();
     Swal.fire({
       title: "Campagne mise à jour avec succès !",

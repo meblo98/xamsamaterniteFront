@@ -175,9 +175,9 @@ export default {
     },
     handleSubmit() {
       if (this.isEditing) {
-        this.$emit("edit-data", this.formData); // Émet l'événement pour modifier les données
+        this.$emit("edit-data", { ...this.formData, id: this.formData.id }); // Émet l'événement pour modifier les données
       } else {
-        this.$emit("add-data", this.formData); // Émet l'événement pour ajouter des données
+        this.$emit("add-data", this.formData); // Émet l'événement pour ajouter des données        
       }
       this.closeModal(); // Fermer la modal après soumission
     },
@@ -191,6 +191,9 @@ export default {
       this.formFields.forEach(field => {
         formData[field.name] = row[field.name] || (field.type === 'select' ? field.options[0].value : '');
       });
+      if (row.id) {
+    formData.id = row.id; 
+  }
       return formData;
     },
   },

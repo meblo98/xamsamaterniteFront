@@ -58,6 +58,13 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'sage-femme' }
     },
     {
+      path: '/detailConsultation-sage-femme/:id',
+      name: 'detailConsultation',
+      component: () => import('@/views/sageFemme/DetailConsultation.vue'),
+      props: true,
+      meta: { requiresAuth: true, role: 'sage-femme' }
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: () => import('@/components/profil.vue'),
@@ -120,10 +127,24 @@ const router = createRouter({
       name: 'dashboard-badiene-gox',
       component: () => import('@/views/badieneGox/AccueilBadieneGox.vue'),
       meta: { requiresAuth: true, role: 'badiene-gox' }
-    }, {
+    },
+     {
       path: '/campagne-badiene-gox/',
       name: 'campagne-badiene-gox',
       component: () => import('@/views/badieneGox/Campagne.vue'),
+      meta: { requiresAuth: true, role: 'badiene-gox' }
+    },
+    {
+      path: '/patiente-badiene-gox/',
+      name: 'patiente-badiene-gox',
+      component: () => import('@/views/badieneGox/Patiente.vue'),
+      meta: { requiresAuth: true, role: 'badiene-gox' }
+    },
+    {
+      path: '/detailPatiente-badiene/:id',
+      name: 'detailPatiente-badiene',
+      component: () => import('@/views/badieneGox/DetailePatiente.vue'),
+      props: true,
       meta: { requiresAuth: true, role: 'badiene-gox' }
     },
     {
