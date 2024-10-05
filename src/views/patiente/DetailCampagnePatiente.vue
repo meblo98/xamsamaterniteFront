@@ -22,15 +22,11 @@
 
         <div class="col-md-7">
           <img
-            :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${campagne.image}`"
+            :src="imageUrl"
             alt="Image de la campagne"
             class="rounded"
           />
-             <!-- <img
-            :src="`http://127.0.0.1:8000/storage//${campagne.image}`"
-            alt="Image de la campagne"
-            class="rounded"
-          /> -->
+      
         </div>
         <!-- / column -->
       </div>
@@ -41,6 +37,7 @@
 <script>
 import Layout from "@/components/layouts/Layout.vue";
 import campagneService from "@/services/campagneService";
+import urlImage from "@/services/imageUrl";
 
 export default {
   components: {
@@ -57,7 +54,7 @@ export default {
       try {
         const response = await campagneService.getCampagne(this.$route.params.id); // Récupère l'ID depuis l'URL
         this.campagne = response.campagne;
-          
+        this.imageUrl = this.campagne.image ? urlImage + `${this.campagne.image}` : "/src/assets/images/women.svg";
       } catch (error) {
         console.error("Erreur lors de la récupération des détails de la campagne:", error);
         this.imageUrl = "/src/assets/images/campagne.jpg"; // Image par défaut en cas d'erreur

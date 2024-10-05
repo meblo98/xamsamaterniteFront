@@ -64,6 +64,8 @@
       async getPatients() {
         try {
           const response = await patienteService.getPatientes();
+          console.log(response.Liste_des_patientes);
+          
           if (
             response &&
             response.Liste_des_patientes &&

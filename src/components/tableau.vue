@@ -157,6 +157,9 @@ export default {
   },
   methods: {
     handleAction(action, row) {
+      if (action === 'close') {
+        this.showModal = false;
+      }
       this.$emit("action", { action, row });
     },
     handleFileUpload(event, fieldName) {

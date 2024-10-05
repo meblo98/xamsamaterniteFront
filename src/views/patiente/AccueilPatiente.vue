@@ -5,19 +5,18 @@
       <h2>Prochains rendez-vous</h2>
       <div class="appointment-cards">
         <div v-if="rv && rv.length > 0">
-        <div
-          v-for="appointment in rv.slice(0, 2)"
-          :key="appointment.id"
-          class="appointment-card-wrapper w-100"
-        >
-          <AppointmentCard
-            :date="formatDate(appointment.date_rv)"
-            :type="appointment.visite.libelle"
-          />
+          <div
+            v-for="appointment in rv.slice(0, 2)"
+            :key="appointment.id"
+            class="appointment-card-wrapper w-100"
+          >
+            <AppointmentCard
+              :date="formatDate(appointment.date_rv)"
+              :type="appointment.visite.libelle"
+            />
+          </div>
         </div>
-      </div>
         <p v-else>Aucun rendez-vous disponible pour le moment.</p>
-       
       </div>
     </section>
 
@@ -25,14 +24,21 @@
     <section class="campaigns">
       <h2>Campagnes <a href="#">Voir toutes</a></h2>
       <div class="campaign-cards">
-        <p v-if="campaigns.length === 0">Aucune campagne disponible pour le moment.</p>
+        <p v-if="campaigns.length === 0">
+          Aucune campagne disponible pour le moment.
+        </p>
         <CampaignCard
           v-for="campagne in campaigns.slice(0, 4)"
-          :image="getImageUrl(campagne.image)"
-        :title="campagne.nom"
-        :date="formatDate(campagne.date_debut)"
-        :location="campagne.lieu"
-        :campagneId="campagne.id"
+          :image="
+            campagne.image
+              ? urlImage + campagne.image
+              : '/src/assets/images/women.svg'
+          "
+          :key="campagne.id"
+          :title="campagne.nom"
+          :date="formatDate(campagne.date_debut)"
+          :location="campagne.lieu"
+          :campagneId="campagne.id"
         />
       </div>
     </section>
@@ -41,7 +47,9 @@
     <section class="advice">
       <h2>Conseils <a href="#">Voir tous</a></h2>
       <div class="advice-videos">
-        <p v-if="adviceVideos.length === 0">Aucun conseil disponible pour le moment.</p>
+        <p v-if="adviceVideos.length === 0">
+          Aucun conseil disponible pour le moment.
+        </p>
         <AdviceVideo
           v-for="video in adviceVideos.slice(0, 4)"
           :key="video.id"
@@ -53,14 +61,15 @@
 </template>
 
 <script>
-import Layout from '@/components/layouts/Layout.vue';
-import AppointmentCard from '@/components/AppointmentCard.vue';
-import CampaignCard from '@/components/CampaignCard.vue';
-import AdviceVideo from '@/components/AdviceVideo.vue';
-import consultationService from '@/services/consultationService';
-import campagneService from '@/services/campagneService';
-import conseilService from '@/services/conseilService';
-import authService from '@/services/authService';
+import Layout from "@/components/layouts/Layout.vue";
+import AppointmentCard from "@/components/AppointmentCard.vue";
+import CampaignCard from "@/components/CampaignCard.vue";
+import AdviceVideo from "@/components/AdviceVideo.vue";
+import consultationService from "@/services/consultationService";
+import campagneService from "@/services/campagneService";
+import conseilService from "@/services/conseilService";
+import authService from "@/services/authService";
+import urlImage from "@/services/imageUrl";
 
 export default {
   components: {
@@ -108,35 +117,33 @@ export default {
     async fetchCampaigns() {
       try {
         const response = await campagneService.getCampagnes();
-        this.campaigns = response;        
+        this.campaigns = response;
       } catch (error) {
-        console.error('Erreur lors de la récupération des campagnes:', error);
+        console.error("Erreur lors de la récupération des campagnes:", error);
       }
     },
-    getImageUrl(image) {
-      // return `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${image}`; // Construire l'URL complète de l'image
-      return `http://127.0.0.1:8000/storage//${image}`; // Construire l'URL complète de l'image
-    },
+
     // Fetch advice videos from the backend
     async fetchConseil() {
       try {
         const response = await conseilService.getConseils();
         this.adviceVideos = response.data;
       } catch (error) {
-        console.error('Erreur lors de la récupération des conseil:', error);
+        console.error("Erreur lors de la récupération des conseil:", error);
       }
     },
     formatDate(date) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(date).toLocaleDateString('fr-FR', options); // Formater la date
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(date).toLocaleDateString("fr-FR", options); // Formater la date
     },
   },
 };
 </script>
 
 <style>
-
-.appointment-cards, .campaign-cards, .advice-videos {
+.appointment-cards,
+.campaign-cards,
+.advice-videos {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -147,7 +154,9 @@ export default {
   margin: 20px; /* add some margin for better spacing */
 }
 
-.appointment section, .campaigns section, .advice section {
+.appointment section,
+.campaigns section,
+.advice section {
   margin-bottom: 40px;
 }
 

@@ -8,19 +8,9 @@
               <!-- Profile picture image-->
               <img
                 class="img-account-profile rounded-circle mb-2"
-                src="/src/assets/images/women.svg"
+                :src="imageUrl"
                 alt="patiente"
               />
-              <!-- <img
-                class="img-account-profile rounded-circle mb-2"
-                src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${patiente.user.photo}`"
-                alt="patiente"
-              />   -->
-              <!-- <img
-                class="img-account-profile rounded-circle mb-2"
-                src="`http://127.0.0.1:8000/storage//${patiente.user.photo}`"
-                alt="patiente"
-              /> -->
             </div>
             <h4 class="mb-3 text-capitalize">
               {{ user.prenom }} {{ user.nom }}
@@ -845,7 +835,7 @@ import visiteService from "@/services/visiteService";
 import rendezVousService from "@/services/rendezVousService";
 import Swal from "sweetalert2";
 import accouchementService from "@/services/accouchementService";
-
+import urlImage from "@/services/imageUrl";
 
 const ACTION_VIEW = "view";
 const ACTION_EDIT = "edit";
@@ -1390,6 +1380,8 @@ export default {
         const response = await patienteService.getPatiente(this.id);
         this.patiente = response.patiente;
         this.user = this.patiente.user;
+        this.photo = this.patiente.user.photo;        
+        this.imageUrl = this.photo ? urlImage + `${this.photo}` : "/src/assets/images/women.svg";
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de la patiente :",
@@ -1504,9 +1496,8 @@ export default {
     },
 
     async addRendezVous(FormData) {
-        this.newRendezVous = { ...this.newRendezVous, ...FormData };
+      this.newRendezVous = { ...this.newRendezVous, ...FormData };
       try {
-        
         await rendezVousService.createRendezVous(this.newRendezVous);
         this.getRendezVous();
         this.resetRendezVousForm();
@@ -1531,11 +1522,14 @@ export default {
     },
     async addConsultation() {
       try {
-    console.log('Envoi des données :', { ...this.newConsultation, patiente_id: this.id });
-    await consultationService.createConsultation({
-      ...this.newConsultation,
-      patiente_id: this.id,
-    });
+        console.log("Envoi des données :", {
+          ...this.newConsultation,
+          patiente_id: this.id,
+        });
+        await consultationService.createConsultation({
+          ...this.newConsultation,
+          patiente_id: this.id,
+        });
 
         Swal.fire({
           title: "Succès!",
@@ -1566,94 +1560,93 @@ export default {
       };
     },
     async deleteRendezVous(id) {
-  Swal.fire({
-    title: "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Oui, supprimer",
-    cancelButtonText: "Annuler",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await rendezVousService.deleteRendezVous(id);
-        this.getRendezVous(); // Recharger la liste après la suppression
-        Swal.fire({
-          title: "Rendez-vous supprimé avec succès !",
-          icon: "success",
-          timer: 1000,
-        });
-      } catch (error) {
-        console.error(
-          "Erreur lors de la suppression du rendez-vous :",
-          error
-        );
-        Swal.fire({
-          title: "Erreur lors de la suppression du rendez-vous !",
-          icon: "error",
-          timer: 1000,
-        });
+      Swal.fire({
+        title: "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await rendezVousService.deleteRendezVous(id);
+            this.getRendezVous(); // Recharger la liste après la suppression
+            Swal.fire({
+              title: "Rendez-vous supprimé avec succès !",
+              icon: "success",
+              timer: 1000,
+            });
+          } catch (error) {
+            console.error(
+              "Erreur lors de la suppression du rendez-vous :",
+              error
+            );
+            Swal.fire({
+              title: "Erreur lors de la suppression du rendez-vous !",
+              icon: "error",
+              timer: 1000,
+            });
+          }
+        }
+      });
+    },
+
+    handleAccouchementTableAction({ action, row }) {
+      switch (action) {
+        case ACTION_VIEW:
+          this.$router.push({
+            name: "detailAccouchement",
+            params: { id: row.id },
+          });
+          break;
+        case ACTION_EDIT:
+          this.editAccouchement(row);
+          break;
+        case ACTION_DELETE:
+          this.deleteAccouchement(row.id);
+          break;
+        default:
+          break;
       }
-    }
-  });
-},
+    },
 
-  
-  handleAccouchementTableAction({ action, row }) {
-    switch (action) {
-      case ACTION_VIEW:
-        this.$router.push({
-          name: "detailAccouchement",
-          params: { id: row.id },
-        });
-        break;
-      case ACTION_EDIT:
-        this.editAccouchement(row);
-        break;
-      case ACTION_DELETE:
-        this.deleteAccouchement(row.id);
-        break;
-      default:
-        break;
-    }
-  },
+    handleConsultationTableAction({ action, row }) {
+      switch (action) {
+        case ACTION_VIEW:
+          this.$router.push({
+            name: "detailConsultation",
+            params: { id: row.id },
+          });
+          break;
+        case ACTION_EDIT:
+          this.editConsultation(row);
+          break;
+        case ACTION_DELETE:
+          this.deleteConsultation(row.id);
+          break;
+        default:
+          break;
+      }
+    },
 
-  handleConsultationTableAction({ action, row }) {
-    switch (action) {
-      case ACTION_VIEW:
-        this.$router.push({
-          name: "detailConsultation",
-          params: { id: row.id },
-        });
-        break;
-      case ACTION_EDIT:
-        this.editConsultation(row);
-        break;
-      case ACTION_DELETE:
-        this.deleteConsultation(row.id);
-        break;
-      default:
-        break;
-    }
-  },
-
-  handleRendezVousTableAction({ action, row }) {
-    switch (action) {
-      case ACTION_VIEW:
-        this.$router.push({
-          name: "detailRendezVous",
-          params: { id: row.id },
-        });
-        break;
-      case ACTION_EDIT:
-        this.editRendezVous(row);
-        break;
-      case ACTION_DELETE:
-        this.deleteRendezVous(row.id);
-        break;
-      default:
-        break;
-    }
-  },
+    handleRendezVousTableAction({ action, row }) {
+      switch (action) {
+        case ACTION_VIEW:
+          this.$router.push({
+            name: "detailRendezVous",
+            params: { id: row.id },
+          });
+          break;
+        case ACTION_EDIT:
+          this.editRendezVous(row);
+          break;
+        case ACTION_DELETE:
+          this.deleteRendezVous(row.id);
+          break;
+        default:
+          break;
+      }
+    },
 
     async editConsultation(consultation) {
       try {
@@ -1813,7 +1806,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style scoped>
 .info {
   background-color: #fff;
   padding: 20px;

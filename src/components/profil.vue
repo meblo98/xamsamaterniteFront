@@ -10,7 +10,7 @@
               <!-- Profile picture image-->
               <img
                 class="img-account-profile rounded-circle mb-2"
-                :src="fullImageUrl"
+                :src="imageUrl"
                 alt="Profile Image"
               />
               <!-- Profile picture help block-->
@@ -85,12 +85,12 @@
                 </div>
                 <div class="row gx-3 mb-3">
                   <div class="col-md-6">
-                    <label class="small mb-1" for="inputOldPassword"
+                    <label class="small mb-1" for="old_password"
                       >Ancien mot de passe</label
                     >
                     <input
                       class="form-control"
-                      id="inputOldPassword"
+                      id="old_password"
                       v-model="profile.old_password"
                       type="password"
                       placeholder="Entrez votre ancien mot de passe"
@@ -125,7 +125,8 @@
 import authService from "@/services/authService";
 import Layout from "./layouts/Layout.vue";
 import Swal from "sweetalert2";
-const BASE_IMAGE_URL = "https://certif.lomouhamedelbachir.simplonfabriques.com/";
+import urlImage from "@/services/imageUrl";
+
 export default {
   components: {
     Layout,
@@ -145,22 +146,14 @@ export default {
       selectedFile: null, // Fichier sélectionné
     };
   },
-  computed: {
-    fullImageUrl() {
-      // return this.profile.photo
-      //   ? `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${this.profile.photo}`
-      //   : "@/assets/images/women.svg";
-      return this.profile.photo
-        ? `http://127.0.0.1:8000/storage//${this.profile.photo}`
-        : "@/assets/images/women.svg";
-    },
-  },
+
   methods: {
     async fetchProfile() {
       try {
         // Appel API pour récupérer les données de l'utilisateur
         const response = await authService.getUser();
         const userData = response.user;
+        
         if (userData) {
           // Assurez-vous de mettre à jour le modèle profile directement
           this.profile.prenom = userData.prenom;
@@ -168,14 +161,14 @@ export default {
           this.profile.email = userData.email;
           this.profile.telephone = userData.telephone;
           this.profile.adresse = userData.adresse;
-          this.profile.photo = userData.photo; // Ajoutez si nécessaire
+          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici               
+          // this.profile.photo = userData.photo; // Ajoutez si nécessaire
         }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des données utilisateur",
           error
         );
-        this.profileImage = "@/assets/images/women.svg"; // Image par défaut en cas d'erreur
       }
     },
     // Gestion du téléchargement de fichier

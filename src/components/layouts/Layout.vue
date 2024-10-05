@@ -104,7 +104,7 @@
           <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
           <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
           <!-- <img :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${userData.photo}`" alt="User Image" /> -->
-          <img :src="`http://127.0.0.1:8000/storage//${userData.photo}`" alt="User Image" />
+          <img :src="imageUrl" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
               <!-- Icône pour le dropdown -->
@@ -130,6 +130,9 @@
 <script>
 
 import authService from '@/services/authService';
+import urlImage from '@/services/imageUrl';
+
+
 export default {
   name: "Layout",
   data() {
@@ -150,7 +153,7 @@ export default {
   },
   },
   mounted() {
-    this.getUserData();
+    this.fetchProfile();
   },
   methods: {
     isActive(path) {
@@ -174,14 +177,21 @@ export default {
     openSettings() {
       this.$router.push("/settings");
     },
-    async getUserData() {
+    async fetchProfile() {
       try {
         // Appel API pour récupérer les données de l'utilisateur
         const response = await authService.getUser();
         const userData = response.user;
         
+        if (userData) {
+          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici               
+          // this.profile.photo = userData.photo; // Ajoutez si nécessaire
+        }
       } catch (error) {
-        console.error('Erreur lors de la récupération des données utilisateur', error);
+        console.error(
+          "Erreur lors de la récupération des données utilisateur",
+          error
+        );
       }
     },
   },
