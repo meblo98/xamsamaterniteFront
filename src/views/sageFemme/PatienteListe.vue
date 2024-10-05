@@ -469,6 +469,8 @@ export default {
       try {
         const response = await badieneGoxService.getBadieneGoxes();
         this.badiene = response.Liste_BadieneGox;
+        console.log(this.badiene);
+        
         this.updateFormFields();
       } catch (error) {
         console.error("Erreur lors de la récupération des badiene :", error);
@@ -479,6 +481,8 @@ export default {
         value: badiene.id,
         text: `${badiene.user.prenom} ${badiene.user.nom}`,
       }));
+      console.log(badieneOptions);
+      
       this.formFields.find((field) => field.name === "badien_gox_id").options =
         badieneOptions;
     },

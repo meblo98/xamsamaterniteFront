@@ -96,7 +96,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" @click="addBadiene(data)">
+              <button class="btn btn-primary" @click="addBadiene(newBadiene)">
                 Ajouter
               </button>
               <button
@@ -245,8 +245,7 @@ export default {
       this.getPatientsPaginated();
     },
 
-    async addBadiene(data = null) {
-      const badieneData = data;
+    async addBadiene(badieneData) {
 
       if (
         !badieneData.nom ||

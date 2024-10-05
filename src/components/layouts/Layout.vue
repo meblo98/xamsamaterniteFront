@@ -14,7 +14,7 @@
           />
         </div>
         <ul v-if="role === 'admin'">
-          <li class="nav-item" :class="{ active: isActive('/dashboard-admin') }">
+          <li class="nav-item" >
             <router-link class="nav-link" to="/dashboard-admin"><i class="fa-brands fa-windows"></i>Dashboard</router-link>
           </li>
           <li class="nav-item">
