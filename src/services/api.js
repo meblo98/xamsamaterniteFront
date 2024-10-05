@@ -26,8 +26,8 @@ const token = localStorage.getItem('token');
 
 // Créer une instance axios
 const apiClient = axios.create({
-  //   // baseURL: 'https://certif.lomouhamedelbachir.simplonfabriques.com/api',
-  baseURL: 'http://127.0.0.1:8000/api',
+    baseURL: 'https://certif.lomouhamedelbachir.simplonfabriques.com/api',
+  // baseURL: 'http://127.0.0.1:8000/api',
   withCredentials: false,
   headers: {
     'Accept': 'application/json',
