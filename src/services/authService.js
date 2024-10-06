@@ -20,8 +20,8 @@ export default {
       const response = await apiClient.post("/profil", data);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la mise à jour du profil :`, error);
-      throw error;
+      // console.error(`Erreur lors de la mise à jour du profil :`, error);
+      // throw error;
     }
   },
   async getUser(){
@@ -29,8 +29,8 @@ export default {
       const response = await apiClient.get("/user-profile");
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la recuperation du profil :`, error);
-      throw error;
+      // console.error(`Erreur lors de la recuperation du profil :`, error);
+      // throw error;
     }
   }
 };

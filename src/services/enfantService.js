@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/enfants');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des enfants :', error);
-      throw error;
+      // console.error('Erreur lors de la récupération des enfants :', error);
+      // throw error;
     }
   },
   async getEnfant(id) {
@@ -15,8 +15,8 @@ export default {
       const response = await apiClient.get(`/enfants/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la récupération de l'enfant avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la récupération de l'enfant avec l'id ${id} :`, error);
+      // throw error;
     }
   },
   async createEnfant(data) {
@@ -24,8 +24,8 @@ export default {
       const response = await apiClient.post('/enfants', data);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la création de l\'enfant :', error);
-      throw error;
+      // console.error('Erreur lors de la création de l\'enfant :', error);
+      // throw error;
     }
   },
   async updateEnfant(id, data) {
@@ -33,8 +33,8 @@ export default {
       const response = await apiClient.put(`/enfants/${id}`, data);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la mise à jour de l'enfant avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la mise à jour de l'enfant avec l'id ${id} :`, error);
+      // throw error;
     }
   },
   async deleteEnfant(id) {
@@ -42,8 +42,8 @@ export default {
       const response = await apiClient.delete(`/enfants/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la suppression de l'enfant avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la suppression de l'enfant avec l'id ${id} :`, error);
+      // throw error;
     }
   }
 };

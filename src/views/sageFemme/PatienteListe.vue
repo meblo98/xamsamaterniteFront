@@ -144,7 +144,7 @@
               <div class="form-group">
                 <label for="badieneGox">Badiene Gox</label>
                 <select
-                  v-model="newPatiente.badieneGox"
+                  v-model="newPatiente.badien_gox_id"
                   class="form-control"
                   id="badien_gox_id"
                   required
@@ -155,21 +155,14 @@
                     :key="badiene.id"
                     :value="badiene.id"
                   >
-                    {{ badiene.nom }}
+                  {{ badiene.user.prenom }} {{ badiene.user.nom }}
                   </option>
                 </select>
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" @click="addPatiente(newPatiente)">
+              <button class="btn" @click="addPatiente(newPatiente)">
                 Ajouter
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Fermer
               </button>
             </div>
           </div>
@@ -371,7 +364,6 @@ export default {
       }
     },
     async addPatiente(patienteData) {
-      console.log(patienteData);
 
       if (
         !patienteData.nom ||
@@ -398,7 +390,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
-        this.$router.replace({ name: "patiente-sage-femme" });
+        this.getPatients(); // Recharger la liste après l'ajout
       } catch (error) {
         console.error("Erreur lors de l'ajout de la patiente :", error);
         Swal.fire({
@@ -406,7 +398,6 @@ export default {
           icon: "error",
           timer: 1000,
         });
-        this.$router.replace({ name: "patiente-sage-femme" });
       }
     },
     async editPatiente(patiente) {
@@ -468,9 +459,7 @@ export default {
     async getBadiene() {
       try {
         const response = await badieneGoxService.getBadieneGoxes();
-        this.badiene = response.Liste_BadieneGox;
-        console.log(this.badiene);
-        
+        this.badiene = response.Liste_BadieneGox;        
         this.updateFormFields();
       } catch (error) {
         console.error("Erreur lors de la récupération des badiene :", error);
@@ -481,7 +470,6 @@ export default {
         value: badiene.id,
         text: `${badiene.user.prenom} ${badiene.user.nom}`,
       }));
-      console.log(badieneOptions);
       
       this.formFields.find((field) => field.name === "badien_gox_id").options =
         badieneOptions;

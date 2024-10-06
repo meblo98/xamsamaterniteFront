@@ -32,7 +32,7 @@
           <div v-if="vaccinations.length === 0">
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn"
               :data-bs-toggle="'modal'"
               :data-bs-target="'#ajoutVaccination'"
             >
@@ -100,14 +100,14 @@
 
                   <div class="modal-footer">
                     <button
-                      class="btn btn-primary"
+                      class="btn"
                       @click="addVaccination({ ...newVaccination })"
                     >
                       Ajouter
                     </button>
                     <button
                       type="button"
-                      class="btn btn-secondary"
+                      class="btn"
                       data-bs-dismiss="modal"
                     >
                       Fermer
@@ -437,7 +437,6 @@ img {
   width: 100%;
   max-width: 100%;
   height: auto;
-  -webkit-backface-visibility: hidden;
 }
 .rounded {
   border-radius: 5px !important;
@@ -470,6 +469,14 @@ strong {
 }
 
 .add-btn {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+button {
   background-color: #6932f9;
   color: white;
   border: none;

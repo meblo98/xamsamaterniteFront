@@ -23,11 +23,10 @@ export default {
   data() {
     return {
       stats: [
-        // { icon: '🏥', value: dailyConsultations, label: 'Consultations d\'aujourd\'hui' },
-        // { icon: '🏨', value: '89', label: 'Accouchements dans le mois' },
-        // { icon: '🤰 ', value: '300', label: 'Patientes dans le poste' },
-      ],
-      dailyConsultations: 0,
+        { icon: '🏥', value: 0, label: 'Consultations d\'aujourd\'hui' },
+        { icon: '🏨', value: 0, label: 'Accouchements dans le mois' },
+        { icon: '🤰', value: 0, label: 'Patientes dans le poste' }
+      ]
     };
   },
   async mounted() {
@@ -38,7 +37,7 @@ export default {
   methods: {
     async consultations() {
       const response = await consultationService.getConsultations();
-      const consultations = response;
+      const consultations = response || [];  // S'assure qu'il s'agit d'un tableau même si aucune donnée
       this.calculateDailyConsultations(consultations);
     },
     calculateDailyConsultations(consultations) {
@@ -46,44 +45,32 @@ export default {
       const dailyConsultations = consultations.filter(
         (c) => c.date === today
       ).length;
-      this.stats.push({
-        icon: "🏥",
-        value: dailyConsultations,
-        label: "Consultations d'aujourd'hui",
-      });
+      this.stats[0].value = dailyConsultations; // Met à jour la valeur de la première stat
     },
 
-    // nombre d'accouchement par mois
+    // nombre d'accouchements par mois
     async accouchements() {
       const response = await accouchementService.getAccouchements();
-      const accouchements = response.accouchements;
-      await this.calculateMonthlyAccoucchements(accouchements);
+      const accouchements = response.accouchements || [];  // S'assure qu'il s'agit d'un tableau
+      this.calculateMonthlyAccoucchements(accouchements);
     },
-
-    async calculateMonthlyAccoucchements(accouchements) {
+    calculateMonthlyAccoucchements(accouchements) {
       const currentMonth = new Date().toISOString().split("T")[0].slice(0, 7);
       const monthlyAccoucchements = accouchements.filter(
         (a) => a.date.slice(0, 7) === currentMonth
       ).length;
-      this.stats.push({
-        icon: "🏨",
-        value: monthlyAccoucchements,
-        label: "Accouchements dans le mois",
-      });
+      this.stats[1].value = monthlyAccoucchements; // Met à jour la deuxième stat
     },
+
     // nombre de patientes
     async patientes() {
       const response = await patienteService.getPatientes();
-      const patientes = response.Liste_des_patientes;
-      await this.calculePatiente(patientes);
+      const patientes = response.Liste_des_patientes || []; // S'assure qu'il s'agit d'un tableau
+      this.calculatePatientes(patientes);
     },
-    async calculePatiente(patientes) {
+    calculatePatientes(patientes) {
       const patientesCount = patientes.length;
-      this.stats.push({
-        icon: "🤰",
-        value: patientesCount,
-        label: "Patientes dans le poste",
-      });
+      this.stats[2].value = patientesCount; // Met à jour la troisième stat
     },
   },
 };
@@ -107,19 +94,15 @@ export default {
   font-size: 30px;
 }
 
-.icon {
-  font-size: 30px;
-}
-
-/* Ajoutez cette règle pour les appareils mobiles */
+/* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-stats {
-    flex-direction: column; /* Modifiez la disposition en colonne */
-    align-items: center; /* Centrez les éléments */
+    flex-direction: column; 
+    align-items: center; 
   }
   .stat-card {
-    width: 100%; /* Modifiez la largeur pour qu'elle soit de 100% */
-    margin: 10px 0; /* Modifiez les marges pour qu'elles soient uniquement en haut et en bas */
+    width: 100%; 
+    margin: 10px 0; 
   }
 }
 </style>

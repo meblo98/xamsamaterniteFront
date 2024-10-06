@@ -14,3 +14,14 @@ export default{
     }
 }
 </script>
+
+<style>
+button {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+</style>

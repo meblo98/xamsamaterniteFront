@@ -29,7 +29,7 @@
             <div v-if="rendezVous.length === 0">
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn"
                 data-bs-toggle="modal"
                 data-bs-target="#ajoutRendezVous"
               >
@@ -127,7 +127,7 @@
             <div v-if="consultations.length === 0">
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn"
                 data-bs-toggle="modal"
                 data-bs-target="#ajoutConsultation"
               >
@@ -627,7 +627,7 @@
               <div v-if="accouchements.length === 0">
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn"
                   data-bs-toggle="modal"
                   data-bs-target="#ajoutAccouchement"
                 >
@@ -1450,9 +1450,7 @@ export default {
             patiente_id: consultation.patiente_id,
             visite_id: consultation.visite_id,
           }));
-        } else {
-          console.log("Aucune consultation trouvée pour cette patiente.");
-        }
+        } 
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des consultations :",
@@ -1484,9 +1482,7 @@ export default {
               : "Aucun libellé",
             visite_id: rendezVous.visite_id,
           }));
-        } else {
-          console.log("Aucun rendez-vous trouvé pour cette patiente.");
-        }
+        } 
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -1522,10 +1518,7 @@ export default {
     },
     async addConsultation() {
       try {
-        console.log("Envoi des données :", {
-          ...this.newConsultation,
-          patiente_id: this.id,
-        });
+    
         await consultationService.createConsultation({
           ...this.newConsultation,
           patiente_id: this.id,
@@ -1707,8 +1700,6 @@ export default {
             evolution_reanimation: accouchement.evolution_reanimation,
             id: accouchement.id,
           }));
-        } else {
-          console.log("Aucun accouchement trouvé pour cette patiente.");
         }
       } catch (error) {
         console.error(
@@ -1907,6 +1898,14 @@ strong {
 }
 
 .add-btn {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+button {
   background-color: #6932f9;
   color: white;
   border: none;
