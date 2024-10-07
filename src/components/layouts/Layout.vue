@@ -200,9 +200,7 @@ export default {
         const userData = response.user;
 
         if (userData) {
-          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici
-          console.log(this.imageUrl);
-          
+          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici          
         }
       } catch (error) {
         // console.error(

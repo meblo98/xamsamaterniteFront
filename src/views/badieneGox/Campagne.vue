@@ -73,7 +73,7 @@
                   type="file"
                   class="form-control"
                   id="image"
-                  @change="onFileChange"
+                  @change="handleFileUpload($event, 'image')"
                 />
               </div>
               <div class="form-group">

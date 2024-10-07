@@ -29,11 +29,7 @@
         </p>
         <CampaignCard
           v-for="campagne in campaigns.slice(0, 4)"
-          :image="
-            campagne.image
-              ? urlImage + campagne.image
-              : '/src/assets/images/women.svg'
-          "
+          :image="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${campagne.image}`"
           :key="campagne.id"
           :title="campagne.nom"
           :date="formatDate(campagne.date_debut)"
@@ -107,10 +103,10 @@ export default {
           this.rv = response.mes_rv;
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des rendez-vous :",
-          error
-        );
+        // console.error(
+        //   "Erreur lors de la récupération des rendez-vous :",
+        //   error
+        // );
       }
     },
     // Fetch campaigns from the backend
@@ -119,7 +115,7 @@ export default {
         const response = await campagneService.getCampagnes();
         this.campaigns = response;
       } catch (error) {
-        console.error("Erreur lors de la récupération des campagnes:", error);
+        // console.error("Erreur lors de la récupération des campagnes:", error);
       }
     },
 
@@ -129,7 +125,7 @@ export default {
         const response = await conseilService.getConseils();
         this.adviceVideos = response.data;
       } catch (error) {
-        console.error("Erreur lors de la récupération des conseil:", error);
+        // console.error("Erreur lors de la récupération des conseil:", error);
       }
     },
     formatDate(date) {

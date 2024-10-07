@@ -148,7 +148,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                        Ajouter un accouchement
+                        Ajouter une consultation
                       </h1>
                       <button
                         type="button"
@@ -863,6 +863,7 @@
               />
             </div>
           </div>
+          <!-- conseil -->
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
     <div v-if="allData.length === 0">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn"
         :data-bs-toggle="'modal'"
         :data-bs-target="'#ajoutPatiente'"
       >
@@ -501,3 +501,13 @@ export default {
   },
 };
 </script>
+<style>
+button {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+</style>
