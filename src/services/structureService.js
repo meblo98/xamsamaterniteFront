@@ -7,7 +7,7 @@ const structuresSanteService = {
       const response = await apiClient.get('/structure');
       return response.data;
     } catch (error) {
-      console.error("Erreur lors de la récupération des structures de santé:", error);
+      // console.error("Erreur lors de la récupération des structures de santé:", error);
       return [];
     }
   },
@@ -17,7 +17,7 @@ const structuresSanteService = {
       const response = await apiClient.post('/structure', data);
       return response.data;
     } catch (error) {
-      throw error;
+      // throw error;
     }
   },
   async getStructure(id) {
@@ -25,8 +25,8 @@ const structuresSanteService = {
       const response = await apiClient.get(`/structure/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la récupération de la structure avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la récupération de la structure avec l'id ${id} :`, error);
+      // throw error;
     }
   },
 
@@ -35,8 +35,8 @@ const structuresSanteService = {
       const response = await apiClient.put(`/structure/${id}`, data);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la mise à jour de la structure avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la mise à jour de la structure avec l'id ${id} :`, error);
+      // throw error;
     }
   },
   async deleteStructuresSante(id) {
@@ -44,8 +44,8 @@ const structuresSanteService = {
       const response = await apiClient.delete(`/structure/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Erreur lors de la suppression de la structure avec l'id ${id} :`, error);
-      throw error;
+      // console.error(`Erreur lors de la suppression de la structure avec l'id ${id} :`, error);
+      // throw error;
     }
   }
 };

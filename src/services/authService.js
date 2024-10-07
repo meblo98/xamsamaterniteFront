@@ -21,7 +21,7 @@ export default {
       return response.data;
     } catch (error) {
       // console.error(`Erreur lors de la mise à jour du profil :`, error);
-      // throw error;
+        // throw error;
     }
   },
   async getUser(){

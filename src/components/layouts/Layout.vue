@@ -201,7 +201,7 @@ export default {
 
         if (userData) {
           this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici
-          // console.log(this.imageUrl);
+          console.log(this.imageUrl);
           
         }
       } catch (error) {

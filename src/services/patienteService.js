@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/patientes');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des patientes :', error);
-      throw error;
+      // console.error('Erreur lors de la récupération des patientes :', error);
+      // throw error;
     }
   },
   async getPatiente(id) {
@@ -43,7 +43,7 @@ export default {
       return response.data;
     } catch (error) {
       // console.error(`Erreur lors de la suppression de la patiente avec l'id ${id} :`, error);
-      throw error;
+      // throw error;
     }
   }
 };
