@@ -163,6 +163,7 @@
                         <label for="date">Date</label>
                         <input
                           type="date"
+                          class="form-control"
                           v-model="newConsultation.date"
                           id="date"
                           required
@@ -196,6 +197,7 @@
                       <div class="form-group">
                         <label for="terme">Terme</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.terme"
                           id="terme"
@@ -207,6 +209,7 @@
                         <label for="sa">SA</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.SA"
                           id="sa"
                         />
@@ -216,6 +219,7 @@
                       <div class="form-group">
                         <label for="plaintes">Plaintes</label>
                         <textarea
+                        class="form-control"
                           v-model="newConsultation.plaintes"
                           id="plaintes"
                         ></textarea>
@@ -226,6 +230,7 @@
                         <label for="mois">Mois</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.mois"
                           id="mois"
                         />
@@ -233,6 +238,7 @@
                         <label for="poids">Poids (kg)</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.poids"
                           id="poids"
                         />
@@ -240,6 +246,7 @@
                         <label for="taille">Taille (cm)</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.taille"
                           id="taille"
                         />
@@ -247,6 +254,7 @@
                         <label for="pb">PB (cm)</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.PB"
                           id="pb"
                         />
@@ -257,6 +265,7 @@
                         <label for="temperature">Température (°C)</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.temperature"
                           id="temperature"
                           step="0.1"
@@ -268,6 +277,7 @@
                         <label for="urine">Urine</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.urine"
                           id="urine"
                         />
@@ -278,6 +288,7 @@
                         <label for="sucre">Sucre</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.sucre"
                           id="sucre"
                         />
@@ -288,6 +299,7 @@
                         <label for="ta">TA (mmHg)</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.TA"
                           id="ta"
                         />
@@ -298,6 +310,7 @@
                         <label for="pouls">Pouls (bpm)</label>
                         <input
                           type="number"
+                          class="form-control"
                           v-model="newConsultation.pouls"
                           id="pouls"
                         />
@@ -308,6 +321,7 @@
                         <label for="eg">État général (EG)</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.EG"
                           id="eg"
                         />
@@ -318,6 +332,7 @@
                         <label for="muqueuse">Muqueuse</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.muqueuse"
                           id="muqueuse"
                         />
@@ -327,6 +342,7 @@
                       <div class="form-group">
                         <label for="mollet">Mollet</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.mollet"
                           id="mollet"
@@ -338,6 +354,7 @@
                         <label for="omi">OMI</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.OMI"
                           id="omi"
                         />
@@ -347,6 +364,7 @@
                       <div class="form-group">
                         <label for="examen_seins">Examen des seins</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.examen_seins"
                           id="examen_seins"
@@ -358,6 +376,7 @@
                         <label for="hu">HU</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.hu"
                           id="hu"
                         />
@@ -368,6 +387,7 @@
                         <label for="speculum">Speculum</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.speculum"
                           id="speculum"
                         />
@@ -378,6 +398,7 @@
                         <label for="tv">TV</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.tv"
                           id="tv"
                         />
@@ -388,6 +409,7 @@
                         <label for="fer_ac_folique">Fer Ac Folique</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.fer_ac_folique"
                           id="fer_ac_folique"
                         />
@@ -398,6 +420,7 @@
                         <label for="milda">Milda</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.milda"
                           id="milda"
                         />
@@ -408,6 +431,7 @@
                         <label for="autre_traitement">Autre Traitement</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.autre_traitement"
                           id="autre_traitement"
                         />
@@ -418,6 +442,7 @@
                         <label for="maf">MAF</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.maf"
                           id="maf"
                         />
@@ -428,6 +453,7 @@
                         <label for="bdcf">BDCF</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.bdcf"
                           id="bdcf"
                         />
@@ -438,6 +464,7 @@
                         <label for="alb">ALB</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.alb"
                           id="alb"
                         />
@@ -448,6 +475,7 @@
                         <label for="vat">VAT</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.vat"
                           id="vat"
                         />
@@ -458,6 +486,7 @@
                         <label for="tpi">TPI</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.tpi"
                           id="tpi"
                         />
@@ -467,6 +496,7 @@
                       <div class="form-group">
                         <label for="palpation">Palpation</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.palpation"
                           id="palpation"
@@ -477,6 +507,7 @@
                       <div class="form-group">
                         <label for="bdc">BDC</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.bdc"
                           id="bdc"
@@ -487,6 +518,7 @@
                       <div class="form-group">
                         <label for="presentation">Présentation</label>
                         <input
+                        class="form-control"
                           type="text"
                           v-model="newConsultation.presentation"
                           id="presentation"
@@ -498,6 +530,7 @@
                         <label for="bassin">Bassin</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.bassin"
                           id="bassin"
                         />
@@ -510,6 +543,7 @@
                         >
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.pelvimetre_externe"
                           id="pelvimetre_externe"
                         />
@@ -522,6 +556,7 @@
                         >
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.pelvimetre_interne"
                           id="pelvimetre_interne"
                         />
@@ -532,6 +567,7 @@
                         <label for="biischiatique">Biischiatique</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.biischiatique"
                           id="biischiatique"
                         />
@@ -542,6 +578,7 @@
                         <label for="trillat">Trillat</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.trillat"
                           id="trillat"
                         />
@@ -552,6 +589,7 @@
                         <label for="lign_innominees">Lign Innommées</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.lign_innominees"
                           id="lign_innominees"
                         />
@@ -562,6 +600,7 @@
                         <label for="lv">LV</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.lv"
                           id="lv"
                         />
@@ -572,6 +611,7 @@
                         <label for="localisation">Localisation</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.localisation"
                           id="localisation"
                         />
@@ -582,6 +622,7 @@
                         <label for="lien">Lien</label>
                         <input
                           type="text"
+                          class="form-control"
                           v-model="newConsultation.lien"
                           id="lien"
                         />
@@ -591,6 +632,7 @@
                       <div class="form-groupe">
                         <label for="commentaires">Commentaires</label>
                         <textarea
+                        class="form-control"
                           v-model="newConsultation.commentaires"
                           id="commentaires"
                         ></textarea>
@@ -670,6 +712,16 @@
                           />
                         </div>
                         <div class="form-group">
+                          <label for="heure">Heure</label>
+                          <input
+                            v-model="newAccouchement.heure"
+                            type="time"
+                            class="form-control"
+                            id="heure"
+                            placeholder="Entrez l'heure"
+                          />
+                        </div>
+                        <div class="form-group">
                           <label for="mode">Mode d'accouchement</label>
                           <select
                             v-model="newAccouchement.mode"
@@ -743,16 +795,7 @@
                             placeholder="Entrez la pathologie"
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="heure">Heure</label>
-                          <input
-                            v-model="newAccouchement.heure"
-                            type="time"
-                            class="form-control"
-                            id="heure"
-                            placeholder="Entrez l'heure"
-                          />
-                        </div>
+                   
                         <div class="form-group">
                           <label for="evolution_reanimation">Terme</label>
                           <select

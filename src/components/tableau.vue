@@ -2,7 +2,7 @@
   <div class="custom-table table-responsive">
     <div class="header">
       <h3>{{ title }}</h3>
-      <button class="add-btn" @click="openModal">Ajouter</button>
+      <button class="add-btn" @click="openModal"> + Ajouter</button>
     </div>
     <table>
       <thead>

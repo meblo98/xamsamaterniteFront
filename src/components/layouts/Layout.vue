@@ -14,17 +14,25 @@
           />
         </div>
         <ul v-if="role === 'admin'">
-          <li class="nav-item" >
-            <router-link class="nav-link" to="/dashboard-admin"><i class="fa-brands fa-windows"></i>Dashboard</router-link>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/dashboard-admin"
+              ><i class="fa-brands fa-windows"></i>Dashboard</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/structure">Structure</router-link>
+            <router-link class="nav-link" to="/structure"
+              >Structure</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeVisite-admin">Visite</router-link>
+            <router-link class="nav-link" to="/listeVisite-admin"
+              >Visite</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>
+            <router-link class="nav-link" to="/listeSageFemme-admin"
+              >Sage-femme</router-link
+            >
           </li>
         </ul>
         <!-- Navigation Links -->
@@ -56,9 +64,7 @@
             >
           </li>
           <li>
-            <router-link to="/patiente-sage-femme"
-              >🤰  Patientes</router-link
-            >
+            <router-link to="/patiente-sage-femme">🤰 Patientes</router-link>
           </li>
           <li>
             <router-link to="/badiene-sage-femme">👩‍🦰 Badienes Gox</router-link>
@@ -75,7 +81,7 @@
             >
           </li>
           <li>
-            <router-link to="patiente-badiene-gox">🤰  Patiente</router-link>
+            <router-link to="patiente-badiene-gox">🤰 Patiente</router-link>
           </li>
           <li>
             <router-link to="campagne-badiene-gox">🔈 Campagnes</router-link>
@@ -101,19 +107,32 @@
         </div>
         <!-- User Profile Icons -->
         <div class="user-profile">
-          <i class="fi fi-rr-settings" @click="openSettings" v-b-tooltip.hover title="Paramètres"></i>
-          <i class="fas fa-bell" v-b-tooltip.hover title="Notifications"></i>
+          <i class="fi fi-rr-settings" @click="openSettings"></i>
+          <i class="fas fa-bell"></i>
           <!-- <img :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${userData.photo}`" alt="User Image" /> -->
           <img :src="imageUrl" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
-              <!-- Icône pour le dropdown -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 15 15"
+              >
+                <path fill="black" d="M7.5 12L0 4h15z" />
+              </svg>
             </button>
             <ul class="dropdown-menu">
-              <li><a href="#" @click="openSettings"><i class="fi fi-rr-settings"></i>Paramètres</a></li>
-              <li><a href="#" @click.prevent="logout">
-                <i class="fi fi-br-sign-out-alt"></i>Déconnexion
-        </a></li>
+              <li>
+                <a href="#" @click="openSettings"
+                  ><i class="fi fi-rr-settings"></i>Paramètres</a
+                >
+              </li>
+              <li>
+                <a href="#" @click.prevent="logout">
+                  <i class="fi fi-br-sign-out-alt"></i>Déconnexion
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -128,10 +147,8 @@
 </template>
 
 <script>
-
-import authService from '@/services/authService';
-import urlImage from '@/services/imageUrl';
-
+import authService from "@/services/authService";
+import urlImage from "@/services/imageUrl";
 
 export default {
   name: "Layout",
@@ -142,15 +159,14 @@ export default {
       profileImage: "", // Store the profile image URL
       userData: {}, // Store the user data
     };
-    
   },
   computed: {
     role() {
       return localStorage.getItem("role");
     },
     isActive(path) {
-    return this.active === path;
-  },
+      return this.active === path;
+    },
   },
   mounted() {
     this.fetchProfile();
@@ -161,10 +177,10 @@ export default {
     },
     logout() {
       // Supprimer le token de l'utilisateur
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
 
       // Faire la redirection vers la racine
-      this.$router.push({ name: 'login' });
+      this.$router.push({ name: "login" });
     },
     toggleDropdown() {
       const dropdownMenu = document.querySelector(".dropdown-menu");
@@ -182,16 +198,17 @@ export default {
         // Appel API pour récupérer les données de l'utilisateur
         const response = await authService.getUser();
         const userData = response.user;
-        
+
         if (userData) {
-          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici               
-          // this.profile.photo = userData.photo; // Ajoutez si nécessaire
+          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici
+          // console.log(this.imageUrl);
+          
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des données utilisateur",
-          error
-        );
+        // console.error(
+        //   "Erreur lors de la récupération des données utilisateur",
+        //   error
+        // );
       }
     },
   },
@@ -201,7 +218,7 @@ export default {
 <style scoped>
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css");
-@import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
 .layout {
   display: flex;
   min-height: 100vh;
@@ -242,7 +259,6 @@ export default {
   border-radius: 5px;
   padding: 10px;
 }
-
 
 .dropdown:hover .dropdown-menu {
   display: block;
