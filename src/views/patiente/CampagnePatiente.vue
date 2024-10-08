@@ -8,7 +8,7 @@
       class="card-wrapper"
     >
       <CampaignCard
-      :image="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${campagne.image}`"
+      :image="`http://127.0.0.1:8000/storage//${campagne.image}`"
       :title="campagne.nom"
         :date="formatDate(campagne.date_debut)"
         :location="campagne.lieu"

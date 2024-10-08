@@ -197,7 +197,7 @@
                       <div class="form-group">
                         <label for="terme">Terme</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.terme"
                           id="terme"
@@ -219,7 +219,7 @@
                       <div class="form-group">
                         <label for="plaintes">Plaintes</label>
                         <textarea
-                        class="form-control"
+                          class="form-control"
                           v-model="newConsultation.plaintes"
                           id="plaintes"
                         ></textarea>
@@ -342,7 +342,7 @@
                       <div class="form-group">
                         <label for="mollet">Mollet</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.mollet"
                           id="mollet"
@@ -364,7 +364,7 @@
                       <div class="form-group">
                         <label for="examen_seins">Examen des seins</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.examen_seins"
                           id="examen_seins"
@@ -496,7 +496,7 @@
                       <div class="form-group">
                         <label for="palpation">Palpation</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.palpation"
                           id="palpation"
@@ -507,7 +507,7 @@
                       <div class="form-group">
                         <label for="bdc">BDC</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.bdc"
                           id="bdc"
@@ -518,7 +518,7 @@
                       <div class="form-group">
                         <label for="presentation">Présentation</label>
                         <input
-                        class="form-control"
+                          class="form-control"
                           type="text"
                           v-model="newConsultation.presentation"
                           id="presentation"
@@ -632,7 +632,7 @@
                       <div class="form-groupe">
                         <label for="commentaires">Commentaires</label>
                         <textarea
-                        class="form-control"
+                          class="form-control"
                           v-model="newConsultation.commentaires"
                           id="commentaires"
                         ></textarea>
@@ -795,7 +795,7 @@
                             placeholder="Entrez la pathologie"
                           />
                         </div>
-                   
+
                         <div class="form-group">
                           <label for="evolution_reanimation">Terme</label>
                           <select
@@ -864,6 +864,93 @@
             </div>
           </div>
           <!-- conseil -->
+          <div v-if="conseils.length === 0">
+            <button
+              type="button"
+              class="btn"
+              data-bs-toggle="modal"
+              data-bs-target="#ajoutConseil"
+            >
+              Ajouter un conseil
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="ajoutConseil"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                      Ajouter un conseil
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="description_conseil"
+                        >Description du conseil</label
+                      >
+                      <textarea
+                        v-model="newConseil.description"
+                        class="form-control"
+                        id="description"
+                        placeholder="Entrez le conseil"
+                      ></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="categorie_id">Image du conseil</label>
+                      <input
+                        class="form-control"
+                        id="image"
+                        type="file"
+                        @change="handleFileUpload($event, 'image')"
+                      />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      class="btn btn-primary"
+                      @click="addConseil(newConseil)"
+                    >
+                      Ajouter
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Fermer
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>Aucun conseil trouvé pour cette patiente.</p>
+          </div>
+
+          <Table
+            v-else
+            :columns="conseilColumns"
+            :data="conseils"
+            title="Conseils"
+            :type="'conseils'"
+            :formFields="conseilFields"
+            @action="handleConseilTableAction"
+            @add-data="addConseil"
+            @edit-data="editConseil"
+          />
         </div>
       </div>
     </div>
@@ -880,6 +967,7 @@ import rendezVousService from "@/services/rendezVousService";
 import Swal from "sweetalert2";
 import accouchementService from "@/services/accouchementService";
 import urlImage from "@/services/imageUrl";
+import conseilService from "@/services/conseilService";
 
 const ACTION_VIEW = "view";
 const ACTION_EDIT = "edit";
@@ -892,6 +980,12 @@ export default {
   },
   data() {
     return {
+      conseils: [],
+      newConseil: {
+        image: null,
+        description: "",
+        patiente_id: this.id,
+      },
       accouchements: [],
       user: [],
       FormData: {},
@@ -1370,7 +1464,7 @@ export default {
         patiente_id: this.patienteId,
         visite_id: this.visiteId,
       },
-
+      selectedFile: null,
       patiente: {}, // Détails de la patiente
       consultations: [], // Stockage des consultations
       rendezVous: [], // Stockage des rendez-vous
@@ -1399,6 +1493,7 @@ export default {
     this.getRendezVous();
     this.getVisites();
     this.getAccouchements();
+    this.getConseils();
   },
   methods: {
     async getVisites() {
@@ -1424,8 +1519,10 @@ export default {
         const response = await patienteService.getPatiente(this.id);
         this.patiente = response.patiente;
         this.user = this.patiente.user;
-        this.photo = this.patiente.user.photo;        
-        this.imageUrl = this.photo ? urlImage + `${this.photo}` : "/src/assets/images/women.svg";
+        this.photo = this.patiente.user.photo;
+        this.imageUrl = this.photo
+          ? urlImage + `${this.photo}`
+          : "/src/assets/images/women.svg";
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de la patiente :",
@@ -1494,7 +1591,7 @@ export default {
             patiente_id: consultation.patiente_id,
             visite_id: consultation.visite_id,
           }));
-        } 
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des consultations :",
@@ -1526,7 +1623,7 @@ export default {
               : "Aucun libellé",
             visite_id: rendezVous.visite_id,
           }));
-        } 
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -1562,7 +1659,6 @@ export default {
     },
     async addConsultation() {
       try {
-    
         await consultationService.createConsultation({
           ...this.newConsultation,
           patiente_id: this.id,
@@ -1830,6 +1926,134 @@ export default {
           } catch (error) {
             Swal.fire({
               title: "Erreur lors de la suppression de l'accouchement",
+              icon: "error",
+              timer: 1000,
+            });
+          }
+        }
+      });
+    },
+    async getConseils() {
+      console.log(this.patienteId);
+
+      try {
+        const response = await conseilService.getConseilsPatiente(
+          this.patienteId
+        );
+
+        // Vérifie si mes_conseils existe
+        if (response && response.conseils) {
+          // Si mes_conseils est un objet unique
+          if (!Array.isArray(response.conseils)) {
+            // On le transforme en tableau pour le traiter de manière uniforme
+            response.conseils = [response.conseils];
+          }
+
+          // Mapper les conseils
+          this.conseils = response.conseils.map((conseil) => ({
+            id: conseil.id,
+            image: conseil.image || "Aucune image",
+            description: conseil.description || "Pas de description",
+          }));
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des conseils :", error);
+      }
+    },
+
+    handleFileUpload(event, fieldName) {
+      const file = event.target.files[0];
+      if (fieldName === "image") {
+        this.selectedFile = file; // Met à jour selectedFile avec le fichier
+        this.newConseil.image = file; // Met également à jour l'image dans newCampagne si nécessaire
+      }
+    },
+
+    async addConseil(conseilData) {
+      let errorMessage = "";
+
+      if (!conseilData.description) errorMessage += "Description, ";
+      if (!this.selectedFile) errorMessage += "Image, ";
+
+      if (errorMessage) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: `Le(s) champ(s) suivant(s) est(sont) requis : ${errorMessage
+            .trim()
+            .slice(0, -1)}.`,
+        });
+        return;
+      }
+
+      if (!this.selectedFile || this.selectedFile.size === 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Veuillez sélectionner un fichier valide.",
+        });
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append("description", conseilData.description);
+        formData.append("image", this.selectedFile); // Ajouter l'image
+          formData.append("patiente_id", conseilData.patiente_id);
+        // Appel au service pour créer un conseil
+        const response = await conseilService.createConseil(formData);
+
+        // Rechargez la liste des conseils
+        this.getConseilsPatiente();
+
+        Swal.fire({
+          title: "Conseil ajouté avec succès !",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // Réinitialisez le formulaire après l'ajout
+        this.resetConseilForm();
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du conseil :", error);
+        Swal.fire({
+          title: "Erreur lors de l'ajout du conseil !",
+          icon: "error",
+          timer: 1000,
+        });
+      }
+    },
+
+    resetConseilForm() {
+      this.newConseil = {
+        image: "",
+        description: "",
+        patiente_id: this.id,
+      };
+    },
+
+    async deleteConseil(id) {
+      Swal.fire({
+        title: "Êtes-vous sûr de vouloir supprimer ce conseil ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await conseilService.deleteConseil(id);
+            this.getConseils(); // Recharger la liste après la suppression
+            Swal.fire({
+              title: "Conseil supprimé avec succès !",
+              icon: "success",
+              timer: 1000,
+            });
+          } catch (error) {
+            console.error("Erreur lors de la suppression du conseil :", error);
+            Swal.fire({
+              title: "Erreur lors de la suppression du conseil !",
               icon: "error",
               timer: 1000,
             });

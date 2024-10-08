@@ -27,9 +27,11 @@
         <p v-if="campaigns.length === 0">
           Aucune campagne disponible pour le moment.
         </p>
+        <!-- :image="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${campagne.image}`" -->
+
         <CampaignCard
           v-for="campagne in campaigns.slice(0, 4)"
-          :image="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${campagne.image}`"
+          :image="`http://127.0.0.1:8000/storage//${campagne.image}`"
           :key="campagne.id"
           :title="campagne.nom"
           :date="formatDate(campagne.date_debut)"
@@ -123,7 +125,7 @@ export default {
     async fetchConseil() {
       try {
         const response = await conseilService.getConseils();
-        this.adviceVideos = response.data;
+        this.adviceVideos = response.mes_conseils;        
       } catch (error) {
         // console.error("Erreur lors de la récupération des conseil:", error);
       }

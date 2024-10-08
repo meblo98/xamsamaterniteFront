@@ -59,7 +59,7 @@
 
         <ul v-if="role === 'sage-femme'">
           <li>
-            <router-link to="/dashboard-sage-femme"
+            <router-link to="/dashboard-sage-femme" class="menu-link" 
               ><i class="fa-brands fa-windows"></i> Dashboard</router-link
             >
           </li>
@@ -164,17 +164,12 @@ export default {
     role() {
       return localStorage.getItem("role");
     },
-    isActive(path) {
-      return this.active === path;
-    },
   },
   mounted() {
     this.fetchProfile();
   },
   methods: {
-    isActive(path) {
-      return this.$route.path === path;
-    },
+ 
     logout() {
       // Supprimer le token de l'utilisateur
       localStorage.removeItem("token");
