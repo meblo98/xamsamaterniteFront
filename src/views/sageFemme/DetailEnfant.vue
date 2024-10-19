@@ -190,18 +190,21 @@ export default {
           label: "Nom du Vaccin",
           type: "text",
           placeholder: "Entrez le nom du vaccin",
+          required: true,
         },
         {
           name: "dose",
           label: "Dose",
           type: "text",
           placeholder: "Entrez la dose",
+          required: true,
         },
         {
           name: "observation",
           label: "Observation",
           type: "text",
           placeholder: "Entrez les observations",
+          required: true,
         },
       ],
       paginatedData: [],
@@ -226,7 +229,7 @@ export default {
       try {
         const response = await enfantService.getEnfant(this.id);
         this.enfant = response;
-        this.maman = response.accouchement.patiente.user;
+        this.maman = response.accouchement.grossesse.patiente.user;
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails de l'enfant :",

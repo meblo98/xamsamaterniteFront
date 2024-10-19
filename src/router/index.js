@@ -52,6 +52,13 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'sage-femme' }
     },
     {
+      path: '/grossesse-sage-femme/:id',
+      name: 'grossesse-sage-femme',
+      component: () => import('@/views/sageFemme/DetailGrossesse.vue'),
+      props: true,
+      meta: { requiresAuth: true, role: 'sage-femme' }
+    },
+    {
       path: '/badiene-sage-femme/',
       name: 'badiene-sage-femme',
       component: () => import('@/views/sageFemme/BadieneGoxListe.vue'),

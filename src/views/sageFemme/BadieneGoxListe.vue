@@ -171,30 +171,35 @@ export default {
           label: "Prénom",
           type: "text",
           placeholder: "Entrez le prénom",
+          required: true,
         },
         {
           name: "nom",
           label: "Nom",
           type: "text",
           placeholder: "Entrez le nom",
+          required: true,
         },
         {
           name: "adresse",
           label: "Adresse",
           type: "text",
           placeholder: "Entrez l'adresse",
+          required: true,
         },
         {
           name: "email",
           label: "Email",
           type: "email",
           placeholder: "Entrez l'email",
+          required: true,
         },
         {
           name: "telephone",
           label: "Téléphone",
           type: "text",
           placeholder: "Entrez le numéro de téléphone",
+          required: true,
         },
       ],
       paginatedData: [],
@@ -272,6 +277,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
+        window.location.reload();
       } catch (error) {
         Swal.fire({
           icon: "error",

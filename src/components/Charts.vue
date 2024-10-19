@@ -24,7 +24,7 @@ export default {
         title: { text: "Fréquence des patientes par mois" },
         axisX: { title: "Mois ⟶" },
         axisY: { title: "Nombre ⟶" },
-        data: [{ type: "spline", dataPoints: [] }], // Données vides au départ
+        data: [{ type: "column", dataPoints: [] }], // Changer "spline" à "column"
       },
       deliveriesChartOptions: {
         animationEnabled: true,
@@ -32,7 +32,7 @@ export default {
         title: { text: "Fréquence des accouchements par mois" },
         axisX: { title: "Mois ⟶" },
         axisY: { title: "Nombre ⟶" },
-        data: [{ type: "spline", dataPoints: [] }], // Données vides au départ
+        data: [{ type: "column", dataPoints: [] }], // Changer "spline" à "column"
       },
       styleOptions: {
         width: "100%",

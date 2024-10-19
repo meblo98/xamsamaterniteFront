@@ -173,7 +173,6 @@ export default {
     logout() {
       // Supprimer le token de l'utilisateur
       localStorage.removeItem("token");
-
       // Faire la redirection vers la racine
       this.$router.push({ name: "login" });
     },
