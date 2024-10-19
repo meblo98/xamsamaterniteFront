@@ -4,7 +4,7 @@
     <div v-if="allData.length === 0">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn"
         :data-bs-toggle="'modal'"
         :data-bs-target="'#ajoutPatiente'"
       >
@@ -232,7 +232,7 @@ export default {
         { label: "Âge", field: "age" },
         { label: "Lieu de Naissance", field: "lieu_de_naissance" },
         { label: "Profession", field: "profession" },
-        { label: "Type", field: "type" },
+        { label: "Adresse", field: "adresse" },
         { label: "Actions", field: "action", type: "action" },
       ],
       formFields: [
@@ -241,12 +241,14 @@ export default {
           label: "Prénom",
           type: "text",
           placeholder: "Entrez le prénom",
+          required: true,
         },
         {
           name: "nom",
           label: "Nom",
           type: "text",
           placeholder: "Entrez le nom",
+          required: true,
         },
         {
           name: "lieu_de_naissance",
@@ -259,36 +261,29 @@ export default {
           label: "Date de Naissance",
           type: "date",
           placeholder: "Entrez la date de naissance",
+          required: true,
         },
         {
           name: "profession",
           label: "Profession",
           type: "text",
           placeholder: "Entrez la profession",
+          required: true,
         },
-        {
-          name: "type",
-          label: "Type",
-          type: "select",
-          options: [
-            { value: "", text: "Selectionner le type de patiente" },
-            { value: "Enceinte", text: "Enceinte" },
-            { value: "En planning", text: "En planning" },
-            { value: "Allaitente", text: "Allaitente" },
-          ],
-          placeholder: "Entrez le type de patiente",
-        },
+     
         {
           name: "adresse",
           label: "Adresse",
           type: "text",
           placeholder: "Entrez l'adresse de la patiente",
+          required: true,
         },
         {
           name: "badien_gox_id",
           label: "Badiene Gox",
           type: "select",
           options: [],
+          required: true,
         },
         {
           name: "email",
@@ -301,6 +296,7 @@ export default {
           label: "Téléphone",
           type: "text",
           placeholder: "Entrez le numéro de téléphone de la patiente",
+          required: true,
         },
       ],
       formData: {},
@@ -365,22 +361,6 @@ export default {
     },
     async addPatiente(patienteData) {
 
-      if (
-        !patienteData.nom ||
-        !patienteData.prenom ||
-        !patienteData.telephone ||
-        !patienteData.email ||
-        !patienteData.adresse ||
-        !patienteData.badien_gox_id
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-        });
-        return;
-      }
-      
       try {
         await patienteService.createPatiente(patienteData);
         this.getPatients(); // Recharger la liste après l'ajout
@@ -391,8 +371,7 @@ export default {
           timer: 1500,
         });
         this.getPatients(); // Recharger la liste après l'ajout
-      } catch (error) {
-        console.error("Erreur lors de l'ajout de la patiente :", error);
+      } catch (error) {        
         Swal.fire({
           title: "Erreur lors de l'ajout de la patiente !",
           icon: "error",
@@ -501,3 +480,13 @@ export default {
   },
 };
 </script>
+<style>
+button {
+  background-color: #6932f9;
+  color: white;
+  border: none;
+  padding: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+</style>

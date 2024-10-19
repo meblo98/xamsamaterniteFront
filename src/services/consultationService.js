@@ -24,8 +24,8 @@ export default {
       const response = await apiClient.post('/consultations', data);
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la création de la consultation :', error);
-      // throw error;
+      console.error('Erreur lors de la création de la consultation :', error);
+      throw error;
     }
   },
   async updateConsultation(id, data) {

@@ -27,13 +27,11 @@
         <p v-if="campaigns.length === 0">
           Aucune campagne disponible pour le moment.
         </p>
+        <!-- :image="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage/${campagne.image}`" -->
+
         <CampaignCard
           v-for="campagne in campaigns.slice(0, 4)"
-          :image="
-            campagne.image
-              ? urlImage + campagne.image
-              : '/src/assets/images/women.svg'
-          "
+          :image="`http://127.0.0.1:8000/storage//${campagne.image}`"
           :key="campagne.id"
           :title="campagne.nom"
           :date="formatDate(campagne.date_debut)"
@@ -107,10 +105,10 @@ export default {
           this.rv = response.mes_rv;
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des rendez-vous :",
-          error
-        );
+        // console.error(
+        //   "Erreur lors de la récupération des rendez-vous :",
+        //   error
+        // );
       }
     },
     // Fetch campaigns from the backend
@@ -119,7 +117,7 @@ export default {
         const response = await campagneService.getCampagnes();
         this.campaigns = response;
       } catch (error) {
-        console.error("Erreur lors de la récupération des campagnes:", error);
+        // console.error("Erreur lors de la récupération des campagnes:", error);
       }
     },
 
@@ -127,9 +125,9 @@ export default {
     async fetchConseil() {
       try {
         const response = await conseilService.getConseils();
-        this.adviceVideos = response.data;
+        this.adviceVideos = response.mes_conseils;        
       } catch (error) {
-        console.error("Erreur lors de la récupération des conseil:", error);
+        // console.error("Erreur lors de la récupération des conseil:", error);
       }
     },
     formatDate(date) {

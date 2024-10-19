@@ -8,8 +8,8 @@
       class="card-wrapper"
     >
       <CampaignCard
-        :image="getImageUrl(campagne.image)"
-        :title="campagne.nom"
+      :image="`http://127.0.0.1:8000/storage//${campagne.image}`"
+      :title="campagne.nom"
         :date="formatDate(campagne.date_debut)"
         :location="campagne.lieu"
         :campagneId="campagne.id"
@@ -23,6 +23,7 @@
 import CampaignCard from "@/components/CampaignCard.vue";
 import Layout from "@/components/layouts/Layout.vue";
 import campagneService from "@/services/campagneService";
+import urlImage from "@/services/imageUrl";
 
 export default {
   components: {
@@ -46,10 +47,7 @@ export default {
         console.error('Erreur lors de la récupération des campagnes :', error);
       }
     },
-    getImageUrl(image) {
-      // return `https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${image}`; // Construire l'URL complète de l'image
-      return `http://127.0.0.1:8000/storage//${image}`; // Construire l'URL complète de l'image
-    },
+ 
     formatDate(date) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(date).toLocaleDateString('fr-FR', options); // Formater la date

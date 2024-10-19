@@ -29,10 +29,10 @@ export default {
       ]
     };
   },
-  async mounted() {
-    await this.consultations();
-    await this.accouchements();
-    await this.patientes();
+  mounted() {
+    this.consultations();
+    this.accouchements();
+    this.patientes();
   },
   methods: {
     async consultations() {
@@ -65,7 +65,7 @@ export default {
     // nombre de patientes
     async patientes() {
       const response = await patienteService.getPatientes();
-      const patientes = response.Liste_des_patientes || []; // S'assure qu'il s'agit d'un tableau
+      const patientes = response.Liste_des_patientes || []; // S'assure qu'il s'agit d'un tableau      
       this.calculatePatientes(patientes);
     },
     calculatePatientes(patientes) {

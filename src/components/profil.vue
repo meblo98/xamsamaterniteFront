@@ -199,6 +199,7 @@ export default {
           icon: "success",
           timer: 1000, 
         });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de la mise à jour du profil:", error);
       }
