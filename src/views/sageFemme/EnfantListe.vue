@@ -305,20 +305,6 @@ export default {
     },
 
     async addEnfant(enfantData) {
-      if (
-        !enfantData.nom ||
-        !enfantData.prenom ||
-        !enfantData.date_naissance ||
-        !enfantData.lieu_naissance ||
-        !enfantData.accouchement_id
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-        });
-        return;
-      }
 
       try {
         await enfantService.createEnfant(enfantData);
@@ -329,7 +315,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
-        this.$router.replace({ name: "enfant-sage-femme" });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de l'ajout de l'enfant :", error);
         Swal.fire({
@@ -340,19 +326,6 @@ export default {
       }
     },
     async editEnfant(enfantData) {
-      if (
-        !enfantData.nom ||
-        !enfantData.prenom ||
-        !enfantData.date_naissance ||
-        !enfantData.lieu_naissance
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-        });
-        return;
-      }
 
       try {
         await enfantService.updateEnfant(enfantData.id, enfantData);
@@ -363,6 +336,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de la modification de l'enfant :", error);
         Swal.fire({

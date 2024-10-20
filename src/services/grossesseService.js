@@ -4,10 +4,11 @@ export default {
   addGrossesse(grossesseData) {
     try {
       const response = apiClient.post("/grossesses", grossesseData);
-      return response.data;
+      return response;
+
     } catch (error) {
-      // console.error('Erreur lors de la création de la patiente :', error);
-      // throw error;
+      console.error('Erreur lors de la création de la patiente :', error);
+      throw error;
     }
   },
 

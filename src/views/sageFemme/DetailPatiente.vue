@@ -184,7 +184,22 @@ export default {
         console.error("Erreur lors de la récupération des détails :", error);
       }
     },
+    isDateValid(date) {
+    const today = new Date();
+    const inputDate = new Date(date);
+    return inputDate <= today; // Vérifie si la date est dans le passé ou aujourd'hui
+  },
     async addGrossesse() {
+          // Vérifie si la date de début est valide
+    if (!this.isDateValid(this.newGrossesse.date_debut)) {
+      Swal.fire({
+        title: "Erreur",
+        text: "La date de début de la grossesse doit être aujourd'hui ou dans le passé.",
+        icon: "error",
+        timer: 2000,
+      });
+      return; // Ne pas ajouter la grossesse si la validation échoue
+    }
       try {
         const response = await grossesseService.addGrossesse(this.newGrossesse);
         Swal.fire({
@@ -195,13 +210,12 @@ export default {
         this.grossesses.push(response.data);
         this.newGrossesse = { dateDebut: "", patiente_id: this.id };
         window.location.reload();
-      } catch (error) {
-        console.log(error);
-        
+      } catch (error) {         
         Swal.fire({
           title: "Erreur lors de l'ajout de la grossesse.",
+          text: error.response.data.message,
           icon: "error",
-          timer: 1500,
+          timer: 2000,
         });
       }
     },
@@ -230,15 +244,14 @@ export default {
     try {
       const updatedGrossesse = await grossesseService.updateGrossesse(grossesse.id, grossesse);
       
-      // Mettre à jour localement les données de la grossesse modifiée
-      window.location.reload();
-      // Afficher une notification de succès
       Swal.fire({
         icon: "success",
         title: "Grossesse modifiée avec succès",
         showConfirmButton: false,
         timer: 1500,
       });
+      window.location.reload();
+
     } catch (error) {
       console.error("Erreur lors de la modification de la grossesse:", error);
       Swal.fire({

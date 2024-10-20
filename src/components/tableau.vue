@@ -212,7 +212,7 @@ export default {
     } else {
       this.$emit("add-data", this.formData);
     }
-    this.closeModal();
+    // this.closeModal();
   },
     closeModal() {
       this.showModal = false; // Fermer la modal

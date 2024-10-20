@@ -43,7 +43,9 @@
             </div>
             <div v-if="rendezVous.length > 5">
               <button @click="prevPage">↩ Précédent</button>
-              <span class="mx-3">Page {{ currentPage }} sur {{ totalPages }}</span>
+              <span class="mx-3"
+                >Page {{ currentPage }} sur {{ totalPages }}</span
+              >
               <button @click="nextPage">Suivant ↪</button>
             </div>
             <!-- Modal pour afficher ou ajouter une consultation -->
@@ -59,7 +61,7 @@
                     <h5 class="modal-title">{{ modalTitle }}</h5>
                     <button
                       type="button"
-                      class="close"
+                      class="btn  close"
                       @click="closeModal"
                       aria-label="Close"
                     >
@@ -208,7 +210,6 @@
                         <strong>Terme:</strong>
                         {{ selectedRendezVous.consultation.terme }}
                       </p>
-                      <!-- Afficher d'autres détails de la consultation ici -->
                     </div>
                   </div>
                 </div>
@@ -219,21 +220,140 @@
         <div class="col-md-7">
           <div class="">
             <!-- Condition pour afficher l'accouchement ou le bouton d'ajout -->
-            <div v-if="accouchement">
-              <!-- Afficher les détails de l'accouchement -->
-              <p>
-                <strong>Date:</strong>
-                {{ accouchement.date }}
-              </p>
-              <p>
-                <strong>Mode:</strong>
-                {{ accouchement.mode }}
-              </p>
-              <p>
-                <strong>Lieu:</strong>
-                {{ accouchement.lieu }}
-              </p>
-              <!-- Afficher d'autres détails de l'accouchement ici -->
+            <div class="card p-3 mb-3 d-flex" v-if="accouchement">
+              <!-- Afficher les détails de l'accouchement ou les champs d'entrée -->
+              <div class="row">
+                <div class="col-6">
+                  <p v-if="!isEditing">
+                    <strong>Date:</strong>
+                    {{ accouchement.date }}
+                  </p>
+                  <div v-else class="form">
+                    <strong>Date</strong>
+                    <input
+                      type="date"
+                      v-model="accouchement.date"
+                      class="form-control"
+                    />
+                  </div>
+                  <p v-if="!isEditing">
+                    <strong>Debut Travail:</strong>
+                    {{ accouchement.debut_travail }}
+                  </p>
+                  <div class="form" v-else>
+                    <strong>Debut Travail</strong>
+                    <input
+                      type="time"
+                      v-model="accouchement.debut_travail"
+                      class="form-control"
+                    />
+                  </div>
+                  <p v-if="!isEditing">
+                    <strong>Lieu:</strong>
+                    {{ accouchement.lieu }}
+                  </p>
+                  <div v-else class="form">
+                    <strong>Lieu</strong>
+                    <input
+                      type="text"
+                      v-model="accouchement.lieu"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <p v-if="!isEditing">
+                    <strong>Mode:</strong>
+                    {{ accouchement.mode }}
+                  </p>
+                  <div v-else class="for">
+                    <strong>Mode</strong>
+                    <input
+                      type="text"
+                      v-model="accouchement.mode"
+                      class="form-control"
+                    />
+                  </div>
+                  <p v-if="!isEditing">
+                    <strong>Périnée:</strong>
+                    {{ accouchement.perinee }}
+                  </p>
+                  <div v-else class="form">
+                    <strong>Périnée</strong>
+                    <input
+                      type="text"
+                      v-model="accouchement.mode"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <p v-if="!isEditing">
+                    <strong>Heure:</strong>
+                    {{ accouchement.heure }}
+                  </p>
+                  <div v-else class="form">
+                    <strong>Heure</strong>
+                    <input
+                      type="time"
+                      v-model="accouchement.heure"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <p v-if="!isEditing">
+                    <strong>Terme:</strong>
+                    {{ accouchement.terme }}
+                  </p>
+                  <div v-else class="form">
+                    <span>Terme</span>
+                    <input
+                      type="text"
+                      v-model="accouchement.terme"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <p v-if="!isEditing">
+                    <strong>Pathologie:</strong>
+                    {{ accouchement.pathologie }}
+                  </p>
+                  <div v-else class="form">
+                    <span>Pathelogie</span>
+                    <input
+                      type="text"
+                      v-model="accouchement.pathologie"
+                      class="form-control"
+                    />
+                  </div>
+                  <p v-if="!isEditing">
+                    <strong>Evolution de la reanimation:</strong>
+                    {{ accouchement.evolution_reanimation }}
+                  </p>
+                  <div v-else class="form">
+                    <span>Evaluation reanimation</span>
+                    <input
+                      type="text"
+                      v-model="accouchement.evolution_reanimation"
+                      class="form-control"
+                    />
+                  </div>
+                  <p v-if="!isEditing">
+                    <strong>Mois de la grossesse:</strong>
+                    {{ accouchement.mois_grossesse }}
+                  </p>
+                  <div v-else class="form">
+                    <span>Mois de frossesse</span>
+                    <input
+                      type="text"
+                      v-model="accouchement.mois_grossesse"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button @click="toggleEdit" class="btn btn-primary mt-3">
+                {{ isEditing ? "Sauvegarder" : "Modifier" }}
+              </button>
             </div>
             <div v-else>
               <!-- Bouton pour ajouter un accouchement -->
@@ -255,7 +375,7 @@
                     <button
                       type="button"
                       class="close"
-                      @click="closeAccouchementModal"
+                      @click="closeModal"
                       aria-label="Close"
                     >
                       <span aria-hidden="true">&times;</span>
@@ -323,7 +443,7 @@
                       <div class="form-group mb-3">
                         <label for="lieu">Terme</label>
                         <select
-                          v-model="consultation.terme"
+                          v-model="newAccouchement.terme"
                           class="form-control"
                           id="terme"
                         >
@@ -486,9 +606,6 @@ import Swal from "sweetalert2";
 import accouchementService from "@/services/accouchementService";
 import conseilService from "@/services/conseilService";
 import grossesseService from "@/services/grossesseService";
-import { Calendar } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import multiMonthPlugin from "@fullcalendar/multimonth";
 const ACTION_VIEW = "view";
 const ACTION_EDIT = "edit";
 const ACTION_DELETE = "delete";
@@ -506,14 +623,20 @@ export default {
       conseil: {}, // Les champs de formulaire pour l'ajout d'un conseil
       selectedConseil: null, // Conseil sélectionné pour affichage
       isConseilModalVisible: false, // Etat pour montrer ou cacher le modal
-      modalConseilTitle: "", // Titre du modal
+      modalConseilTitle: "", // Titre du      // Mettre à jour localement les données de la grossesse modifiée
+      // Afficher une notification de succès modal
       conseilColumns: [
         { label: "Contenu", field: "description" },
         { label: "Actions", field: "action", type: "action" },
       ],
       conseilFields: [
         { label: "Image", name: "image", type: "textarea", required: true },
-        { label: "Description", name: "description", type: "textarea",required:true, },
+        {
+          label: "Description",
+          name: "description",
+          type: "textarea",
+          required: true,
+        },
       ],
       isAccouchementModalVisible: false,
       isModalVisible: false, // Utilisé pour contrôler la visibilité du modal
@@ -547,6 +670,7 @@ export default {
         lieu: "",
         grossesse_id: this.id,
       },
+      isEditing: false,
     };
   },
   props: {
@@ -601,7 +725,6 @@ export default {
             consultation: rv.consultation || null, // Si une consultation existe, l'inclure
           };
         });
-  
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -700,6 +823,34 @@ export default {
     },
 
     async addAccouchement() {
+      // Récupérer les valeurs des champs
+      const accouchementDate = this.newAccouchement.date; // Remplacez par votre champ de date d'accouchement
+      const travailTime = this.newAccouchement.travailTime; // Remplacez par votre champ d'heure de travail
+
+      // Validation de la date d'accouchement
+      const currentDate = new Date();
+      const accouchement = new Date(accouchementDate);
+      const travail = new Date(travailTime);
+
+      if (accouchement > currentDate) {
+        Swal.fire({
+          title: "Erreur",
+          text: "La date d'accouchement ne peut pas être une date future.",
+          icon: "error",
+        });
+        return;
+      }
+
+      // Validation de l'heure de travail
+      if (travail >= accouchement) {
+        Swal.fire({
+          title: "Erreur",
+          text: "L'heure de travail doit être avant l'heure d'accouchement.",
+          icon: "error",
+        });
+        return;
+      }
+
       try {
         await accouchementService.createAccouchement({
           ...this.newAccouchement,
@@ -709,7 +860,7 @@ export default {
           title: "Accouchement ajouté avec succès!",
           icon: "success",
         });
-        this.getAccouchements();
+        window.location.reload();
       } catch (error) {
         Swal.fire({
           title: "Erreur lors de l'ajout",
@@ -734,18 +885,31 @@ export default {
         patiente_id: this.id,
       };
     },
+
     async editAccouchement(accouchement) {
       try {
+        // Fonction pour formater l'heure au format h:mm
+        function formatHeure(timeString) {
+          const [hours, minutes] = timeString.split(":"); // Sépare les heures et les minutes
+          return `${hours}:${minutes}`; // Retourne l'heure au format h:mm
+        }
+
+        if (accouchement.debut_travail) {
+          accouchement.debut_travail = formatHeure(accouchement.debut_travail); // Formate l'heure
+        }
+        if (accouchement.heure) {
+          accouchement.heure = formatHeure(accouchement.heure); // Formate l'heure
+        }
         // Appelez le service pour modifier un accouchement
         await accouchementService.updateAccouchement(
-          accouchement.id,
+          this.accouchement.id,
           accouchement
         );
-        this.getAccouchements(); // Rafraîchir la liste des accouchements
         Swal.fire({
           title: "Accouchement mis à jour avec succès!",
           icon: "success",
         });
+        window.location.reload();
       } catch (error) {
         Swal.fire({
           title: "Erreur lors de la mise à jour de l'accouchement",
@@ -754,7 +918,13 @@ export default {
         });
       }
     },
-
+    async toggleEdit() {
+      this.isEditing = !this.isEditing;
+      if (!this.isEditing) {
+        await this.editAccouchement(this.accouchement);
+        console.log("Données sauvegardées :", this.accouchement);
+      }
+    },
     handleFileUpload(event, fieldName) {
       const file = event.target.files[0];
       if (fieldName === "image") {
