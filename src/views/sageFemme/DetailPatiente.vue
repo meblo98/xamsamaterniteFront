@@ -68,7 +68,8 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="ajoutGrossesseTitle">Ajouter une grossesse</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" style="right: 0;margin-left: 200px; background-color: white;color: black"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>

@@ -61,9 +61,11 @@
                     <h5 class="modal-title">{{ modalTitle }}</h5>
                     <button
                       type="button"
-                      class="btn  close"
+                      class="close"
                       @click="closeModal"
                       aria-label="Close"
+                      style="right: 0;margin-left: 200px; background-color: white;color: black"
+
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -210,6 +212,7 @@
                         <strong>Terme:</strong>
                         {{ selectedRendezVous.consultation.terme }}
                       </p>
+                      <!-- Afficher d'autres détails de la consultation ici -->
                     </div>
                   </div>
                 </div>
@@ -228,26 +231,26 @@
                     <strong>Date:</strong>
                     {{ accouchement.date }}
                   </p>
-                  <div v-else class="form">
-                    <strong>Date</strong>
-                    <input
-                      type="date"
-                      v-model="accouchement.date"
-                      class="form-control"
-                    />
-                  </div>
+                <div v-else class="form">
+                  <strong>Date</strong>
+                  <input
+                    type="date"
+                    v-model="accouchement.date"
+                    class="form-control"
+                  />
+                </div>
                   <p v-if="!isEditing">
                     <strong>Debut Travail:</strong>
                     {{ accouchement.debut_travail }}
                   </p>
-                  <div class="form" v-else>
-                    <strong>Debut Travail</strong>
-                    <input
-                      type="time"
-                      v-model="accouchement.debut_travail"
-                      class="form-control"
-                    />
-                  </div>
+               <div class="form"  v-else>
+                <strong >Debut Travail</strong>
+                <input
+                    type="time"
+                    v-model="accouchement.debut_travail"
+                    class="form-control"
+                  />
+               </div>
                   <p v-if="!isEditing">
                     <strong>Lieu:</strong>
                     {{ accouchement.lieu }}
@@ -255,100 +258,105 @@
                   <div v-else class="form">
                     <strong>Lieu</strong>
                     <input
-                      type="text"
-                      v-model="accouchement.lieu"
-                      class="form-control"
-                    />
+                    type="text"
+                    v-model="accouchement.lieu"
+                    class="form-control"
+                  />
                   </div>
 
                   <p v-if="!isEditing">
                     <strong>Mode:</strong>
                     {{ accouchement.mode }}
                   </p>
-                  <div v-else class="for">
-                    <strong>Mode</strong>
-                    <input
-                      type="text"
-                      v-model="accouchement.mode"
-                      class="form-control"
-                    />
-                  </div>
+                 <div v-else class="for">
+                  <strong>Mode</strong>
+                  <input
+                    type="text"
+                    v-model="accouchement.mode"
+                    class="form-control"
+                  />
+                 </div>
                   <p v-if="!isEditing">
                     <strong>Périnée:</strong>
                     {{ accouchement.perinee }}
                   </p>
-                  <div v-else class="form">
-                    <strong>Périnée</strong>
-                    <input
-                      type="text"
-                      v-model="accouchement.mode"
-                      class="form-control"
-                    />
-                  </div>
+                <div  v-else class="form">
+                  <strong>Périnée</strong>
+                  <input
+                    type="text"
+                    v-model="accouchement.mode"
+                    class="form-control"
+                  />
+                </div>
                 </div>
                 <div class="col-6">
                   <p v-if="!isEditing">
                     <strong>Heure:</strong>
                     {{ accouchement.heure }}
                   </p>
-                  <div v-else class="form">
+                  <div  v-else class="form">
                     <strong>Heure</strong>
                     <input
-                      type="time"
-                      v-model="accouchement.heure"
-                      class="form-control"
-                    />
+                   
+                    type="time"
+                    v-model="accouchement.heure"
+                    class="form-control"
+                  />
                   </div>
 
                   <p v-if="!isEditing">
                     <strong>Terme:</strong>
                     {{ accouchement.terme }}
                   </p>
-                  <div v-else class="form">
-                    <span>Terme</span>
-                    <input
-                      type="text"
-                      v-model="accouchement.terme"
-                      class="form-control"
-                    />
-                  </div>
+              <div  v-else class="form">
+                <span>Terme</span>
+                <input
+                   
+                    type="text"
+                    v-model="accouchement.terme"
+                    class="form-control"
+                  />
+              </div>
 
                   <p v-if="!isEditing">
                     <strong>Pathologie:</strong>
                     {{ accouchement.pathologie }}
                   </p>
-                  <div v-else class="form">
-                    <span>Pathelogie</span>
-                    <input
-                      type="text"
-                      v-model="accouchement.pathologie"
-                      class="form-control"
-                    />
-                  </div>
+               <div v-else class="form">
+                <span>Pathelogie</span>
+                <input
+                    
+                    type="text"
+                    v-model="accouchement.pathologie"
+                    class="form-control"
+                  />
+               </div>
                   <p v-if="!isEditing">
                     <strong>Evolution de la reanimation:</strong>
                     {{ accouchement.evolution_reanimation }}
                   </p>
-                  <div v-else class="form">
-                    <span>Evaluation reanimation</span>
-                    <input
-                      type="text"
-                      v-model="accouchement.evolution_reanimation"
-                      class="form-control"
-                    />
-                  </div>
+              <div v-else class="form">
+                <span>Evaluation reanimation</span>
+                <input
+                    
+                    type="text"
+                    v-model="accouchement.evolution_reanimation"
+                    class="form-control"
+                  />
+              </div>
                   <p v-if="!isEditing">
                     <strong>Mois de la grossesse:</strong>
                     {{ accouchement.mois_grossesse }}
                   </p>
-                  <div v-else class="form">
-                    <span>Mois de frossesse</span>
-                    <input
-                      type="text"
-                      v-model="accouchement.mois_grossesse"
-                      class="form-control"
-                    />
-                  </div>
+                <div v-else class="form">
+                  <span>Mois de frossesse</span>
+                  <input
+                    
+                    type="text"
+                    v-model="accouchement.mois_grossesse"
+                    class="form-control"
+                  />
+                </div>
                 </div>
               </div>
               <button @click="toggleEdit" class="btn btn-primary mt-3">
@@ -377,6 +385,8 @@
                       class="close"
                       @click="closeModal"
                       aria-label="Close"
+                      style="right: 0;margin-left: 200px; background-color: white;color: black"
+
                     >
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -546,6 +556,7 @@
                     <button
                       type="button"
                       class="close"
+                      style="right: 0;margin-left: 200px; background-color: white;color: black"
                       @click="closeConseilModal"
                       aria-label="Close"
                     >
@@ -1224,4 +1235,5 @@ button {
   align-items: center;
   justify-content: center;
 }
+
 </style>
