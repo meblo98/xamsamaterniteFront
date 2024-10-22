@@ -174,30 +174,35 @@ export default {
           label: "Titre",
           type: "text",
           placeholder: "Entrez le titre",
+          required: true,
         },
         {
           name: "description",
           label: "Description",
           type: "text",
           placeholder: "Entrez le description",
+          required: true,
         },
         {
           name: "lieu",
           label: "Lieu",
           type: "text",
           placeholder: "Entrez le lieu",
+          required: true,
         },
         {
           name: "date_debut",
           label: "Date de debut",
           type: "date",
           placeholder: "Entrez la date de debut",
+          required: true,
         },
         {
           name: "date_fin",
           label: "Date de fin",
           type: "date",
           placeholder: "Entrez la date de naissance",
+          required: true,
         },
 
         {
@@ -205,6 +210,7 @@ export default {
           label: "Image",
           type: "file",
           placeholder: "Entrez l'email de la patiente",
+          required: true,
         },
       ],
       selectedFile: null,

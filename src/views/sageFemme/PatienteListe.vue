@@ -128,19 +128,7 @@
                   required
                 />
               </div>
-              <div class="form-group">
-                <label for="type">Type de la Patiente</label>
-                <select
-                  v-model="newPatiente.type"
-                  class="form-control"
-                  id="type"
-                  required
-                >
-                  <option value="Enceinte">Enceinte</option>
-                  <option value="En planning">En planning</option>
-                  <option value="Allaitente">Allaitente</option>
-                </select>
-              </div>
+
               <div class="form-group">
                 <label for="badieneGox">Badiene Gox</label>
                 <select
@@ -155,7 +143,7 @@
                     :key="badiene.id"
                     :value="badiene.id"
                   >
-                  {{ badiene.user.prenom }} {{ badiene.user.nom }}
+                    {{ badiene.user.prenom }} {{ badiene.user.nom }}
                   </option>
                 </select>
               </div>
@@ -221,7 +209,6 @@ export default {
         date_de_naissance: "",
         lieu_de_naissance: "",
         profession: "",
-        type: "",
         badien_gox_id: "",
       },
       badiene: [],
@@ -232,7 +219,7 @@ export default {
         { label: "Âge", field: "age" },
         { label: "Lieu de Naissance", field: "lieu_de_naissance" },
         { label: "Profession", field: "profession" },
-        { label: "Type", field: "type" },
+        { label: "Adresse", field: "adresse" },
         { label: "Actions", field: "action", type: "action" },
       ],
       formFields: [
@@ -241,54 +228,50 @@ export default {
           label: "Prénom",
           type: "text",
           placeholder: "Entrez le prénom",
+          required: true,
         },
         {
           name: "nom",
           label: "Nom",
           type: "text",
           placeholder: "Entrez le nom",
+          required: true,
         },
         {
           name: "lieu_de_naissance",
           label: "Lieu de Naissance",
           type: "text",
           placeholder: "Entrez le lieu de naissance",
+          required: true,
         },
         {
           name: "date_de_naissance",
           label: "Date de Naissance",
           type: "date",
           placeholder: "Entrez la date de naissance",
+          required: true,
         },
         {
           name: "profession",
           label: "Profession",
           type: "text",
           placeholder: "Entrez la profession",
+          required: true,
         },
-        {
-          name: "type",
-          label: "Type",
-          type: "select",
-          options: [
-            { value: "", text: "Selectionner le type de patiente" },
-            { value: "Enceinte", text: "Enceinte" },
-            { value: "En planning", text: "En planning" },
-            { value: "Allaitente", text: "Allaitente" },
-          ],
-          placeholder: "Entrez le type de patiente",
-        },
+
         {
           name: "adresse",
           label: "Adresse",
           type: "text",
           placeholder: "Entrez l'adresse de la patiente",
+          required: true,
         },
         {
           name: "badien_gox_id",
           label: "Badiene Gox",
           type: "select",
           options: [],
+          required: true,
         },
         {
           name: "email",
@@ -301,6 +284,7 @@ export default {
           label: "Téléphone",
           type: "text",
           placeholder: "Entrez le numéro de téléphone de la patiente",
+          required: true,
         },
       ],
       formData: {},
@@ -334,7 +318,6 @@ export default {
             age: this.calculateAge(patiente.date_de_naissance),
             lieu_de_naissance: patiente.lieu_de_naissance,
             profession: patiente.profession,
-            type: patiente.type,
             badien_gox_id: patiente.badien_gox_id,
             date_de_naissance: patiente.date_de_naissance,
           }));
@@ -363,24 +346,30 @@ export default {
           break;
       }
     },
+    isDateOfBirthValid(dateOfBirth) {
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      // Vérifie si l'âge est d'au moins 10 ans
+      return (
+        age > 10 ||
+        (age === 10 &&
+          (monthDiff > 0 ||
+            (monthDiff === 0 && today.getDate() >= birthDate.getDate())))
+      );
+    },
     async addPatiente(patienteData) {
-
-      if (
-        !patienteData.nom ||
-        !patienteData.prenom ||
-        !patienteData.telephone ||
-        !patienteData.email ||
-        !patienteData.adresse ||
-        !patienteData.badien_gox_id
-      ) {
+      if (!this.isDateOfBirthValid(patienteData.date_de_naissance)) {
         Swal.fire({
-          icon: "error",
           title: "Erreur",
-          text: "Tous les champs sont requis.",
+          text: "La patiente doit avoir au moins 10 ans.",
+          icon: "error",
+          timer: 2000,
         });
-        return;
+        return; // Ne pas ajouter la patiente si la validation échoue
       }
-      
+
       try {
         await patienteService.createPatiente(patienteData);
         this.getPatients(); // Recharger la liste après l'ajout
@@ -390,29 +379,37 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
-        this.getPatients(); // Recharger la liste après l'ajout
+        window.location.reload();
       } catch (error) {
-        console.error("Erreur lors de l'ajout de la patiente :", error);
         Swal.fire({
           title: "Erreur lors de l'ajout de la patiente !",
+          text: error.response.data.message,
           icon: "error",
-          timer: 1000,
+          timer: 2000,
         });
       }
     },
     async editPatiente(patiente) {
+      if (!this.isDateOfBirthValid(patiente.date_de_naissance)) {
+        Swal.fire({
+          title: "Erreur",
+          text: "La patiente doit avoir au moins 10 ans.",
+          icon: "error",
+          timer: 2000,
+        });
+        return; // Ne pas ajouter la patiente si la validation échoue
+      }
       try {
         const updatedPatiente = await patienteService.updatePatiente(
           patiente.id,
           patiente
         );
-        this.getPatients(); // Recharger la liste après la modification
         Swal.fire({
-          // Add sweet alert for edit operation
           title: "Patient mis à jour avec succès !",
           icon: "success",
           timer: 1000,
         });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de la modification de la patiente :", error);
         Swal.fire({
@@ -459,7 +456,7 @@ export default {
     async getBadiene() {
       try {
         const response = await badieneGoxService.getBadieneGoxes();
-        this.badiene = response.Liste_BadieneGox;        
+        this.badiene = response.Liste_BadieneGox;
         this.updateFormFields();
       } catch (error) {
         console.error("Erreur lors de la récupération des badiene :", error);
@@ -470,7 +467,7 @@ export default {
         value: badiene.id,
         text: `${badiene.user.prenom} ${badiene.user.nom}`,
       }));
-      
+
       this.formFields.find((field) => field.name === "badien_gox_id").options =
         badieneOptions;
     },

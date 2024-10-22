@@ -11,10 +11,7 @@ export default {
     return apiClient.post("/logout");
   },
 
-  // profil
-  // profil(data) {
-  //   return apiClient.post("/profil", data);
-  // },
+
   async profil(data) {
     try {
       const response = await apiClient.post("/profil", data);

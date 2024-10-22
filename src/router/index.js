@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL || '/'),
   routes: [
     {
       path: '/',
@@ -48,6 +48,13 @@ const router = createRouter({
       path: '/detailPatiente-sage-femme/:id',
       name: 'detailPatiente-sage-femme',
       component: () => import('@/views/sageFemme/DetailPatiente.vue'),
+      props: true,
+      meta: { requiresAuth: true, role: 'sage-femme' }
+    },
+    {
+      path: '/grossesse-sage-femme/:id',
+      name: 'grossesse-sage-femme',
+      component: () => import('@/views/sageFemme/DetailGrossesse.vue'),
       props: true,
       meta: { requiresAuth: true, role: 'sage-femme' }
     },

@@ -4,27 +4,6 @@
       <h3>{{ title }}</h3>
       <button class="add-btn" @click="openModal"> + Ajouter</button>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th v-for="(column, index) in columns" :key="index">
-            {{ column.label }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, rowIndex) in data" :key="rowIndex">
-          <td v-for="(column, colIndex) in columns" :key="colIndex">
-            <span v-if="column.type !== 'action'">{{ row[column.field] }}</span>
-            <span v-else>
-              <button @click="handleAction('view', row)">👁️</button>
-              <button @click="editData(row)">✏️</button>
-              <button @click="handleAction('delete', row)">🗑️</button>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
     <!-- Modal -->
     <div
@@ -33,7 +12,7 @@
       @click.self="closeModal"
     >
       <div class="modal-content w-100">
-        <div class="entete d-flex" style="grid-gap: 400px">
+        <div class="entete d-flex" style="grid-gap: 40vw">
           <h4>{{ isEditing ? "Modifier" : "Ajouter" }} {{ title }}</h4>
           <button
             type="button"
@@ -117,13 +96,39 @@
               type="file"
               @change="handleFileUpload($event, field.name)"
             />
+              <!-- Affichage du message d'erreur sous le champ -->
+  <div v-if="errors[field.name]" class="error">{{ errors[field.name] }}</div>
           </div>
+
           <button type="submit">
             {{ isEditing ? "Modifier" : "Ajouter" }}
           </button>
         </form>
       </div>
     </div>
+    <!-- tableau -->
+    <table >
+      <thead>
+        <tr>
+          <th v-for="(column, index) in columns" :key="index">
+            {{ column.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, rowIndex) in data" :key="rowIndex">
+          <td v-for="(column, colIndex) in columns" :key="colIndex">
+            <span v-if="column.type !== 'action'">{{ row[column.field] }}</span>
+            <span v-else>
+              <button @click="handleAction('view', row)">👁️</button>
+              <button @click="editData(row)">✏️</button>
+              <button @click="handleAction('delete', row)">🗑️</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 </template>
 
@@ -135,6 +140,7 @@ export default {
       showModal: false, // pour afficher/masquer la modal
       formData: {}, // pour stocker les données du formulaire
       isEditing: false, // pour savoir si on est en mode édition ou ajout
+      errors: {}, // Pour stocker les erreurs de validation
     };
   },
   props: {
@@ -176,14 +182,38 @@ export default {
       this.isEditing = true; // Mode édition
       this.formData = this.initializeFormData(row); // Pré-remplir les champs avec les données à éditer
     },
-    handleSubmit() {
-      if (this.isEditing) {
-        this.$emit("edit-data", { ...this.formData, id: this.formData.id }); // Émet l'événement pour modifier les données
-      } else {
-        this.$emit("add-data", this.formData); // Émet l'événement pour ajouter des données        
+    validateForm() {
+    const errors = {};
+    this.formFields.forEach(field => {
+      if (field.required && !this.formData[field.name]) {
+        errors[field.name] = `${field.label} est requis.`;
       }
-      this.closeModal(); // Fermer la modal après soumission
-    },
+      // Ajoutez d'autres validations selon le type de champ, par exemple pour les emails
+      if (field.type === 'email' && this.formData[field.name] && !this.validateEmail(this.formData[field.name])) {
+        errors[field.name] = 'Email invalide.';
+      }
+    });
+    return errors;
+  },
+
+  validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  },
+    handleSubmit() {
+    const errors = this.validateForm();
+    if (Object.keys(errors).length) {
+      // Affichez les erreurs
+      this.errors = errors;
+      return;
+    }
+    if (this.isEditing) {
+      this.$emit("edit-data", { ...this.formData, id: this.formData.id });
+    } else {
+      this.$emit("add-data", this.formData);
+    }
+    // this.closeModal();
+  },
     closeModal() {
       this.showModal = false; // Fermer la modal
       this.formData = {}; // Réinitialiser les données du formulaire
@@ -205,6 +235,16 @@ export default {
 </script>
 
 <style scoped>
+.error-messages {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 5px; /* Espace entre le champ et le message d'erreur */
+  font-size: 0.875em; /* Taille de police plus petite */
+}
 .custom-table {
   background-color: #fff;
   border-radius: 8px;
@@ -258,8 +298,8 @@ button {
 
 form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-gap: 10px;
 }
 
 table {
@@ -281,9 +321,8 @@ th {
 .modal-overlay {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;

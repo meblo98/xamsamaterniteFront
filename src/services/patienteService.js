@@ -22,19 +22,19 @@ export default {
   async createPatiente(data) {
     try {
       const response = await apiClient.post('/patientes', data);
-      return response.data;
+      return response;
     } catch (error) {
-      // console.error('Erreur lors de la création de la patiente :', error);
-      // throw error;
+      console.error('Erreur lors de la création de la patiente :', error);
+      throw error;
     }
   },
   async updatePatiente(id, data) {
     try {
       const response = await apiClient.put(`/patientes/${id}`, data);
-      return response.data;
+      return response;
     } catch (error) {
-      // console.error(`Erreur lors de la mise à jour de la patiente avec l'id ${id} :`, error);
-      // throw error;
+      console.error(`Erreur lors de la mise à jour de la patiente avec l'id ${id} :`, error);
+      throw error;
     }
   },
   async deletePatiente(id) {

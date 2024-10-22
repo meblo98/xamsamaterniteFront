@@ -54,10 +54,8 @@
                     :key="accouchement.id"
                     :value="accouchement.id"
                   >
-                    {{ accouchement.patiente.user.prenom }}
-                    {{ accouchement.patiente.user.nom }} ({{
-                      accouchement.patiente.user.telephone
-                    }})
+                    {{ accouchement.date}}
+                  
                   </option>
                 </select>
               </div>
@@ -203,30 +201,35 @@ export default {
           label: "Prénom",
           type: "text",
           placeholder: "Entrez le prénom",
+          required: true,
         },
         {
           name: "nom",
           label: "Nom",
           type: "text",
           placeholder: "Entrez le nom",
+          required: true,
         },
         {
           name: "date_naissance",
           label: "Date de Naissance",
           type: "date",
           placeholder: "Entrez la date de naissance",
+          required: true,
         },
         {
           name: "lieu_naissance",
           label: "Lieu de Naissance",
           type: "text",
           placeholder: "Entrez le lieu de naissance",
+          required: true,
         },
         {
           name: "accouchement_id",
           label: "Mère de l'enfant",
           type: "select",
           options: [],
+          required: true,
         },
       ],
       allData: [],
@@ -248,9 +251,12 @@ export default {
       try {
         const response = await accouchementService.getAccouchements();
         this.accouchements = response.accouchements;
+        console.log(this.accouchements);
+        
         this.formFields[4].options = this.accouchements.map((accouchement) => ({
       value: accouchement.id,
-      text: `${accouchement.patiente.user.prenom} ${accouchement.patiente.user.nom} (${accouchement.patiente.user.telephone})`,
+      text: `${accouchement.id}`,
+      // text: `${accouchement.grossesse.patiente.user.prenom} ${accouchement.grossesse.patiente.user.nom} (${accouchement.grossesse.patiente.user.telephone})`,
     }));
       } catch (error) {
         console.error(error);
@@ -299,20 +305,6 @@ export default {
     },
 
     async addEnfant(enfantData) {
-      if (
-        !enfantData.nom ||
-        !enfantData.prenom ||
-        !enfantData.date_naissance ||
-        !enfantData.lieu_naissance ||
-        !enfantData.accouchement_id
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-        });
-        return;
-      }
 
       try {
         await enfantService.createEnfant(enfantData);
@@ -323,7 +315,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
-        this.$router.replace({ name: "enfant-sage-femme" });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de l'ajout de l'enfant :", error);
         Swal.fire({
@@ -334,19 +326,6 @@ export default {
       }
     },
     async editEnfant(enfantData) {
-      if (
-        !enfantData.nom ||
-        !enfantData.prenom ||
-        !enfantData.date_naissance ||
-        !enfantData.lieu_naissance
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-        });
-        return;
-      }
 
       try {
         await enfantService.updateEnfant(enfantData.id, enfantData);
@@ -357,6 +336,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });
+        window.location.reload();
       } catch (error) {
         console.error("Erreur lors de la modification de l'enfant :", error);
         Swal.fire({

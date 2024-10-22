@@ -9,7 +9,7 @@
           <th>Statut</th>
         </tr>
       </thead>
-      <body>
+      <tbody>
         <tr v-for="(sage, index) in sageFemmes" :key="index">
           <td><img :src="sage.photo" alt="Profile Picture" /></td>
           <td>
@@ -19,7 +19,7 @@
             <span :class="sage.status">{{ sage.status }}</span>
           </td>
         </tr>
-      </body>
+      </tbody>
     </table>
   </div>
 </template>

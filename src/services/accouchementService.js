@@ -24,20 +24,20 @@ export default {
   async createAccouchement(data) {
     try {
       const response = await apiClient.post('/accouchements', data);
-      return response.data;
+      return response;
       
     } catch (error) {
-      // console.error('Erreur lors de la création de l\'accouchement :', error);
-      // throw error;
+      console.error('Erreur lors de la création de l\'accouchement :', error);
+      throw error;
     }
   },
   async updateAccouchement(id, data) {
     try {
       const response = await apiClient.put(`/accouchements/${id}`, data);
-      return response.data;
+      return response;
     } catch (error) {
-      // console.error(`Erreur lors de la mise à jour de l'accouchement avec l'id ${id} :`, error);
-      // throw error;
+      console.error(`Erreur lors de la mise à jour de l'accouchement avec l'id ${id} :`, error);
+      throw error;
     }
   },
   async deleteAccouchement(id) {

@@ -16,38 +16,55 @@
 </template>
 
 <script>
-import axios from 'axios';
-import AdviceVideo from "@/components/AdviceVideo.vue";
-import Layout from "@/components/layouts/Layout.vue";
-import conseilService from '@/services/conseilService';
+  // Importation du composant AdviceVideo
+  import AdviceVideo from "@/components/AdviceVideo.vue";
 
-export default {
-  components: {
-    Layout,
-    AdviceVideo,
-  },
-  data() {
-    return {
-      adviceVideos: [], // Initialement vide
-    };
-  },
-  mounted() {
-    this.fetchAdviceVideos(); // Appel à la méthode pour récupérer les conseils
-  },
-  methods: {
-    // Méthode pour récupérer les conseils via une requête HTTP
-    async fetchAdviceVideos() {
-      try {
-        const response = await conseilService.getConseils();
-        this.adviceVideos = response.data; // Stocker les conseils dans le data
-      } catch (error) {
-        console.error('Erreur lors de la récupération des conseils:', error);
-      }
+  // Importation du composant Layout
+  import Layout from "@/components/layouts/Layout.vue";
+
+  // Importation du service conseilService
+  import conseilService from '@/services/conseilService';
+
+  export default {
+    // Définition des composants enfants
+    components: {
+      // Enregistrement du composant Layout
+      Layout,
+      // Enregistrement du composant AdviceVideo
+      AdviceVideo,
     },
-  },
-};
-</script>
 
+    // Définition de l'état initial du composant
+    data() {
+      // Initialisation d'un tableau vide pour stocker les vidéos de conseils
+      return {
+        adviceVideos: [], // Initialement vide
+      };
+    },
+
+    // Définition du hook de cycle de vie mounted
+    mounted() {
+      // Appel à la méthode pour récupérer les conseils
+      this.fetchAdviceVideos();
+    },
+
+    // Définition des méthodes du composant
+    methods: {
+      // Méthode pour récupérer les conseils via une requête HTTP
+      async fetchAdviceVideos() {
+        try {
+          // Appel à la méthode getConseils du service conseilService
+          const response = await conseilService.getConseils();
+          // Stockage des conseils dans le tableau adviceVideos
+          this.adviceVideos = response.mes_conseils; // Stocker les conseils dans le data
+        } catch (error) {
+          // Gestion des erreurs
+          console.error('Erreur lors de la récupération des conseils:', error);
+        }
+      },
+    },
+  };
+</script>
 <style scoped>
 .conseil-cards {
   display: flex;

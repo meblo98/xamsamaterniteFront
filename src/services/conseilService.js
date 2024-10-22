@@ -19,13 +19,21 @@ export default {
       // throw error;
     }
   },
-  async createConseil(data) {
+  async getConseilsPatiente(id){
     try {
-      const response = await apiClient.post('/conseils', data);
+      const response = await apiClient.get(`/conseils/${id}/patiente`);
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la création du conseil :', error);
-      // throw error;
+      
+    }
+  },
+  async createConseil(formData) {
+    try {
+      const response = await apiClient.post('/conseils', formData);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la création du conseil :', error);
+      throw error;
     }
   },
   async updateConseil(id, data) {
