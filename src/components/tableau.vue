@@ -2,102 +2,54 @@
   <div class="custom-table table-responsive">
     <div class="header">
       <h3>{{ title }}</h3>
+      <div class="search-bar">
+
+        <input type="text" v-model="searchTerm" placeholder="Rechercher..." />
+        <iconify-icon icon="gala:search"></iconify-icon>
+
+      </div>
       <button class="add-btn" @click="openModal"> + Ajouter</button>
     </div>
 
     <!-- Modal -->
-    <div
-      v-if="showModal"
-      class="modal-overlay modal-dialog modal-lg"
-      @click.self="closeModal"
-    >
+    <div v-if="showModal" class="modal-overlay modal-dialog modal-lg" @click.self="closeModal">
       <div class="modal-content w-100">
         <div class="entete d-flex" style="grid-gap: 40vw">
           <h4>{{ isEditing ? "Modifier" : "Ajouter" }} {{ title }}</h4>
-          <button
-            type="button"
-            class="btn-close bg-light"
-            @click="closeModal"
-          ></button>
+          <button type="button" class="btn-close bg-light" @click="closeModal"></button>
         </div>
         <form @submit.prevent="handleSubmit">
-          <div
-            v-for="(field, index) in formFields"
-            :key="index"
-            class="form-group"
-          >
+          <div v-for="(field, index) in formFields" :key="index" class="form-group">
             <label :for="field.name">{{ field.label }}</label>
-            <input
-              v-if="
-                field.type === 'text' ||
-                field.type === 'number' ||
-                field.type === 'email' ||
-                field.type === 'password'
-              "
-              v-model="formData[field.name]"
-              :type="field.type"
-              :id="field.name"
-              :placeholder="field.placeholder"
-            />
-            <textarea
-              v-else-if="field.type === 'textarea'"
-              v-model="formData[field.name]"
-              :id="field.name"
-              :placeholder="field.placeholder"
-            />
-            <select
-              v-else-if="field.type === 'select'"
-              v-model="formData[field.name]"
-              :id="field.name"
-              
-            >
-              <option
-                v-for="(option, index) in field.options"
-                :key="index"
-                :value="option.value"
-              >
+            <input v-if="
+              field.type === 'text' ||
+              field.type === 'number' ||
+              field.type === 'email' ||
+              field.type === 'password'
+            " v-model="formData[field.name]" :type="field.type" :id="field.name" :placeholder="field.placeholder" />
+            <textarea v-else-if="field.type === 'textarea'" v-model="formData[field.name]" :id="field.name"
+              :placeholder="field.placeholder" />
+            <select v-else-if="field.type === 'select'" v-model="formData[field.name]" :id="field.name">
+              <option v-for="(option, index) in field.options" :key="index" :value="option.value">
                 {{ option.text }}
               </option>
             </select>
             <div v-else-if="field.type === 'checkbox'">
-              <input
-                v-model="formData[field.name]"
-                :id="field.name"
-                type="checkbox"
-              />
+              <input v-model="formData[field.name]" :id="field.name" type="checkbox" />
               <label :for="field.name">{{ field.label }}</label>
             </div>
             <div v-else-if="field.type === 'radio'">
               <div v-for="(option, index) in field.options" :key="index">
-                <input
-                  v-model="formData[field.name]"
-                  :id="option.value"
-                  type="radio"
-                  :value="option.value"
-                />
+                <input v-model="formData[field.name]" :id="option.value" type="radio" :value="option.value" />
                 <label :for="option.value">{{ option.label }}</label>
               </div>
             </div>
-            <input
-              v-else-if="field.type === 'date'"
-              v-model="formData[field.name]"
-              :id="field.name"
-              type="date"
-            />
-            <input
-              v-else-if="field.type === 'time'"
-              v-model="formData[field.name]"
-              :id="field.name"
-              type="time"
-            />
-            <input
-              v-else-if="field.type === 'file'"
-              :id="field.name"
-              type="file"
-              @change="handleFileUpload($event, field.name)"
-            />
-              <!-- Affichage du message d'erreur sous le champ -->
-  <div v-if="errors[field.name]" class="error">{{ errors[field.name] }}</div>
+            <input v-else-if="field.type === 'date'" v-model="formData[field.name]" :id="field.name" type="date" />
+            <input v-else-if="field.type === 'time'" v-model="formData[field.name]" :id="field.name" type="time" />
+            <input v-else-if="field.type === 'file'" :id="field.name" type="file"
+              @change="handleFileUpload($event, field.name)" />
+            <!-- Affichage du message d'erreur sous le champ -->
+            <div v-if="errors[field.name]" class="error">{{ errors[field.name] }}</div>
           </div>
 
           <button type="submit">
@@ -107,7 +59,7 @@
       </div>
     </div>
     <!-- tableau -->
-    <table >
+    <table>
       <thead>
         <tr>
           <th v-for="(column, index) in columns" :key="index">
@@ -116,7 +68,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, rowIndex) in data" :key="rowIndex">
+        <tr v-for="(row, rowIndex) in filteredData" :key="rowIndex">
           <td v-for="(column, colIndex) in columns" :key="colIndex">
             <span v-if="column.type !== 'action'">{{ row[column.field] }}</span>
             <span v-else>
@@ -133,6 +85,11 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+
+defineComponent({
+  name: 'GalaSearch',
+});
 export default {
   name: "Table",
   data() {
@@ -140,8 +97,18 @@ export default {
       showModal: false, // pour afficher/masquer la modal
       formData: {}, // pour stocker les données du formulaire
       isEditing: false, // pour savoir si on est en mode édition ou ajout
+      searchTerm: '',
       errors: {}, // Pour stocker les erreurs de validation
     };
+  },
+  computed: {
+    filteredData() {
+      return this.data.filter(row => {
+        return Object.values(row).some(value =>
+          String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+      });
+    },
   },
   props: {
     columns: {
@@ -183,37 +150,37 @@ export default {
       this.formData = this.initializeFormData(row); // Pré-remplir les champs avec les données à éditer
     },
     validateForm() {
-    const errors = {};
-    this.formFields.forEach(field => {
-      if (field.required && !this.formData[field.name]) {
-        errors[field.name] = `${field.label} est requis.`;
-      }
-      // Ajoutez d'autres validations selon le type de champ, par exemple pour les emails
-      if (field.type === 'email' && this.formData[field.name] && !this.validateEmail(this.formData[field.name])) {
-        errors[field.name] = 'Email invalide.';
-      }
-    });
-    return errors;
-  },
+      const errors = {};
+      this.formFields.forEach(field => {
+        if (field.required && !this.formData[field.name]) {
+          errors[field.name] = `${field.label} est requis.`;
+        }
+        // Ajoutez d'autres validations selon le type de champ, par exemple pour les emails
+        if (field.type === 'email' && this.formData[field.name] && !this.validateEmail(this.formData[field.name])) {
+          errors[field.name] = 'Email invalide.';
+        }
+      });
+      return errors;
+    },
 
-  validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  },
+    validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    },
     handleSubmit() {
-    const errors = this.validateForm();
-    if (Object.keys(errors).length) {
-      // Affichez les erreurs
-      this.errors = errors;
-      return;
-    }
-    if (this.isEditing) {
-      this.$emit("edit-data", { ...this.formData, id: this.formData.id });
-    } else {
-      this.$emit("add-data", this.formData);
-    }
-    // this.closeModal();
-  },
+      const errors = this.validateForm();
+      if (Object.keys(errors).length) {
+        // Affichez les erreurs
+        this.errors = errors;
+        return;
+      }
+      if (this.isEditing) {
+        this.$emit("edit-data", { ...this.formData, id: this.formData.id });
+      } else {
+        this.$emit("add-data", this.formData);
+      }
+      // this.closeModal();
+    },
     closeModal() {
       this.showModal = false; // Fermer la modal
       this.formData = {}; // Réinitialiser les données du formulaire
@@ -225,8 +192,8 @@ export default {
         formData[field.name] = row[field.name] || (field.type === 'select' ? field.options[0].value : '');
       });
       if (row.id) {
-    formData.id = row.id; 
-  }
+        formData.id = row.id;
+      }
       return formData;
     },
   },
@@ -235,6 +202,15 @@ export default {
 </script>
 
 <style scoped>
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar span {
+  margin-right: 8px;
+}
+
 .error-messages {
   color: red;
   margin-bottom: 10px;
@@ -242,31 +218,45 @@ export default {
 
 .error {
   color: red;
-  margin-top: 5px; /* Espace entre le champ et le message d'erreur */
-  font-size: 0.875em; /* Taille de police plus petite */
+  margin-top: 5px;
+  /* Espace entre le champ et le message d'erreur */
+  font-size: 0.875em;
+  /* Taille de police plus petite */
 }
+
 .custom-table {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 select {
-  background-color: white; /* Couleur de fond pour le sélecteur */
-  color: #000; /* Couleur du texte dans le sélecteur */
-  padding: 8px; /* Pour améliorer l'apparence du sélecteur */
-  border: 1px solid #ccc; /* Bordure pour une meilleure visibilité */
-  border-radius: 4px; /* Bordure arrondie */
+  background-color: white;
+  /* Couleur de fond pour le sélecteur */
+  color: #000;
+  /* Couleur du texte dans le sélecteur */
+  padding: 8px;
+  /* Pour améliorer l'apparence du sélecteur */
+  border: 1px solid #ccc;
+  /* Bordure pour une meilleure visibilité */
+  border-radius: 4px;
+  /* Bordure arrondie */
 }
+
 select option {
-  border: 1px solid red !important; /* Pour rendre les options visibles */
+  border: 1px solid red !important;
+  /* Pour rendre les options visibles */
   color: #000 !important;
 }
 
 select option {
-  color: #000; /* Couleur du texte dans les options */
-  background-color: white; /* Couleur de fond des options */
+  color: #000;
+  /* Couleur du texte dans les options */
+  background-color: white;
+  /* Couleur de fond des options */
 }
+
 select {
   color: #000 !important;
   background-color: white !important;
@@ -277,6 +267,7 @@ select {
   grid-template-columns: 1fr;
   grid-gap: 5px;
 }
+
 .add-btn {
   background-color: #6932f9;
   color: white;

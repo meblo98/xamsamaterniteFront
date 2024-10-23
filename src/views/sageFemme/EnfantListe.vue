@@ -2,124 +2,79 @@
   <Layout>
     <!-- Si aucune donnée n'est trouvée -->
     <div v-if="allData.length === 0">
-      <button
-        type="button"
-        class="btn"
-        :data-bs-toggle="'modal'"
-        :data-bs-target="'#ajoutEnfant'"
-      >
+      <button type="button" class="btn" :data-bs-toggle="'modal'" :data-bs-target="'#ajoutEnfant'">
         Ajouter un Enfant
       </button>
 
       <!-- Modal d'ajout -->
-      <div
-        class="modal fade"
-        id="ajoutEnfant"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="ajoutEnfant" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">
                 Ajouter un Enfant
               </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <!-- Formulaire d'ajout -->
               <div class="form-group">
-                <label for="accouchement"
-                  >Sélectionnez un accouchement (par nom de la mère)</label
-                >
-                <select
-                  v-model="selectedAccouchementId"
-                  class="form-control"
-                  id="accouchement_id"
-                  @change="updateAccouchementId"
-                >
+                <label for="accouchement">Sélectionnez un accouchement (par nom de la mère)</label>
+                <select v-model="selectedAccouchementId" class="form-control" id="accouchement_id"
+                  @change="updateAccouchementId">
                   <option value="" disabled selected>
                     Sélectionnez La mère de l'enfant
                   </option>
-                  <option
-                    v-for="accouchement in accouchements"
-                    :key="accouchement.id"
-                    :value="accouchement.id"
-                  >
-                    {{ accouchement.date}}
-                  
+                  <option v-for="accouchement in accouchements" :key="accouchement.id" :value="accouchement.id">
+                    Date accouchement
+                    {{ accouchement.date }}, Patiente
+                    {{ accouchement.grossesse.patiente.user.prenom }}
+                    {{ accouchement.grossesse.patiente.user.nom }}
+
                   </option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="prenom">Prénom de l'Enfant</label>
-                <input
-                  v-model="newEnfant.prenom"
-                  type="text"
-                  class="form-control"
-                  id="prenom"
-                  placeholder="Donnez le prénom"
-                  required
-                />
+                <input v-model="newEnfant.prenom" type="text" class="form-control" id="prenom"
+                  placeholder="Donnez le prénom" required />
               </div>
               <div class="form-group">
                 <label for="nom">Nom de l'Enfant</label>
-                <input
-                  v-model="newEnfant.nom"
-                  type="text"
-                  class="form-control"
-                  id="nom"
-                  placeholder="Donnez le nom"
-                  required
-                />
+                <input v-model="newEnfant.nom" type="text" class="form-control" id="nom" placeholder="Donnez le nom"
+                  required />
               </div>
               <div class="form-group">
-                <label for="date_naissance"
-                  >Date de naissance de l'Enfant</label
-                >
-                <input
-                  v-model="newEnfant.date_naissance"
-                  type="date"
-                  class="form-control"
-                  id="date_naissance"
-                  placeholder="Donnez la date de naissance"
-                  required
-                />
+                <label for="date_naissance">Date de naissance de l'Enfant</label>
+                <input v-model="newEnfant.date_naissance" type="date" class="form-control" id="date_naissance"
+                  placeholder="Donnez la date de naissance" required />
               </div>
               <div class="form-group">
-                <label for="lieu_naissance"
-                  >Lieu de naissance de l'Enfant</label
-                >
-                <input
-                  v-model="newEnfant.lieu_naissance"
-                  type="text"
-                  class="form-control"
-                  id="lieu_naissance"
-                  placeholder="Donnez le lieu de naissance"
-                  required
-                />
+                <label for="lieu_naissance">Lieu de naissance de l'Enfant</label>
+                <input v-model="newEnfant.lieu_naissance" type="text" class="form-control" id="lieu_naissance"
+                  placeholder="Donnez le lieu de naissance" required />
+              </div>
+              <div class="form-group">
+                <label for="accouchement">Sélectionnez le sexe</label>
+                <select v-model="newEnfant.sexe" class="form-control" id="sexe">
+                  <option value="" disabled selected>
+                    Sélectionnez Le sexe
+                  </option>
+                  <option value="M">
+                    Masculin
+                  </option>
+                  <option value="F">
+                    Feminin
+                  </option>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                class="btn"
-                @click="addEnfant({ ...newEnfant })"
-              >
+              <button class="btn" @click="addEnfant({ ...newEnfant })">
                 Ajouter
               </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Fermer
               </button>
             </div>
@@ -131,21 +86,10 @@
 
     <!-- Si des données sont trouvées -->
     <div class="tableau" v-else>
-      <Table
-        :columns="columns"
-        :data="paginatedData"
-        title="Liste des Enfants"
-        :formFields="formFields"
-        @action="handleTableAction"
-        @add-data="addEnfant"
-        @edit-data="editEnfant"
-      />
-      <Pagination
-        :currentPage="currentPage"
-        :totalItems="totalItems"
-        :itemsPerPage="itemsPerPage"
-        @page-changed="handlePageChange"
-      />
+      <Table :columns="columns" :data="paginatedData" title="Enfants" :formFields="formFields"
+        @action="handleTableAction" @add-data="addEnfant" @edit-data="editEnfant" />
+      <Pagination :currentPage="currentPage" :totalItems="totalItems" :itemsPerPage="itemsPerPage"
+        @page-changed="handlePageChange" />
     </div>
   </Layout>
 </template>
@@ -175,6 +119,7 @@ export default {
       newEnfant: {
         nom: "",
         prenom: "",
+        sexe: "",
         date_naissance: "",
         lieu_naissance: "",
         accouchement_id: "",
@@ -183,6 +128,7 @@ export default {
         return {
           nom: this.newEnfant.nom,
           prenom: this.newEnfant.prenom,
+          sexe: this.newEnfant.sexe,
           date_naissance: this.newEnfant.date_naissance,
           lieu_naissance: this.newEnfant.lieu_naissance,
           accouchement_id: this.selectedAccouchementId,
@@ -193,9 +139,17 @@ export default {
         { label: "Prénom", field: "prenom" },
         { label: "Date de Naissance", field: "date_naissance" },
         { label: "Lieu de Naissance", field: "lieu_naissance" },
+        { label: "Sexe", field: "sexe" },
         { label: "Actions", field: "action", type: "action" },
       ],
       formFields: [
+        {
+          name: "accouchement_id",
+          label: "Mère de l'enfant",
+          type: "select",
+          options: [],
+          required: true,
+        },
         {
           name: "prenom",
           label: "Prénom",
@@ -211,13 +165,6 @@ export default {
           required: true,
         },
         {
-          name: "date_naissance",
-          label: "Date de Naissance",
-          type: "date",
-          placeholder: "Entrez la date de naissance",
-          required: true,
-        },
-        {
           name: "lieu_naissance",
           label: "Lieu de Naissance",
           type: "text",
@@ -225,10 +172,15 @@ export default {
           required: true,
         },
         {
-          name: "accouchement_id",
-          label: "Mère de l'enfant",
+          name: "sexe",
+          label: "Sexe de l'enfant",
           type: "select",
-          options: [],
+          options: [
+            { value: "", label: "Sélectionner le sexe" },
+            { value: "M", label: "Masculin" },
+            { value: "F", label: "Féminin" },
+
+          ],
           required: true,
         },
       ],
@@ -251,13 +203,11 @@ export default {
       try {
         const response = await accouchementService.getAccouchements();
         this.accouchements = response.accouchements;
-        console.log(this.accouchements);
-        
-        this.formFields[4].options = this.accouchements.map((accouchement) => ({
-      value: accouchement.id,
-      text: `${accouchement.id}`,
-      // text: `${accouchement.grossesse.patiente.user.prenom} ${accouchement.grossesse.patiente.user.nom} (${accouchement.grossesse.patiente.user.telephone})`,
-    }));
+
+        this.formFields[0].options = this.accouchements.map((accouchement) => ({
+          value: accouchement.id,
+          text: `Accouchemet du ${accouchement.date}, Patiente: ${accouchement.grossesse.patiente.user.prenom} ${accouchement.grossesse.patiente.user.nom}`,
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -308,7 +258,6 @@ export default {
 
       try {
         await enfantService.createEnfant(enfantData);
-        this.getEnfants(); // Recharger la liste après l'ajout
         Swal.fire({
           title: "Enfant ajouté avec succès !",
           icon: "success",
@@ -376,12 +325,13 @@ export default {
       this.currentPage = page;
       this.getEnfantsPaginated();
     },
-  
+
   },
 };
 </script>
 <style>
-button, .btn {
+button,
+.btn {
   background-color: #6932f9;
   color: white;
   border: none;

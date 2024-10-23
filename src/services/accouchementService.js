@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/accouchements');
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la récupération des accouchements :', error);
-      // throw error;
+      console.error('Erreur lors de la récupération des accouchements :', error);
+      throw error;
     }
   },
   async getAccouchement(id) {

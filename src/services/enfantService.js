@@ -24,8 +24,8 @@ export default {
       const response = await apiClient.post('/enfants', data);
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la création de l\'enfant :', error);
-      // throw error;
+      console.error('Erreur lors de la création de l\'enfant :', error);
+      throw error;
     }
   },
   async updateEnfant(id, data) {

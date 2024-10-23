@@ -125,10 +125,9 @@
             v-else
               :columns="vaccinationColumns"
               :data="paginatedData"
-              title="Liste des Vaccinations"
+              title="Les Vaccinations"
               :formFields="vaccinationFields"
               @action="handleTableAction"
-              @add-data="addVaccination"
               @edit-data="editVaccination"
             />
             <Pagination
@@ -180,6 +179,7 @@ export default {
       },
       vaccinationColumns: [
         { label: "Nom du Vaccin", field: "nom" },
+        { label: "Date du Vaccin", field: "date" },
         { label: "Dose", field: "dose" },
         { label: "Observation", field: "observation" },
         { label: "Actions", field: "action", type: "action" },
@@ -244,17 +244,27 @@ export default {
           this.id
         );
         if (
-          response &&
-          response.vaccinations &&
-          Array.isArray(response.vaccinations)
-        ) {
-          this.vaccinations = response.vaccinations.map((vaccination) => ({
-            id: vaccination.id,
-            nom: vaccination.nom,
-            dose: vaccination.dose,
-            observation: vaccination.observation,
-          }));
+  response &&
+  response.vaccinations &&
+  Array.isArray(response.vaccinations)
+) {
+  this.vaccinations = response.vaccinations.map((vaccination) => ({
+    id: vaccination.id,
+    nom: vaccination.nom,
+    date: new Intl.DateTimeFormat('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date(vaccination.date)), // Formater la date en français
+    dose: vaccination.dose,
+    observation: vaccination.observation,
+  }));
+
+  // Trier les vaccinations par date, du plus proche au plus éloigné
+  this.vaccinations.sort((a, b) => new Date(a.date) - new Date(b.date));
+
           this.getVaccinationsPaginated()
+        
         }
       } catch (error) {
         console.error(
@@ -268,41 +278,41 @@ export default {
       else if (action === "delete") this.deleteVaccination(row.id);
     },
 
-    async addVaccination(vaccinationData = null) {
-      if (
-        !vaccinationData.nom ||
-        !vaccinationData.dose ||
-        !vaccinationData.observation
-      ) {
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Tous les champs sont requis.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        return;
-      }
-      vaccinationData.enfant_id = this.id;
-      try {
-        await vaccinationService.createVaccination(vaccinationData);
-        Swal.fire({
-          title: "Vaccination ajoutée avec succès !",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } catch (error) {
-        console.error("Erreur lors de l'ajout de la vaccination :", error);
-        Swal.fire({
-          icon: "error",
-          title: "Erreur",
-          text: "Impossible d'ajouter la vaccination.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    },
+    // async addVaccination(vaccinationData = null) {
+    //   if (
+    //     !vaccinationData.nom ||
+    //     !vaccinationData.dose ||
+    //     !vaccinationData.observation
+    //   ) {
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Erreur",
+    //       text: "Tous les champs sont requis.",
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //     return;
+    //   }
+    //   vaccinationData.enfant_id = this.id;
+    //   try {
+    //     await vaccinationService.createVaccination(vaccinationData);
+    //     Swal.fire({
+    //       title: "Vaccination ajoutée avec succès !",
+    //       icon: "success",
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   } catch (error) {
+    //     console.error("Erreur lors de l'ajout de la vaccination :", error);
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Erreur",
+    //       text: "Impossible d'ajouter la vaccination.",
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   }
+    // },
     async editVaccination(vaccinationData) {
       try {
         await vaccinationService.updateVaccination(
@@ -322,40 +332,40 @@ export default {
         );
       }
     },
-    async deleteVaccination(vaccinationId) {
-  Swal.fire({
-    title: 'Confirmation de suppression',
-    text: 'Êtes-vous sûr de vouloir supprimer cette vaccination ?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimer',
-    cancelButtonText: 'Non, annuler',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      try {
-        vaccinationService.deleteVaccination(vaccinationId);
-        this.getVaccination();
-        Swal.fire({
-          title: 'Suppression réussie',
-          text: 'La vaccination a été supprimée avec succès.',
-          icon: 'success',
-        });
-      } catch (error) {
-        console.error(
-          "Erreur lors de la suppression de la vaccination :",
-          error
-        );
-        Swal.fire({
-          title: 'Erreur de suppression',
-          text: 'Une erreur est survenue lors de la suppression de la vaccination.',
-          icon: 'error',
-        });
-      }
-    }
-  });
-},
+//     async deleteVaccination(vaccinationId) {
+//   Swal.fire({
+//     title: 'Confirmation de suppression',
+//     text: 'Êtes-vous sûr de vouloir supprimer cette vaccination ?',
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6',
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: 'Oui, supprimer',
+//     cancelButtonText: 'Non, annuler',
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       try {
+//         vaccinationService.deleteVaccination(vaccinationId);
+//         this.getVaccination();
+//         Swal.fire({
+//           title: 'Suppression réussie',
+//           text: 'La vaccination a été supprimée avec succès.',
+//           icon: 'success',
+//         });
+//       } catch (error) {
+//         console.error(
+//           "Erreur lors de la suppression de la vaccination :",
+//           error
+//         );
+//         Swal.fire({
+//           title: 'Erreur de suppression',
+//           text: 'Une erreur est survenue lors de la suppression de la vaccination.',
+//           icon: 'error',
+//         });
+//       }
+//     }
+//   });
+// },
     getVaccinationsPaginated() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       this.paginatedData = this.vaccinations.slice(

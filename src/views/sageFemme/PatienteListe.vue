@@ -164,7 +164,7 @@
       <Table
         :columns="columns"
         :data="paginatedData"
-        title="Liste des Patientes"
+        title="Patientes"
         :formFields="formFields"
         @action="handleTableAction"
         @add-data="addPatiente"

@@ -118,7 +118,7 @@
       <Table
         :columns="columns"
         :data="paginatedData"
-        title="Liste des Badiene Gox"
+        title="Badiene Gox"
         :formFields="formFields"
         @action="handleTableAction"
         @add-data="addBadiene"
