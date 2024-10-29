@@ -220,6 +220,15 @@ export default {
   display: inline-block;
 }
 
+aside {
+  position: fixed;
+  width: 250px; /* Largeur fixe */
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #ffffff; /* Couleur de fond */
+  transition: left 0.3s ease; /* Transition pour le menu */
+  z-index: 1000; /* S'assurer qu'il est au-dessus des autres éléments */
+}
+
 .dropdown-toggle {
   background-color: #fff;
   border: none;
@@ -276,7 +285,6 @@ export default {
   padding: 20px;
 }
 
-/* From Uiverse.io by vinodjangid07 */
 #checkbox {
   display: none;
 }
@@ -293,9 +301,6 @@ export default {
   transition-duration: 0.3s;
 }
 
-/* #checkbox:checked + .toggle .bars {
-  margin-left: 13px;
-} */
 
 #checkbox:checked + .toggle #bar2 {
   transform: translateY(14px) rotate(60deg);

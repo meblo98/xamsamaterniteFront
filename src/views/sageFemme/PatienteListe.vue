@@ -420,39 +420,7 @@ export default {
         });
       }
     },
-    async deletePatiente(id) {
-      Swal.fire({
-        title: "Êtes-vous sûr de vouloir supprimer cette patiente ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Oui, supprimer",
-        cancelButtonText: "Annuler",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            await patienteService.deletePatiente(id);
-            this.getPatients(); // Recharger la liste après la suppression
-            Swal.fire({
-              // Add sweet alert for delete operation
-              title: "Patient supprimé avec succès !",
-              icon: "success",
-              timer: 1000,
-            });
-          } catch (error) {
-            console.error(
-              "Erreur lors de la suppression de la patiente :",
-              error
-            );
-            Swal.fire({
-              // Add sweet alert for error
-              title: "Erreur lors de la suppression du patient !",
-              icon: "error",
-              timer: 1000,
-            });
-          }
-        }
-      });
-    },
+
     async getBadiene() {
       try {
         const response = await badieneGoxService.getBadieneGoxes();

@@ -141,7 +141,6 @@ export default {
           field: "date_prevue_accouchement",
           name: "date_prevue_accouchement",
           type: "date",
-          required: true,
         },
         {
           label: "Statut",
@@ -154,7 +153,6 @@ export default {
               { value: "termine", text: "Terminée" },
               { value: "avorte", text: "Avortée" },
             ],
-            required: true,
         },
       ],
       user: {},

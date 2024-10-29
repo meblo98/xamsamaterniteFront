@@ -3,25 +3,51 @@
   <Layout>
     <div class="container">
       <div class="row">
-        <DashboardStats />
+        <div class="col-12">
+          <DashboardStats />
+        </div>
       </div>
-      <div class="row mb-5">
+      <div class="row mb-3">
+        <div class="col-6">
+          <SurfaceChart/>
+        </div>
+        <div class="col-6">
+          <BarChart/>
+        </div>
+      </div>
+      <!-- <div class="row mb-5">
         <Charts />
+      </div> -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <ChartCirculaire/>
+        </div>
+        <div class="col-6">
+          <MultiserieChart/>
+        </div>
       </div>
     </div>
   </Layout>
   </template>
   
   <script>
-  import Charts from '@/components/Charts.vue';
+  import BarChart from '@/components/BarChart.vue';
+import ChartCirculaire from '@/components/ChartCirculaire.vue';
+import Charts from '@/components/Charts.vue';
 import DashboardStats from '@/components/DashboardStats.vue';
 import Layout from '@/components/layouts/Layout.vue';
+import MultiserieChart from '@/components/MultiserieChart.vue';
+import SurfaceChart from '@/components/SurfaceChart.vue';
   
   export default {
     components: {
       Layout,
       DashboardStats,
-      Charts
+      Charts,
+      ChartCirculaire,
+      MultiserieChart,
+      SurfaceChart,
+      BarChart,
     }
   };
   </script>

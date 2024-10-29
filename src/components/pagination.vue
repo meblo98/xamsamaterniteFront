@@ -96,11 +96,11 @@ export default {
   margin-top: 20px;
 }
 .pagination-btn {
-  padding: 8px 12px;
   border: none;
+  border-radius: 25px;
+  padding: 6px 15px;
   background-color: #f0f0f0;
   cursor: pointer;
-  border-radius: 4px;
 }
 .pagination-btn.active {
   background-color: #007bff;

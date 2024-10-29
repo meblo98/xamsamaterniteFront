@@ -19,6 +19,15 @@ export default {
       // throw error;
     }
   },
+  async getPatientesParBadieneGox(id){
+    try {
+      const response = await apiClient.get(`/patientes-badiene/${id}`)
+      return response.data;
+    } catch (error) {
+         console.error(`Erreur lors de la récupération des patientes:`, error);
+      throw error;
+    }
+  },
   async createPatiente(data) {
     try {
       const response = await apiClient.post('/patientes', data);

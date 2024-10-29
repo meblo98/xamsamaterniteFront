@@ -25,7 +25,8 @@
     background-color: #6932f9;
     color: white;
     border: none;
-    padding: 5px;
+    border-radius: 25px;
+    padding: 15px;
     margin-bottom: 10px;
     cursor: pointer;
   }

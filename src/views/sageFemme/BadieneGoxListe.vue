@@ -141,6 +141,12 @@ import Pagination from "@/components/pagination.vue";
 import Swal from "sweetalert2";
 import badieneGoxService from "@/services/badieneGoxService";
 
+const ACTION_VIEW = "view";
+const ACTION_EDIT = "edit";
+const ACTION_DELETE = "delete";
+
+
+
 export default {
   components: {
     Layout,
@@ -351,13 +357,37 @@ export default {
       });
     },
 
-    async handleTableAction(event) {
-      if (event.action === "edit") {
-        this.editBadiene(event.row); // Utiliser event.row pour l'édition
-      } else if (event.action === "delete") {
-        this.deleteBadiene(event.row.id); // Utiliser event.row.id pour la suppression
+    handleTableAction({ action, row }) {
+      switch (action) {
+        case ACTION_VIEW:
+          this.$router.push({
+            name: "patientes-badiene",
+            params: { id: row.id },
+          });
+          break;
+        case ACTION_EDIT:
+          this.editBadiene(row);
+          break;
+        case ACTION_DELETE:
+          this.deleteBadiene(row.id);
+          break;
+        default:
+          break;
       }
     },
+    // async handleTableAction(event) {
+    //   if (event.action === "edit") {
+    //     this.editBadiene(event.row); // Utiliser event.row pour l'édition
+    //   } else if (event.action === "delete") {
+    //     this.deleteBadiene(event.row.id); // Utiliser event.row.id pour la suppression
+    //   }
+    //   else if (event.action === "view") {
+    //     this.$router.push({
+    //         name: "patientes-badiene",
+    //         params: { id: row.id },
+    //       });
+    //   }
+    // },
   },
 };
 </script>
