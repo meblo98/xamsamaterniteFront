@@ -1,5 +1,6 @@
 <template>
     <Layout>
+      <BackButton/>
       <!-- Si aucune donnée n'est trouvée -->
       <div v-if="allData.length === 0">    
         <p>Aucune Patiente trouvée.</p>
@@ -25,7 +26,8 @@
   </template>
   
   <script>
-  import Layout from "@/components/layouts/Layout.vue";
+  import BackButton from "@/components/BackButton.vue";
+import Layout from "@/components/layouts/Layout.vue";
   import Pagination from "@/components/pagination.vue";
   import Table from "@/components/tableau.vue";
 import badieneGoxService from "@/services/badieneGoxService";
@@ -40,6 +42,7 @@ const ACTION_DELETE = "delete";
       Layout,
       Pagination,
       Table,
+      BackButton
     },
     data() {
     return {

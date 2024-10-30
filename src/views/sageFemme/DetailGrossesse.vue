@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <BackButton/>
     <div class="container">
       <div class="row">
         <div class="col-md-5">
@@ -454,6 +455,7 @@ import Swal from "sweetalert2";
 import accouchementService from "@/services/accouchementService";
 import conseilService from "@/services/conseilService";
 import grossesseService from "@/services/grossesseService";
+import BackButton from "@/components/BackButton.vue";
 const ACTION_VIEW = "view";
 const ACTION_EDIT = "edit";
 const ACTION_DELETE = "delete";
@@ -462,6 +464,7 @@ export default {
   components: {
     Layout,
     Table,
+    BackButton,
   },
   data() {
     return {
@@ -490,12 +493,6 @@ export default {
       selectedRendezVous: null,
       consultation: {},
       modalTitle: "",
-      conseils: [],
-      newConseil: {
-        image: null,
-        description: "",
-        patiente_id: this.id,
-      },
       accouchement: [],
       user: [],
       FormData: {},

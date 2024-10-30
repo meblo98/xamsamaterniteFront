@@ -1,5 +1,7 @@
 <template>
   <Layout>
+    <BackButton/>
+
     <div class="container">
       <div class="row">
         <div class="col-md-5">
@@ -104,6 +106,7 @@ import patienteService from "@/services/patienteService";
 import grossesseService from "@/services/grossesseService";
 import Table from "@/components/tableau.vue";
 import Swal from "sweetalert2";
+import BackButton from "@/components/BackButton.vue";
 
 const ACTION_VIEW = "view";
 const ACTION_EDIT = "edit";
@@ -115,6 +118,7 @@ export default {
   components: {
     Layout,
     Table,
+    BackButton
   },
   data() {
     return {

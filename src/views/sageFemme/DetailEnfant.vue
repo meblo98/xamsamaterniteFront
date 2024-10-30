@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <BackButton/>
     <div class="container">
       <div class="row">
         <div class="col-md-5">
@@ -144,6 +145,7 @@
 </template>
 
 <script>
+import BackButton from "@/components/BackButton.vue";
 import Layout from "@/components/layouts/Layout.vue";
 import Table from "@/components/tableau.vue";
 import enfantService from "@/services/enfantService";
@@ -154,6 +156,7 @@ export default {
   components: {
     Table,
     Layout,
+    BackButton,
   },
   data() {
     return {

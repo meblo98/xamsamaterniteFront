@@ -7,50 +7,38 @@
 
         <!-- Logo -->
         <div class="logo">
-          <img
-            src="@/assets/images/logo.png"
-            alt="XAM Sa Maternité"
-            class="w-100"
-          />
+          <label class="toggle" for="checkbox" @click="toggleMenu">
+            <div id="bar1" class="bars" style="background-color: #ddd"></div>
+            <div id="bar2" class="bars" style="background-color: #ddd"></div>
+            <div id="bar3" class="bars" style="background-color: #ddd"></div>
+          </label>
+          <img src="@/assets/images/logo.png" alt="XAM Sa Maternité" class="w-100" />
         </div>
         <ul v-if="role === 'admin'">
           <li class="nav-item">
-            <router-link class="nav-link" to="/dashboard-admin"
-              ><i class="fa-brands fa-windows"></i>Dashboard</router-link
-            >
+            <router-link class="nav-link" to="/dashboard-admin"><i
+                class="fa-brands fa-windows"></i>Dashboard</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/structure"
-              >Structure</router-link
-            >
+            <router-link class="nav-link" to="/structure">Structure</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeVisite-admin"
-              >Visite</router-link
-            >
+            <router-link class="nav-link" to="/listeVisite-admin">Visite</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeSageFemme-admin"
-              >Sage-femme</router-link
-            >
+            <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>
           </li>
         </ul>
         <!-- Navigation Links -->
         <ul v-if="role === 'patiente'">
           <li>
-            <router-link to="/dashboard-patiente"
-              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
-            >
+            <router-link to="/dashboard-patiente"><i class="fa-brands fa-windows"></i> Dashboard</router-link>
           </li>
           <li>
-            <router-link to="/rv-patiente"
-              ><i class="fas fa-calendar"></i> Rendez-vous</router-link
-            >
+            <router-link to="/rv-patiente"><i class="fas fa-calendar"></i> Rendez-vous</router-link>
           </li>
           <li>
-            <router-link to="/conseil-patiente"
-              ><i class="fas fa-lightbulb"></i> Conseils</router-link
-            >
+            <router-link to="/conseil-patiente"><i class="fas fa-lightbulb"></i> Conseils</router-link>
           </li>
           <li>
             <router-link to="/campagne-patiente">🔈 Campagnes</router-link>
@@ -59,9 +47,8 @@
 
         <ul v-if="role === 'sage-femme'">
           <li>
-            <router-link to="/dashboard-sage-femme" class="menu-link" 
-              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
-            >
+            <router-link to="/dashboard-sage-femme" class="menu-link"><i class="fa-brands fa-windows"></i>
+              Dashboard</router-link>
           </li>
           <li>
             <router-link to="/patiente-sage-femme">🤰 Patientes</router-link>
@@ -76,9 +63,7 @@
 
         <ul v-if="role === 'badiene-gox'">
           <li>
-            <router-link to="/dashboard-badiene-gox"
-              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
-            >
+            <router-link to="/dashboard-badiene-gox"><i class="fa-brands fa-windows"></i> Dashboard</router-link>
           </li>
           <li>
             <router-link to="patiente-badiene-gox">🤰 Patiente</router-link>
@@ -89,16 +74,17 @@
         </ul>
       </nav>
     </aside>
+    <!-- Overlay -->
+    <div class="overlay"></div>
 
     <!-- Main Content -->
     <div class="main-content">
       <!-- Header -->
       <header class="header">
-        <input id="checkbox" type="checkbox" />
         <label class="toggle" for="checkbox" @click="toggleMenu">
-          <div id="bar1" class="bars" style="background-color: #ddd"></div>
-          <div id="bar2" class="bars" style="background-color: #ddd"></div>
-          <div id="bar3" class="bars" style="background-color: #ddd"></div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 512 512">
+            <path fill="#ddd" d="M32 96v64h448V96zm0 128v64h448v-64zm0 128v64h448v-64z" />
+          </svg>
         </label>
 
         <div class="search-bar">
@@ -113,20 +99,13 @@
           <img :src="imageUrl" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 15 15"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 15 15">
                 <path fill="black" d="M7.5 12L0 4h15z" />
               </svg>
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a href="#" @click="openSettings"
-                  ><i class="fi fi-rr-settings"></i>Paramètres</a
-                >
+                <a href="#" @click="openSettings"><i class="fi fi-rr-settings"></i>Paramètres</a>
               </li>
               <li>
                 <a href="#" @click.prevent="logout">
@@ -139,7 +118,7 @@
       </header>
 
       <!-- Main Slot (Dynamic Content) -->
-      <main>
+      <main class="main">
         <slot></slot>
       </main>
     </div>
@@ -169,7 +148,7 @@ export default {
     this.fetchProfile();
   },
   methods: {
- 
+
     logout() {
       // Supprimer le token de l'utilisateur
       localStorage.removeItem("token");
@@ -178,8 +157,7 @@ export default {
     },
     toggleDropdown() {
       const dropdownMenu = document.querySelector(".dropdown-menu");
-      dropdownMenu.style.display =
-        dropdownMenu.style.display === "block" ? "none" : "block";
+      dropdownMenu.style.display === "block" ? "none" : "block";
     },
     toggleMenu() {
       this.isOpen = !this.isOpen;
@@ -211,22 +189,19 @@ export default {
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css");
 @import url("https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
+
 .layout {
   display: flex;
   min-height: 100vh;
 }
+
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-aside {
-  position: fixed;
-  width: 250px; /* Largeur fixe */
-  height: 100vh; /* Prend toute la hauteur de la fenêtre */
-  background-color: #ffffff; /* Couleur de fond */
-  transition: left 0.3s ease; /* Transition pour le menu */
-  z-index: 1000; /* S'assurer qu'il est au-dessus des autres éléments */
+.main {
+  margin-top: 100px;
 }
 
 .dropdown-toggle {
@@ -264,6 +239,7 @@ aside {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+
 /* Sidebar (desktop default) */
 .sidebar {
   width: 250px;
@@ -272,12 +248,25 @@ aside {
   transition: left 0.3s ease;
   position: relative;
 }
+
 .header {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  background-color: #ffffff; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  padding: 0 20px;
+  margin-left: 250px;
   background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .main-content {
@@ -302,7 +291,7 @@ aside {
 }
 
 
-#checkbox:checked + .toggle #bar2 {
+#checkbox:checked+.toggle #bar2 {
   transform: translateY(14px) rotate(60deg);
   margin-left: 0;
   transform-origin: right;
@@ -310,14 +299,14 @@ aside {
   z-index: 2;
 }
 
-#checkbox:checked + .toggle #bar1 {
+#checkbox:checked+.toggle #bar1 {
   transform: translateY(28px) rotate(-60deg);
   transition-duration: 0.3s;
   transform-origin: left;
   z-index: 1;
 }
 
-#checkbox:checked + .toggle {
+#checkbox:checked+.toggle {
   transform: rotate(-90deg);
 }
 
@@ -333,10 +322,27 @@ aside {
 
 /* Responsive Styles for Mobile (max-width: 768px) */
 @media (max-width: 768px) {
+
   /* Layout for Small Screens */
   .layout {
     flex-direction: column;
   }
+
+  .sidebar {
+    position: fixed;
+    left: -250px;
+    /* Hidden by default */
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 20;
+    /* Ensure the sidebar is above other content */
+  }
+
+  .sidebar.menu-open {
+    left: 0;
+    /* Show the sidebar when menu is open */
+  }
+
   .toggle {
     position: relative;
     width: 40px;
@@ -349,6 +355,7 @@ aside {
     gap: 10px;
     transition-duration: 0.3s;
   }
+
   .search-bar {
     position: relative;
     width: 200px;
@@ -358,14 +365,16 @@ aside {
   /* Sidebar Initially Hidden on Mobile */
   .sidebar {
     position: absolute;
-    left: -250px; /* Hidden by default */
+    left: -250px;
+    /* Hidden by default */
     height: 100vh;
     transition: left 0.3s ease;
   }
 
   /* When Menu is Open */
   .sidebar.menu-open {
-    left: 0; /* Slide Sidebar in */
+    left: 0;
+    /* Slide Sidebar in */
   }
 
   /* Show Burger Button on Mobile */
@@ -398,6 +407,57 @@ aside {
     width: 30px;
     height: 30px;
   }
+
+  .header {
+    flex-direction: row;
+    height: auto;
+    padding: 10px;
+    margin-left: 0;
+    /* Supprime le décalage à gauche */
+
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -250px;
+    height: 100vh;
+    width: 250px;
+    background-color: #fff;
+    transition: left 0.3s ease;
+    z-index: 20;
+  }
+
+  .sidebar.menu-open {
+    left: 0;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 19;
+    display: none;
+  }
+
+  .sidebar.menu-open+.overlay {
+    display: block;
+  }
+}
+
+.sidebar.fixed {
+  position: fixed;
+  /* Rendre la barre latérale fixe */
+  left: 0;
+  top: 0;
+  height: 100vh;
+  /* S'assurer qu'elle occupe toute la hauteur */
+  z-index: 10;
+  /* S'assurer qu'elle reste au-dessus des autres éléments */
 }
 
 /* Smaller Mobile Screens (max-width: 480px) */
@@ -406,6 +466,7 @@ aside {
     width: 100%;
     left: -100%;
   }
+
   .toggle {
     position: relative;
     width: 40px;
@@ -418,8 +479,72 @@ aside {
     gap: 10px;
     transition-duration: 0.3s;
   }
+
   .sidebar.menu-open {
     left: 0;
   }
+
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .main-content {
+    margin-left: 250px;
+    /* Adjust this value to match the sidebar width */
+  }
+}
+
+.bars {
+  width: 30px;
+  /* Ajustez la largeur selon vos besoins */
+  height: 4px;
+  /* Épaisseur des barres */
+  background-color: #ddd;
+  /* Couleur par défaut */
+  border-radius: 5px;
+  /* Coins arrondis */
+  transition: all 0.3s ease;
+  /* Animation lors du changement d'état */
+  position: relative;
+  /* Pour positionner les barres */
+}
+
+#bar1 {
+  transform-origin: left;
+  /* Origine de transformation pour la rotation */
+}
+
+#bar2 {
+  opacity: 1;
+  /* Visible par défaut */
+  transition: opacity 0.3s ease;
+  /* Animation de l'opacité */
+}
+
+#bar3 {
+  transform-origin: left;
+  /* Origine de transformation pour la rotation */
+}
+
+/* Styles lorsque le menu est ouvert */
+.menu-open #bar1 {
+  transform: rotate(45deg) translateY(10px);
+  /* Rotation et décalage vers le bas */
+}
+
+.menu-open #bar2 {
+  opacity: 0;
+  /* Invisible lorsque le menu est ouvert */
+}
+
+.menu-open #bar3 {
+  transform: rotate(-45deg) translateY(-10px);
+  /* Rotation et décalage vers le haut */
 }
 </style>

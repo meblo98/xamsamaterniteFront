@@ -8,10 +8,10 @@
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col-6">
+        <div class="col-12 col-md-6 mb-3">
           <SurfaceChart/>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <BarChart/>
         </div>
       </div>
@@ -19,10 +19,10 @@
         <Charts />
       </div> -->
       <div class="row mb-3">
-        <div class="col-6">
+        <div class="col-12 col-md-6 mb-3">
           <ChartCirculaire/>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <MultiserieChart/>
         </div>
       </div>
