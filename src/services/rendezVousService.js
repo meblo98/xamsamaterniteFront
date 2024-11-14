@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/rv');
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la récupération des rendez-vous :', error);
-      // throw error;
+      console.error('Erreur lors de la récupération des rendez-vous :', error);
+      throw error;
     }
   },
   async getRendezVousById(id) {

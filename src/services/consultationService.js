@@ -61,8 +61,8 @@ export default {
       const response = await apiClient.get(`/patients/${patienteId}/rendezvous`);
       return response.data; // Assure-toi que la réponse contient les données nécessaires
     } catch (error) {
-      // console.error("Erreur lors de la récupération des rendez-vous :", error);
-      // throw error; // Relance l'erreur pour gestion ultérieure
+      console.error("Erreur lors de la récupération des rendez-vous :", error);
+      throw error; // Relance l'erreur pour gestion ultérieure
     }
   },
 };

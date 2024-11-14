@@ -340,7 +340,12 @@ export default {
           this.editPatiente(row);
           break;
         case ACTION_DELETE:
-          this.deletePatiente(row.id);
+          Swal.fire({
+            title: "Erreur",
+            text: "La suppression d'une patiente n'est pas autorisée.",
+            icon: "error",
+            timer: 2000,
+          });
           break;
         default:
           break;

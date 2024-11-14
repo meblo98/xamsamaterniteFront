@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/conseils');
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la récupération des conseils :', error);
-      // throw error;
+      console.error('Erreur lors de la récupération des conseils :', error);
+      throw error;
     }
   },
   async getConseil(id) {
@@ -28,6 +28,8 @@ export default {
     }
   },
   async createConseil(formData) {
+    console.log(formData);
+
     try {
       const response = await apiClient.post('/conseils', formData);
       return response.data;
@@ -38,11 +40,12 @@ export default {
   },
   async updateConseil(id, data) {
     try {
+      
       const response = await apiClient.put(`/conseils/${id}`, data);
       return response.data;
     } catch (error) {
-      // console.error(`Erreur lors de la mise à jour du conseil avec l'id ${id} :`, error);
-      // throw error;
+      console.error(`Erreur lors de la mise à jour du conseil avec l'id ${id} :`, error);
+      throw error;
     }
   },
   async deleteConseil(id) {

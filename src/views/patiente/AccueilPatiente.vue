@@ -12,7 +12,7 @@
           >
             <AppointmentCard
               :date="formatDate(appointment.date_rv)"
-              :type="appointment.visite.libelle"
+              :type="appointment.libelle"
             />
           </div>
         </div>
@@ -97,6 +97,9 @@ export default {
         const response = await consultationService.getRendezVousByPatiente(
           patienteId
         );
+        console.log(response);
+        
+   
 
         // Si la réponse est un objet et non un tableau, on le transforme en tableau
         if (response.mes_rv && !Array.isArray(response.mes_rv)) {
@@ -104,11 +107,12 @@ export default {
         } else {
           this.rv = response.mes_rv;
         }
+        
       } catch (error) {
-        // console.error(
-        //   "Erreur lors de la récupération des rendez-vous :",
-        //   error
-        // );
+        console.error(
+          "Erreur lors de la récupération des rendez-vous :",
+          error
+        );
       }
     },
     // Fetch campaigns from the backend
@@ -117,7 +121,7 @@ export default {
         const response = await campagneService.getCampagnes();
         this.campaigns = response;
       } catch (error) {
-        // console.error("Erreur lors de la récupération des campagnes:", error);
+        console.error("Erreur lors de la récupération des campagnes:", error);
       }
     },
 
@@ -125,9 +129,9 @@ export default {
     async fetchConseil() {
       try {
         const response = await conseilService.getConseils();
-        this.adviceVideos = response.mes_conseils;        
+        this.adviceVideos = response;                
       } catch (error) {
-        // console.error("Erreur lors de la récupération des conseil:", error);
+        console.error("Erreur lors de la récupération des conseil:", error);
       }
     },
     formatDate(date) {

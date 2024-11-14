@@ -12,33 +12,50 @@
             <div id="bar2" class="bars" style="background-color: #ddd"></div>
             <div id="bar3" class="bars" style="background-color: #ddd"></div>
           </label>
-          <img src="@/assets/images/logo.png" alt="XAM Sa Maternité" class="w-100" />
+          <img
+            src="@/assets/images/logo.png"
+            alt="XAM Sa Maternité"
+            class="w-100"
+          />
         </div>
         <ul v-if="role === 'admin'">
           <li class="nav-item">
-            <router-link class="nav-link" to="/dashboard-admin"><i
-                class="fa-brands fa-windows"></i>Dashboard</router-link>
+            <router-link class="nav-link" to="/dashboard-admin"
+              ><i class="fa-brands fa-windows"></i>Dashboard</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/structure">Structure</router-link>
+            <router-link class="nav-link" to="/structure"
+              >Structure</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeVisite-admin">Visite</router-link>
+            <router-link class="nav-link" to="/listeVisite-admin"
+              >Visite</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/listeSageFemme-admin">Sage-femme</router-link>
+            <router-link class="nav-link" to="/listeSageFemme-admin"
+              >Sage-femme</router-link
+            >
           </li>
         </ul>
         <!-- Navigation Links -->
         <ul v-if="role === 'patiente'">
           <li>
-            <router-link to="/dashboard-patiente"><i class="fa-brands fa-windows"></i> Dashboard</router-link>
+            <router-link to="/dashboard-patiente"
+              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
+            >
           </li>
           <li>
-            <router-link to="/rv-patiente"><i class="fas fa-calendar"></i> Rendez-vous</router-link>
+            <router-link to="/rv-patiente"
+              ><i class="fas fa-calendar"></i> Rendez-vous</router-link
+            >
           </li>
           <li>
-            <router-link to="/conseil-patiente"><i class="fas fa-lightbulb"></i> Conseils</router-link>
+            <router-link to="/conseil-patiente"
+              ><i class="fas fa-lightbulb"></i> Conseils</router-link
+            >
           </li>
           <li>
             <router-link to="/campagne-patiente">🔈 Campagnes</router-link>
@@ -47,8 +64,9 @@
 
         <ul v-if="role === 'sage-femme'">
           <li>
-            <router-link to="/dashboard-sage-femme" class="menu-link"><i class="fa-brands fa-windows"></i>
-              Dashboard</router-link>
+            <router-link to="/dashboard-sage-femme" class="menu-link"
+              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
+            >
           </li>
           <li>
             <router-link to="/patiente-sage-femme">🤰 Patientes</router-link>
@@ -63,7 +81,9 @@
 
         <ul v-if="role === 'badiene-gox'">
           <li>
-            <router-link to="/dashboard-badiene-gox"><i class="fa-brands fa-windows"></i> Dashboard</router-link>
+            <router-link to="/dashboard-badiene-gox"
+              ><i class="fa-brands fa-windows"></i> Dashboard</router-link
+            >
           </li>
           <li>
             <router-link to="patiente-badiene-gox">🤰 Patiente</router-link>
@@ -82,8 +102,16 @@
       <!-- Header -->
       <header class="header">
         <label class="toggle" for="checkbox" @click="toggleMenu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 512 512">
-            <path fill="#ddd" d="M32 96v64h448V96zm0 128v64h448v-64zm0 128v64h448v-64z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="3em"
+            height="3em"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="#ddd"
+              d="M32 96v64h448V96zm0 128v64h448v-64zm0 128v64h448v-64z"
+            />
           </svg>
         </label>
 
@@ -94,18 +122,105 @@
         <!-- User Profile Icons -->
         <div class="user-profile">
           <i class="fi fi-rr-settings" @click="openSettings"></i>
-          <i class="fas fa-bell"></i>
+          <!-- <i class="fas fa-bell"></i> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="fas fa-bell"></i>
+              <span class="badge bg-primary badge-number">4</span> </a
+            ><!-- End Notification Icon -->
+
+            <ul
+              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications"
+            >
+              <li class="dropdown-header">
+                Vous avez 4 nouvelles notifications
+                <a href="#"
+                  ><span class="badge rounded-pill bg-primary p-2 ms-2"
+                    >Voir tous</span
+                  ></a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-exclamation-circle text-warning"></i>
+                <div>
+                  <h4>Lorem Ipsum</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>Il y a 30 min.</p>
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-x-circle text-danger"></i>
+                <div>
+                  <h4>Atque rerum nesciunt</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>Il y a 1 h</p>
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-check-circle text-success"></i>
+                <div>
+                  <h4>Sit rerum fuga</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>Il y a 2 h</p>
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li class="notification-item">
+                <i class="bi bi-info-circle text-primary"></i>
+                <div>
+                  <h4>Dicta reprehenderit</h4>
+                  <p>Quae dolorem earum veritatis oditseno</p>
+                  <p>4Il y a 4 h</p>
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li class="dropdown-footer">
+                <a href="#">Afficher toutes les notifications</a>
+              </li>
+            </ul>
+            <!-- End Notification Dropdown Items -->
+          </li>
+          <!-- End Notification Nav -->
+
           <!-- <img :src="`https://certif.lomouhamedelbachir.simplonfabriques.com/storage//${userData.photo}`" alt="User Image" /> -->
           <img :src="imageUrl" alt="User Image" />
           <div class="dropdown">
             <button class="dropdown-toggle" @click="toggleDropdown">
-              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 15 15">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 15 15"
+              >
                 <path fill="black" d="M7.5 12L0 4h15z" />
               </svg>
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a href="#" @click="openSettings"><i class="fi fi-rr-settings"></i>Paramètres</a>
+                <a href="#" @click="openSettings"
+                  ><i class="fi fi-rr-settings"></i>Paramètres</a
+                >
               </li>
               <li>
                 <a href="#" @click.prevent="logout">
@@ -148,7 +263,6 @@ export default {
     this.fetchProfile();
   },
   methods: {
-
     logout() {
       // Supprimer le token de l'utilisateur
       localStorage.removeItem("token");
@@ -172,7 +286,7 @@ export default {
         const userData = response.user;
 
         if (userData) {
-          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici          
+          this.imageUrl = urlImage + `${userData.photo}`; // Défini imageUrl ici
         }
       } catch (error) {
         // console.error(
@@ -248,6 +362,39 @@ export default {
   transition: left 0.3s ease;
   position: relative;
 }
+.badge-number {
+  position: absolute;
+  inset: -2px -5px auto auto;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 3px 6px;
+}
+.notifications {
+  inset: 8px -15px auto auto !important;
+}
+.notifications .notification-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+  transition: 0.3s;
+}
+.notifications .notification-item i {
+  margin: 0 20px 0 10px;
+  font-size: 24px;
+}
+.notifications .notification-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.notifications .notification-item p {
+  font-size: 13px;
+  margin-bottom: 3px;
+  color: #919191;
+}
+.notifications .notification-item:hover {
+  background-color: #f6f9ff;
+}
 
 .header {
   /* display: flex;
@@ -290,8 +437,7 @@ export default {
   transition-duration: 0.3s;
 }
 
-
-#checkbox:checked+.toggle #bar2 {
+#checkbox:checked + .toggle #bar2 {
   transform: translateY(14px) rotate(60deg);
   margin-left: 0;
   transform-origin: right;
@@ -299,14 +445,14 @@ export default {
   z-index: 2;
 }
 
-#checkbox:checked+.toggle #bar1 {
+#checkbox:checked + .toggle #bar1 {
   transform: translateY(28px) rotate(-60deg);
   transition-duration: 0.3s;
   transform-origin: left;
   z-index: 1;
 }
 
-#checkbox:checked+.toggle {
+#checkbox:checked + .toggle {
   transform: rotate(-90deg);
 }
 
@@ -322,7 +468,6 @@ export default {
 
 /* Responsive Styles for Mobile (max-width: 768px) */
 @media (max-width: 768px) {
-
   /* Layout for Small Screens */
   .layout {
     flex-direction: column;
@@ -414,7 +559,6 @@ export default {
     padding: 10px;
     margin-left: 0;
     /* Supprime le décalage à gauche */
-
   }
 }
 
@@ -444,7 +588,7 @@ export default {
     display: none;
   }
 
-  .sidebar.menu-open+.overlay {
+  .sidebar.menu-open + .overlay {
     display: block;
   }
 }
@@ -483,7 +627,6 @@ export default {
   .sidebar.menu-open {
     left: 0;
   }
-
 }
 
 @media (min-width: 769px) {

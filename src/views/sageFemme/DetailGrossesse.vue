@@ -1,16 +1,22 @@
 <template>
   <Layout>
-    <BackButton/>
+    <BackButton />
     <div class="container">
       <div class="row">
         <div class="col-md-5">
           <div class="project-info-box mt-0">
-            <div class="walletBalanceCard mb-3" v-for="(rv, index) in paginatedRvs" :key="index">
+            <div
+              class="walletBalanceCard mb-3"
+              v-for="(rv, index) in paginatedRvs"
+              :key="index"
+            >
               <div class="walletBalanceCard mb-3">
                 <div class="svgwrapper">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                    <path fill="#6932f9"
-                      d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zM329 305c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-95 95-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L329 305z" />
+                    <path
+                      fill="#6932f9"
+                      d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zM329 305c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-95 95-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L329 305z"
+                    />
                   </svg>
                 </div>
 
@@ -22,95 +28,185 @@
                 </div>
 
                 <!-- Condition pour afficher le bon bouton -->
-                <button v-if="rv.consultation" @click="showConsultation(rv.consultation)" class="addmoney">
-                  <span class="plussign"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                      viewBox="0 0 24 24">
-                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                <button
+                  v-if="rv.consultation"
+                  @click="showConsultation(rv.consultation)"
+                  class="addmoney"
+                >
+                  <span class="plussign"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                         stroke-width="1.5"
                         d="M19.5 13v-3c0-3.3 0-4.95-1.025-5.975S15.8 3 12.5 3h-3C6.2 3 4.55 3 3.525 4.025S2.5 6.7 2.5 10v5c0 3.3 0 4.95 1.025 5.975S6.2 22 9.5 22H11m5-20v2m-5-2v2M6 2v2m7.5 16s1 0 2 2c0 0 3.177-5 6-6M7 15h4m-4-5h8"
-                        color="currentColor" />
-                    </svg> </span>
+                        color="currentColor"
+                      />
+                    </svg>
+                  </span>
                   Afficher consultation
                 </button>
 
                 <button v-else @click="addConsultation(rv)" class="addmoney">
-                  <span class="plussign"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                      viewBox="0 0 512 512">
-                      <path fill="currentColor"
-                        d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0m149.3 277.3c0 11.8-9.5 21.3-21.3 21.3h-85.3V384c0 11.8-9.5 21.3-21.3 21.3h-42.7c-11.8 0-21.3-9.6-21.3-21.3v-85.3H128c-11.8 0-21.3-9.6-21.3-21.3v-42.7c0-11.8 9.5-21.3 21.3-21.3h85.3V128c0-11.8 9.5-21.3 21.3-21.3h42.7c11.8 0 21.3 9.6 21.3 21.3v85.3H384c11.8 0 21.3 9.6 21.3 21.3z" />
-                    </svg></span> Ajouter consultation
+                  <span class="plussign"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0m149.3 277.3c0 11.8-9.5 21.3-21.3 21.3h-85.3V384c0 11.8-9.5 21.3-21.3 21.3h-42.7c-11.8 0-21.3-9.6-21.3-21.3v-85.3H128c-11.8 0-21.3-9.6-21.3-21.3v-42.7c0-11.8 9.5-21.3 21.3-21.3h85.3V128c0-11.8 9.5-21.3 21.3-21.3h42.7c11.8 0 21.3 9.6 21.3 21.3v85.3H384c11.8 0 21.3 9.6 21.3 21.3z"
+                      /></svg
+                  ></span>
+                  Ajouter consultation
                 </button>
               </div>
             </div>
             <div v-if="rendezVous.length > 5">
-              <button class="pagination-btn" @click="prevPage">↩ Précédent</button>
+              <button class="pagination-btn" @click="prevPage">
+                ↩ Précédent
+              </button>
               <button class="mx-2">{{ currentPage }}</button>
               <!-- <span class="mx-3">Page {{ currentPage }} sur {{ totalPages }}</span> -->
-              <button class="pagination-btn" @click="nextPage">Suivant ↪</button>
+              <button class="pagination-btn" @click="nextPage">
+                Suivant ↪
+              </button>
             </div>
             <!-- Modal pour afficher ou ajouter une consultation -->
-            <div v-if="isModalVisible" class="modal fade show" tabindex="-1" style="display: block">
+            <div
+              v-if="isModalVisible"
+              class="modal fade show"
+              tabindex="-1"
+              style="display: block"
+            >
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">{{ modalTitle }}</h5>
-                    <button type="button" class="close" @click="closeModal" aria-label="Close"
-                      style="right: 0;margin-left: 200px; background-color: white;color: black">
+                    <button
+                      type="button"
+                      class="close"
+                      @click="closeModal"
+                      aria-label="Close"
+                      style="
+                        right: 0;
+                        margin-left: 200px;
+                        background-color: white;
+                        color: black;
+                      "
+                    >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                     <!-- Formulaire d'ajout de consultation -->
-                    <form v-if="!selectedRendezVous.consultation" @submit.prevent="submitConsultation">
+                    <form
+                      v-if="!selectedRendezVous.consultation"
+                      @submit.prevent="submitConsultation"
+                    >
                       <!-- Ligne 1 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="date">Date</label>
-                          <input v-model="consultation.date" type="date" class="form-control" id="date" />
+                          <input
+                            v-model="consultation.date"
+                            type="date"
+                            class="form-control"
+                            id="date"
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="terme">Terme</label>
-                          <input v-model="consultation.terme" type="text" class="form-control" id="terme" />
+                          <input
+                            v-model="consultation.terme"
+                            type="text"
+                            class="form-control"
+                            id="terme"
+                          />
                         </div>
                       </div>
                       <!-- Ligne 2 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="SA">SA</label>
-                          <input v-model="consultation.SA" type="text" class="form-control" id="SA" />
+                          <input
+                            v-model="consultation.SA"
+                            type="text"
+                            class="form-control"
+                            id="SA"
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="mois">Mois</label>
-                          <input v-model="consultation.mois" type="number" class="form-control" id="mois" />
+                          <input
+                            v-model="consultation.mois"
+                            type="number"
+                            class="form-control"
+                            id="mois"
+                          />
                         </div>
                       </div>
                       <!-- Ligne 3 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="poids">Poids</label>
-                          <input v-model="consultation.poids" type="number" class="form-control" id="poids" />
+                          <input
+                            v-model="consultation.poids"
+                            type="number"
+                            class="form-control"
+                            id="poids"
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="taille">Taille</label>
-                          <input v-model="consultation.taille" type="text" class="form-control" id="taille" />
+                          <input
+                            v-model="consultation.taille"
+                            type="text"
+                            class="form-control"
+                            id="taille"
+                          />
                         </div>
                       </div>
                       <!-- Ligne 4 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="temperature">Température</label>
-                          <input v-model="consultation.temperature" type="text" class="form-control" id="temperature" />
+                          <input
+                            v-model="consultation.temperature"
+                            type="text"
+                            class="form-control"
+                            id="temperature"
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="TA">Tension Artérielle</label>
-                          <input v-model="consultation.TA" type="text" class="form-control" id="TA" />
+                          <input
+                            v-model="consultation.TA"
+                            type="text"
+                            class="form-control"
+                            id="TA"
+                          />
                         </div>
                       </div>
                       <!-- Ligne 5 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="pouls">Pouls</label>
-                          <input v-model="consultation.pouls" type="text" class="form-control" id="pouls" />
+                          <input
+                            v-model="consultation.pouls"
+                            type="text"
+                            class="form-control"
+                            id="pouls"
+                          />
                         </div>
                       </div>
                       <!-- Bouton -->
@@ -123,62 +219,97 @@
                     <div v-else>
                       <div class="row">
                         <div class="col-md-6">
-                          <p><strong>Date:</strong> {{ selectedRendezVous.consultation.date }}</p>
+                          <p>
+                            <strong>Date:</strong>
+                            {{ selectedRendezVous.consultation.date }}
+                          </p>
                         </div>
                         <div class="col-md-6">
-                          <p><strong>SA:</strong> {{ selectedRendezVous.consultation.SA }}</p>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6">
-                          <p><strong>Plaintes:</strong> {{ selectedRendezVous.consultation.plaintes }}</p>
-                        </div>
-                        <div class="col-md-6">
-                          <p><strong>Mois:</strong> {{ selectedRendezVous.consultation.mois }}</p>
+                          <p>
+                            <strong>SA:</strong>
+                            {{ selectedRendezVous.consultation.SA }}
+                          </p>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="col-md-6">
-                          <p><strong>Température:</strong> {{ selectedRendezVous.consultation.temperature }}</p>
+                          <p>
+                            <strong>Plaintes:</strong>
+                            {{ selectedRendezVous.consultation.plaintes }}
+                          </p>
                         </div>
                         <div class="col-md-6">
-                          <p><strong>Pouls:</strong> {{ selectedRendezVous.consultation.pouls }}</p>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6">
-                          <p><strong>Résultat:</strong> {{ selectedRendezVous.consultation.resultat }}</p>
-                        </div>
-                        <div class="col-md-6">
-                          <p><strong>Lieu accouchement après consentement:</strong> {{
-                            selectedRendezVous.consultation.lieu_accouchement_apre_consentement }}</p>
+                          <p>
+                            <strong>Mois:</strong>
+                            {{ selectedRendezVous.consultation.mois }}
+                          </p>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="col-md-6">
-                          <p><strong>Poids:</strong> {{ selectedRendezVous.consultation.poids }}</p>
+                          <p>
+                            <strong>Température:</strong>
+                            {{ selectedRendezVous.consultation.temperature }}
+                          </p>
                         </div>
                         <div class="col-md-6">
-                          <p><strong>Tension artérielle:</strong> {{ selectedRendezVous.consultation.TA }}</p>
+                          <p>
+                            <strong>Pouls:</strong>
+                            {{ selectedRendezVous.consultation.pouls }}
+                          </p>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="col-md-6">
-                          <p><strong>Terme:</strong> {{ selectedRendezVous.consultation.terme }}</p>
+                          <p>
+                            <strong>Résultat:</strong>
+                            {{ selectedRendezVous.consultation.resultat }}
+                          </p>
+                        </div>
+                        <div class="col-md-6">
+                          <p>
+                            <strong
+                              >Lieu accouchement après consentement:</strong
+                            >
+                            {{
+                              selectedRendezVous.consultation
+                                .lieu_accouchement_apre_consentement
+                            }}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p>
+                            <strong>Poids:</strong>
+                            {{ selectedRendezVous.consultation.poids }}
+                          </p>
+                        </div>
+                        <div class="col-md-6">
+                          <p>
+                            <strong>Tension artérielle:</strong>
+                            {{ selectedRendezVous.consultation.TA }}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p>
+                            <strong>Terme:</strong>
+                            {{ selectedRendezVous.consultation.terme }}
+                          </p>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div class="col-md-7">
@@ -194,7 +325,11 @@
                   </p>
                   <div v-else class="form">
                     <strong>Date</strong>
-                    <input type="date" v-model="accouchement.date" class="form-control" />
+                    <input
+                      type="date"
+                      v-model="accouchement.date"
+                      class="form-control"
+                    />
                   </div>
                   <p v-if="!isEditing">
                     <strong>Debut Travail:</strong>
@@ -202,7 +337,11 @@
                   </p>
                   <div class="form" v-else>
                     <strong>Debut Travail</strong>
-                    <input type="time" v-model="accouchement.debut_travail" class="form-control" />
+                    <input
+                      type="time"
+                      v-model="accouchement.debut_travail"
+                      class="form-control"
+                    />
                   </div>
                   <p v-if="!isEditing">
                     <strong>Lieu:</strong>
@@ -210,7 +349,11 @@
                   </p>
                   <div v-else class="form">
                     <strong>Lieu</strong>
-                    <input type="text" v-model="accouchement.lieu" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.lieu"
+                      class="form-control"
+                    />
                   </div>
 
                   <p v-if="!isEditing">
@@ -219,7 +362,11 @@
                   </p>
                   <div v-else class="for">
                     <strong>Mode</strong>
-                    <input type="text" v-model="accouchement.mode" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.mode"
+                      class="form-control"
+                    />
                   </div>
                   <p v-if="!isEditing">
                     <strong>Périnée:</strong>
@@ -227,7 +374,11 @@
                   </p>
                   <div v-else class="form">
                     <strong>Périnée</strong>
-                    <input type="text" v-model="accouchement.mode" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.mode"
+                      class="form-control"
+                    />
                   </div>
                 </div>
                 <div class="col-6">
@@ -237,7 +388,11 @@
                   </p>
                   <div v-else class="form">
                     <strong>Heure</strong>
-                    <input type="time" v-model="accouchement.heure" class="form-control" />
+                    <input
+                      type="time"
+                      v-model="accouchement.heure"
+                      class="form-control"
+                    />
                   </div>
 
                   <p v-if="!isEditing">
@@ -246,7 +401,11 @@
                   </p>
                   <div v-else class="form">
                     <span>Terme</span>
-                    <input type="text" v-model="accouchement.terme" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.terme"
+                      class="form-control"
+                    />
                   </div>
 
                   <p v-if="!isEditing">
@@ -255,7 +414,11 @@
                   </p>
                   <div v-else class="form">
                     <span>Pathelogie</span>
-                    <input type="text" v-model="accouchement.pathologie" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.pathologie"
+                      class="form-control"
+                    />
                   </div>
                   <p v-if="!isEditing">
                     <strong>Evolution de la reanimation:</strong>
@@ -263,7 +426,11 @@
                   </p>
                   <div v-else class="form">
                     <span>Evaluation reanimation</span>
-                    <input type="text" v-model="accouchement.evolution_reanimation" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.evolution_reanimation"
+                      class="form-control"
+                    />
                   </div>
                   <p v-if="!isEditing">
                     <strong>Mois de la grossesse:</strong>
@@ -271,7 +438,11 @@
                   </p>
                   <div v-else class="form">
                     <span>Mois de frossesse</span>
-                    <input type="text" v-model="accouchement.mois_grossesse" class="form-control" />
+                    <input
+                      type="text"
+                      v-model="accouchement.mois_grossesse"
+                      class="form-control"
+                    />
                   </div>
                 </div>
               </div>
@@ -286,13 +457,27 @@
               </button>
             </div>
             <!-- Modal pour ajouter un accouchement -->
-            <div v-if="isAccouchementModalVisible" class="modal fade show" tabindex="-1">
+            <div
+              v-if="isAccouchementModalVisible"
+              class="modal fade show"
+              tabindex="-1"
+            >
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Ajouter un accouchement</h5>
-                    <button type="button" class="close" @click="closeModal" aria-label="Close"
-                      style="right: 0;margin-left: 200px; background-color: white;color: black">
+                    <button
+                      type="button"
+                      class="close"
+                      @click="closeModal"
+                      aria-label="Close"
+                      style="
+                        right: 0;
+                        margin-left: 200px;
+                        background-color: white;
+                        color: black;
+                      "
+                    >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -302,24 +487,48 @@
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="date">Date</label>
-                          <input v-model="newAccouchement.date" type="date" class="form-control" id="date" required />
+                          <input
+                            v-model="newAccouchement.date"
+                            type="date"
+                            class="form-control"
+                            id="date"
+                            required
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="heure">Heure</label>
-                          <input v-model="newAccouchement.heure" type="time" class="form-control" id="heure" required />
+                          <input
+                            v-model="newAccouchement.heure"
+                            type="time"
+                            class="form-control"
+                            id="heure"
+                            required
+                          />
                         </div>
                       </div>
                       <!-- Ligne 2 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="debut_travail">Debut Travail</label>
-                          <input v-model="newAccouchement.debut_travail" type="time" class="form-control"
-                            id="debut_travail" required />
+                          <input
+                            v-model="newAccouchement.debut_travail"
+                            type="time"
+                            class="form-control"
+                            id="debut_travail"
+                            required
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="lieu">Lieu</label>
-                          <select v-model="newAccouchement.lieu" class="form-control" id="lieu" required>
-                            <option value="" disabled selected>Choisissez un lieu</option>
+                          <select
+                            v-model="newAccouchement.lieu"
+                            class="form-control"
+                            id="lieu"
+                            required
+                          >
+                            <option value="" disabled selected>
+                              Choisissez un lieu
+                            </option>
                             <option value="maternité">Maternité</option>
                             <option value="domicile">Domicile</option>
                           </select>
@@ -329,8 +538,15 @@
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="mode">Mode</label>
-                          <select v-model="newAccouchement.mode" class="form-control" id="mode" required>
-                            <option value="" disabled selected>Choisissez un mode</option>
+                          <select
+                            v-model="newAccouchement.mode"
+                            class="form-control"
+                            id="mode"
+                            required
+                          >
+                            <option value="" disabled selected>
+                              Choisissez un mode
+                            </option>
                             <option value="naturel">Naturel</option>
                             <option value="instrumental">Instrumental</option>
                             <option value="césarienne">Césarienne</option>
@@ -338,8 +554,15 @@
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="terme">Terme</label>
-                          <select v-model="newAccouchement.terme" class="form-control" id="terme" required>
-                            <option value="" disabled selected>Choisissez un terme</option>
+                          <select
+                            v-model="newAccouchement.terme"
+                            class="form-control"
+                            id="terme"
+                            required
+                          >
+                            <option value="" disabled selected>
+                              Choisissez un terme
+                            </option>
                             <option value="prématuré">Prématuré</option>
                             <option value="à terme">À terme</option>
                             <option value="post-terme">Post-terme</option>
@@ -350,13 +573,25 @@
                       <div class="row">
                         <div class="col-md-6 form-group">
                           <label for="mois_grossesse">Mois de grossesse</label>
-                          <input v-model="newAccouchement.mois_grossesse" type="text" class="form-control"
-                            id="mois_grossesse" required />
+                          <input
+                            v-model="newAccouchement.mois_grossesse"
+                            type="text"
+                            class="form-control"
+                            id="mois_grossesse"
+                            required
+                          />
                         </div>
                         <div class="col-md-6 form-group">
                           <label for="perinee">Périnée</label>
-                          <select v-model="newAccouchement.perinee" class="form-control" id="perinee" required>
-                            <option value="" disabled selected>Choisissez une option</option>
+                          <select
+                            v-model="newAccouchement.perinee"
+                            class="form-control"
+                            id="perinee"
+                            required
+                          >
+                            <option value="" disabled selected>
+                              Choisissez une option
+                            </option>
                             <option value="intact">Intact</option>
                             <option value="episiotomie">Épisiotomie</option>
                             <option value="dechirure">Déchirure</option>
@@ -366,10 +601,18 @@
                       <!-- Ligne 5 -->
                       <div class="row">
                         <div class="col-md-6 form-group">
-                          <label for="evolution_reanimation">Évolution réanimation</label>
-                          <select v-model="newAccouchement.evolution_reanimation" class="form-control"
-                            id="evolution_reanimation" required>
-                            <option value="" disabled selected>Choisissez une option</option>
+                          <label for="evolution_reanimation"
+                            >Évolution réanimation</label
+                          >
+                          <select
+                            v-model="newAccouchement.evolution_reanimation"
+                            class="form-control"
+                            id="evolution_reanimation"
+                            required
+                          >
+                            <option value="" disabled selected>
+                              Choisissez une option
+                            </option>
                             <option value="favorable">Favorable</option>
                             <option value="transfert">Transfert</option>
                             <option value="décès">Décès</option>
@@ -377,18 +620,23 @@
                         </div>
                       </div>
                       <!-- Bouton -->
-                      <button type="submit" class="btn btn-primary mt-3">Ajouter l'accouchement</button>
+                      <button type="submit" class="btn btn-primary mt-3">
+                        Ajouter l'accouchement
+                      </button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
-
-
           </div>
           <div>
             <!-- Section pour les conseils -->
-            <button v-if="!conseils || conseils.length === 0" type="button" class="btn" @click="openAddConseilModal">
+            <button
+              v-if="!conseils || conseils.length === 0"
+              type="button"
+              class="btn"
+              @click="openAddConseilModal"
+            >
               Ajouter un conseil
             </button>
 
@@ -396,33 +644,66 @@
               Aucun conseil trouvé pour cette patiente.
             </p>
 
-            <Table v-else :columns="conseilColumns" :data="conseils" title="Conseils" :formFields="conseilFields"
-              @action="handleConseilTableAction" @add-data="submitConseil" @edit-data="editConseil"
-              @change="handleFileUpload($event, 'image')" />
+            <Table
+              v-else
+              :columns="conseilColumns"
+              :data="conseils"
+              title="Conseils"
+              :formFields="conseilFields"
+              @action="handleConseilTableAction"
+              @add-data="submitConseil"
+              @edit-data="editConseil"
+              @change="handleFileUpload($event, 'image')"
+            />
 
             <!-- Modal pour ajouter ou afficher les détails du conseil -->
-            <div v-if="isConseilModalVisible" class="modal fade show" tabindex="-1" style="display: block">
+            <div
+              v-if="isConseilModalVisible"
+              class="modal fade show"
+              tabindex="-1"
+              style="display: block"
+            >
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">{{ modalConseilTitle }}</h5>
-                    <button type="button" class="close"
-                      style="right: 0;margin-left: 200px; background-color: white;color: black"
-                      @click="closeConseilModal" aria-label="Close">
+                    <button
+                      type="button"
+                      class="close"
+                      style="
+                        right: 0;
+                        margin-left: 200px;
+                        background-color: white;
+                        color: black;
+                      "
+                      @click="closeConseilModal"
+                      aria-label="Close"
+                    >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                     <!-- Formulaire d'ajout de conseil -->
-                    <form v-if="!selectedConseil" @submit.prevent="submitConseil">
+                    <form
+                      v-if="!selectedConseil"
+                      @submit.prevent="submitConseil"
+                    >
                       <div class="form-group mb-3">
                         <label for="contenu">Image du conseil</label>
-                        <input type="file" class="form-control" id="image"
-                          @change="handleFileUpload($event, 'image')" />
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="image"
+                          @change="handleFileUpload($event, 'image')"
+                        />
                       </div>
                       <div class="form-group mb-3">
                         <label for="contenu">Contenu du conseil</label>
-                        <textarea v-model="conseil.description" class="form-control" id="description"></textarea>
+                        <textarea
+                          v-model="conseil.description"
+                          class="form-control"
+                          id="description"
+                        ></textarea>
                       </div>
                       <button type="submit" class="btn btn-primary">
                         Ajouter le conseil
@@ -566,17 +847,19 @@ export default {
             id: rv.id,
             libelle: rv.libelle,
             date_rv: rv.date_rv, // Garder la date originale pour le tri
-            date_rv_formatee: new Intl.DateTimeFormat('fr-FR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
+            date_rv_formatee: new Intl.DateTimeFormat("fr-FR", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             }).format(new Date(rv.date_rv)), // Formater la date en français pour l'affichage
             consultation: rv.consultation || null, // Si une consultation existe, l'inclure
           };
         });
 
         // Trier les rendez-vous par date, du plus proche au plus éloigné
-        this.rendezVous.sort((a, b) => new Date(a.date_rv) - new Date(b.date_rv));
+        this.rendezVous.sort(
+          (a, b) => new Date(a.date_rv) - new Date(b.date_rv)
+        );
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -793,7 +1076,6 @@ export default {
       this.isConseilModalVisible = true; // Afficher le modal
     },
 
-
     // Ouvrir le modal pour voir un conseil
     viewConseil(conseil) {
       this.selectedConseil = conseil;
@@ -808,52 +1090,93 @@ export default {
 
     // Soumettre le formulaire pour ajouter un nouveau conseil
     async submitConseil() {
-      // try {
-      //   const formData = new FormData();
-      //   formData.append("image", this.selectedFile);
-      //   formData.append("description", this.conseil.description);
-      //   formData.append("grossesse_id", this.id);
+      try {
+        const formData = new FormData();
+        formData.append("description", this.conseil.description);
+        formData.append("image", this.selectedFile); // Ajouter l'image
+        formData.append("grossesse_id", this.id);
+        const response = await conseilService.createConseil(formData);
+        Swal.fire({
+          title: "Conseil ajouté avec succès !",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // window.location.reload();
 
-      //   const response = await conseilService.createConseil(formData);
-      //   window.location.reload();
-
-      //   console.log("Conseil ajouté avec succès", response);
-      //   // Fermer le modal après succès
-      // } catch (error) {
-      //   console.error("Erreur lors de l'ajout du conseil :", error);
-      // }
-
-try {
-  const formData = new FormData();
-  formData.append("description", this.conseil.description);
-  formData.append("image", this.selectedFile); // Ajouter l'image
-  formData.append("grossesse_id", this.id);
-  // Appel au service pour créer un conseil
-  const response = await conseilService.createConseil(formData);
-
-  // Rechargez la liste des conseils
-
-  Swal.fire({
-    title: "Conseil ajouté avec succès !",
-    icon: "success",
-    showConfirmButton: false,
-    timer: 1500,
-  });
-        window.location.reload();
-
-  // Réinitialisez le formulaire après l'ajout
-} catch (error) {
-  console.error("Erreur lors de l'ajout du conseil :", error);
-  Swal.fire({
-    title: "Erreur lors de l'ajout du conseil !",
-    icon: "error",
-    timer: 1000,
-  });
-}
+        // Réinitialisez le formulaire après l'ajout
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du conseil :", error);
+        Swal.fire({
+          title: "Erreur lors de l'ajout du conseil !",
+          icon: "error",
+          timer: 1000,
+        });
+      }
     },
-   
 
+    handleConseilTableAction({ action, row }) {
+      switch (action) {
+        case ACTION_EDIT:
+          this.editConseil(row);
+          break;
+        case ACTION_DELETE:
+          this.deleteConseil(row.id);
+          break;
+        default:
+          break;
+      }
+    },
 
+    async editConseil(conseil) {
+      console.log(conseil.id);
+
+      try {
+        await conseilService.updateConseil(conseil.id, this.conseil);
+        Swal.fire(
+          "Modifié !",
+          "Le conseil a été modifié avec succès.",
+          "success"
+        );
+      } catch (error) {
+        Swal.fire(
+          "Erreur !",
+          "Il y a eu un problème lors de la modification du conseil.",
+          "error"
+        );
+      }
+    },
+
+    async deleteConseil(conseilId) {
+      const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Vous ne pourrez pas revenir en arrière !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Oui, supprimer !",
+        cancelButtonText: "Annuler",
+      });
+
+      if (result.isConfirmed) {
+        try {
+          await conseilService.deleteConseil(conseilId); // Appelez le service pour supprimer le conseil
+          Swal.fire(
+            "Supprimé !",
+            "Le conseil a été supprimé avec succès.",
+            "success"
+          );
+          this.getGrossesse(); // Rechargez les conseils après suppression
+        } catch (error) {
+          Swal.fire({
+            title: "Erreur !",
+            text: "Il y a eu un problème lors de la suppression du conseil.",
+            icon: "error",
+          });
+        }
+      }
+    },
   },
 };
 </script>
@@ -928,9 +1251,6 @@ try {
 .btn-primary:hover {
   background-color: #0056b3;
 }
-
-
-
 
 .info {
   background-color: #fff;

@@ -7,11 +7,11 @@
         <div
           v-for="appointment in rv"
           :key="appointment.id"
-          class="appointment-card-wrapper"
+          class="appointment-card-wrapper mb-3"
         >
           <AppointmentCard
             :date="formatDate(appointment.date_rv)"
-            :type="appointment.visite.libelle"
+            :type="appointment.libelle"
           />
         </div>
       </div>
