@@ -6,8 +6,8 @@ export default {
       const response = await apiClient.get('/consultations');
       return response.data;
     } catch (error) {
-      // console.error('Erreur lors de la récupération des consultations :', error);
-      // throw error;
+      console.error('Erreur lors de la récupération des consultations :', error);
+      throw error;
     }
   },
   async getConsultation(id) {

@@ -7,27 +7,32 @@ export default {
         animationEnabled: true,
         exportEnabled: true,
         title:{
-          text: "Primary Plastic Production by Industry Section - 2015"
+          text: "Accouchements par Mois"
         },
         axisX: {
-          labelTextAlign: "right"
+          title: "Mois",
+          labelAngle: -30
         },
         axisY: {
-          title: "in Million Tonnes per Year",
-          suffix: "M"
+          title: "Nombre d'Accouchements",
+          suffix: ""
         },
         data: [{
           type: "bar",
-          yValueFormatString: "#,###M tonnes",
+          yValueFormatString: "#,###",
           dataPoints: [
-            { label: "Industrial Machinery", y: 3 },
-            { label: "Electrical/Electronic", y: 18 },
-            { label: "Transportation", y: 27 },
-            { label: "Consumer & Institutional Products", y: 42 },
-            { label: "Other sectors", y: 47 },
-            { label: "Textiles", y: 59 },
-            { label: "Building and Construction", y: 65 },
-            { label: "Packaging", y: 146 }
+            { label: "Janvier", y: 120 },
+            { label: "Février", y: 130 },
+            { label: "Mars", y: 150 },
+            { label: "Avril", y: 140 },
+            { label: "Mai", y: 160 },
+            { label: "Juin", y: 170 },
+            { label: "Juillet", y: 180 },
+            { label: "Août", y: 190 },
+            { label: "Septembre", y: 200 },
+            { label: "Octobre", y: 210 },
+            { label: "Novembre", y: 220 },
+            { label: "Décembre", y: 230 }
           ]
         }]
       }
@@ -35,6 +40,7 @@ export default {
   }
 }
 </script>
+
 <template>
     <CanvasJSChart :options="options"/>
-</template>  
+</template>
