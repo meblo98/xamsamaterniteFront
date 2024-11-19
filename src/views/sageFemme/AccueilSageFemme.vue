@@ -7,14 +7,14 @@
           <DashboardStats />
         </div>
       </div>
-      <div class="row mb-3">
+      <!-- <div class="row mb-3">
         <div class="col-12 col-md-6 mb-3">
           <SurfaceChart/>
         </div>
         <div class="col-12 col-md-6">
           <BarChart/>
         </div>
-      </div>
+      </div> -->
       <!-- <div class="row mb-5">
         <Charts />
       </div> -->
